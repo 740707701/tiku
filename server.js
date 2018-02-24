@@ -7,6 +7,7 @@ const compression = require('compression')
 const microcache = require('route-cache')
 const resolve = file => path.resolve(__dirname, file)
 const { createBundleRenderer } = require('vue-server-renderer')
+const proxy = require('http-proxy-middleware') // 引入代理中间件
 
 const isProd = process.env.NODE_ENV === 'production'
 const useMicroCache = process.env.MICRO_CACHE !== 'false'
@@ -69,6 +70,21 @@ app.use('/dist', serve('./dist', true))
 app.use('/public', serve('./public', true))
 app.use('/manifest.json', serve('./manifest.json', true))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
+
+/**
+ * proxy middleware options 
+ * 代理跨域配置 https://www.npmjs.com/package/http-proxy-middleware
+ * @type {{target: string, changeOrigin: boolean, pathRewrite: {^/api: string}}}
+ */
+app.use('/api', proxy(
+  { 
+    target: 'http://api.douban.com/v2', 
+    changeOrigin: true, 
+    pathRewrite: {
+      '^/api': ''
+    }
+  })
+);
 
 // since this app has no user-specific content, every page is micro-cacheable.
 // if your app involves user-specific content, you need to implement custom

@@ -1,6 +1,18 @@
+// {
+//   "presets": [
+//     ["env", { "modules": false }]
+//   ],
+//   "plugins": [
+//     "syntax-dynamic-import"
+//   ]
+// }
+
+
 {
   "presets": [
-    ["env", { "modules": false }]
+    ["env", { "modules": false }],
+    ["es2015", { "modules": false }],
+    "stage-2"
   ],
   "plugins": [
     "syntax-dynamic-import"

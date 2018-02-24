@@ -1,14 +1,14 @@
 <template>
   <div class="news-view">
     <div class="news-list-nav">
-        8888{{ newMovies }}
+        8888 
     </div>
+    {{ getMovie }}
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
-
+import { mapState } from "vuex";
 
 export default {
   name: 'item-list',
@@ -18,12 +18,13 @@ export default {
     }
   },
   computed: {
-    // ...mapState({
-    //   newMovies: state => state.home.getMovie,
-    // })
-    newMovies () {
-      this.$store.dispatch('HOME_FILTERS_FETCH')
-    }
+    ...mapState({
+      getMovie: state => state.home.getMovie
+    })
+
+    // newMovies () {
+    //   this.$store.dispatch('HOME_FILTERS_FETCH')
+    // }
   },
   // asyncData ({ store, route, cookies}) {
   //   return Promise.all([
@@ -31,18 +32,18 @@ export default {
   //   ])
   // },
   methods: {
-    getMovie: function () {
-    console.log('================');
-      // this.$store.dispatch('HOME_FILTERS_FETCH', {})
+    // getMovie: function () {
+    // console.log('================');
+    //   // this.$store.dispatch('HOME_FILTERS_FETCH', {})
       
-    }
+    // }
   },
   beforeCreate () {
     console.log(11111111111111);
   },
   created () {
     console.log(22222222222222);
-    this.getMovie()
+    // this.getMovie()
   },
 
 }
