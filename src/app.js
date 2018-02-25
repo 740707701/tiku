@@ -6,6 +6,7 @@ import { sync } from 'vuex-router-sync'
 import titleMixin from './util/title'
 import * as filters from './util/filters'
 
+import 'normalize.css'
 // mixin for handling title
 Vue.mixin(titleMixin)
 

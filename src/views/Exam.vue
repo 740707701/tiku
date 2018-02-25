@@ -1,71 +1,27 @@
 <template>
-  <div class="index-page">
+  <div class="exam-page">
     <header class="header">
       <nav class="wrapper">
-        <router-link to="/" exact class="logo m-t-48">
+        <router-link to="/" exact class="logo m-t-25">
           <img src="../assets/images/logo.png" alt="logo" >
         </router-link>
-        <router-link to="/" exact class="logo m-t-48">
-          首页
-        </router-link>
-        <router-link to="/" exact class="logo m-t-48">
-          我的题库
-        </router-link>
-        <div class="nav-right m-t-48">
-          <div class="sign-box">
-            <a class="sign-button sign-in" href="javascript:;" title="SIGN IN"></a>
-            <a class="sign-button sign-up" href="javascript:;" title="SIGN UP"></a>
-          </div>
-          <div class="user-info">
-            <span class="search-input"></span>
-            <!-- <input type="text" placeholder="请输入您要查找的内容" > -->
-            <span class="user-name"> 你好，345372922</span>
-
-            
-          </div>
+        <div class="nav-right m-t-25">
+          <a class="sign-button sign-in" href="javascript:;" title="SIGN IN"></a>
+          <a class="sign-button sign-up" href="javascript:;" title="SIGN UP"></a>
         </div>
       </nav>
     </header>
     <div class="big-banner">
       <div class="wrapper">
         <img src="../assets/images/title.png" class="title">
-        <a href="#" class="system-button"><i></i></a>
       </div>
     </div>
-    <div class="item-list">
+    <div class="exam-list">
       <div class="wrapper">
-        <div class="list-box list-small">
-          <a @click="tiku" href="javascript:;">
-            <img src="../assets/images/icon-book.png" alt="">
-            <p>我的题库</p>
-          </a>
-        </div>
-        <div class="list-box list-small list-margin">
-          <a @click="tiku" href="javascript:;">
-            <img src="../assets/images/icon-book.png" alt="">
-            <p>我的考试</p>
-          </a>
-        </div>
-        <div class="list-box list-small">
-          <a @click="tiku" href="javascript:;">
-            <img src="../assets/images/icon-book.png" alt="">
-            <p>我的错题</p>
-          </a>
-        </div>
-        <div class="list-box list-middle list-margin-right">
-          <a @click="tiku" href="javascript:;">
-            <img src="../assets/images/icon-book.png" alt="">
-            <p>我要当考官</p>
-          </a>
-        </div>
-        <div class="list-box list-middle">
-          <a @click="tiku" href="javascript:;">
-            <img src="../assets/images/icon-book.png" alt="">
-            <p>我要当判官</p>
-          </a>
-        </div>
+        12321321
       </div>
     </div>
+
 
     <div class="dialog" v-show="isShow">
       <div class="dialog-bg" @click="isShow = !isShow"></div>
@@ -131,12 +87,12 @@ export default {
 </script>
 <style lang="less">
 @import "../assets/css/style.less";
-.index-page {
+.exam-page {
   .header {
     width: 100%;
     background-color: @c-bg;
     nav {
-      height: 264px;
+      height: 170px;
       .logo{
         display: inline-block;
       }
@@ -158,31 +114,10 @@ export default {
 
   }
   .big-banner{
-    height: 742px;
-    background: url("../assets/images/home-bg.jpg") center top no-repeat;
+    height: 320px;
+    background: url("../assets/images/list-bg.jpg") center top no-repeat;
     .title{
-      margin-top: 90px;
-      margin-bottom: 134px;
-    }
-    .system-button{
-      display: block;
-      width: 318px;
-      height: 68px;
-      background: url("../assets/images/system.png") no-repeat;
-      background-position: 120px 20px;
-      border: 2px solid #ece9f2;
-      border-radius: 34px;
-      position: relative;
-      i{
-        display: inline-block;
-        width: 38px;
-        height: 32px;
-        background: url("../assets/images/triangle.png") no-repeat;
-        position: absolute;
-        top: 20px;
-        left: 40px;
-      }
-      
+      margin-top: 20px;
     }
   }
   .item-list{
