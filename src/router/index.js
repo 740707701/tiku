@@ -12,6 +12,10 @@ const Home = () => import(
 
 // const createListView = id => () => import('../views/CreateListView').then(m => m.default(id))
 const Exam = () => import('../views/Exam.vue')
+const LatestTest = () => import('../views/LatestTest.vue')
+const MyTest = () => import('../views/MyTest.vue')
+
+
 const UserView = () => import('../views/UserView.vue')
 
 
@@ -27,7 +31,17 @@ export function createRouter () {
     routes: [
       { path: '/', name: 'index', component: Home },
       // { path: '/', component: createListView('home') },
-      { path: '/exam', name: 'Exam', component: Exam },
+      // { path: '/exam', name: 'Exam', component: Exam },
+      { path: '/exam', component: Exam,
+        children: [{
+          path: '/',  name: 'latest', component: LatestTest
+        },{
+          path: 'latest',  name: 'latest', component: LatestTest
+        },{
+          path: 'mytest',  name: 'mytest', component: MyTest
+        }]
+      },
+
       // { path: '/search', component: Search },
 
 

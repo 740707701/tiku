@@ -6,7 +6,7 @@
         </router-link>
         <ul class="nav-list m-t-14">
           <li><router-link to="/" class="border-line">首页</router-link></li>
-          <li><router-link to="/" class="">我的题库</router-link></li>
+          <li><router-link to="/exam/latest">我的题库</router-link></li>
         </ul>
         <div class="nav-right m-t-14">
           <div class="sign-box">
