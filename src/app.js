@@ -8,7 +8,7 @@ import * as filters from './util/filters'
 
 
 
-import { Tabs, TabPane, Select, Table, TableColumn, Button, Option } from 'element-ui'
+import { Tabs, TabPane, Select, Table, TableColumn, Button, Option, Checkbox } from 'element-ui'
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Select)
@@ -16,6 +16,7 @@ Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Button)
 Vue.use(Option)
+Vue.use(Checkbox)
 
 import 'element-ui/lib/theme-chalk/index.css'
 import 'normalize.css'
