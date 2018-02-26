@@ -3,7 +3,7 @@
 Vue 2.0 + vue-router + vuex, with server-side rendering.
 
 <p align="center">
-  <a href="https://vue-hn.now.sh" target="_blank">
+  <a href="#" target="_blank">
     Live Demo
   </a>
 </p>

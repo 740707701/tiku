@@ -71,6 +71,7 @@ app.use('/public', serve('./public', true))
 app.use('/manifest.json', serve('./manifest.json', true))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
+
 /**
  * proxy middleware options 
  * 代理跨域配置 https://www.npmjs.com/package/http-proxy-middleware

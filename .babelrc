@@ -1,20 +1,12 @@
-// {
-//   "presets": [
-//     ["env", { "modules": false }]
-//   ],
-//   "plugins": [
-//     "syntax-dynamic-import"
-//   ]
-// }
-
-
 {
   "presets": [
     ["env", { "modules": false }],
     ["es2015", { "modules": false }],
     "stage-2"
   ],
-  "plugins": [
-    "syntax-dynamic-import"
-  ]
+  "plugins": ["syntax-dynamic-import", ["component", {
+      "libraryName": "element-ui",
+      "styleLibraryName": "theme-chalk"
+    }
+  ]]
 }
