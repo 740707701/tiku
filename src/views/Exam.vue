@@ -8,17 +8,65 @@
     </div>
     <div class="exam-list">
       <div class="wrapper">
+
+        <!-- <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="最新考试" name="first">
+            <div>
+      <select name="" id="">
+              <option value="a">sdfdsfds</option>
+            </select>
+            </div>
+      
+          123123213213213
+          </el-tab-pane>
+          <el-tab-pane label="我的考试" name="second">222222222222222</el-tab-pane>
+        </el-tabs> -->
+
+
+
         <ul class="exam-tabs">
-          <li> 最新考试</li>
-          <li> 我的考试</li>
+          <li><router-link to="/foo">最新考试</router-link></li>
+          <li><router-link to="/bar">我的考试</router-link></li>
         </ul>
+
+        <el-table
+      :data="tableData"
+      style="width: 100%">
+      <el-table-column
+        prop="date"
+        label="日期"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="姓名"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="address"
+        label="地址">
+      </el-table-column>
+      <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+      </el-table-column>
+    </el-table>
+
+        <router-view></router-view>
       </div>
     </div>
 
 
-    <div class="dialog" v-show="isShow">
+    <!-- <div class="dialog" v-show="isShow">
       <div class="dialog-bg" @click="isShow = !isShow"></div>
-      <!-- <div class="dialog-body">
+      <div class="dialog-body">
         <div class="dialog-content">
           <h3>选择课程</h3>
           <a href="" class="active">职业题库<i></i></a>
@@ -27,55 +75,66 @@
           <a href="">工作方法<i></i></a>
           <a href="">工作方法<i></i></a>
         </div>
-      </div> -->
+      </div>
       <div class="dialog-sign">
         登录 / 注册
       </div>
-    </div>
+    </div> -->
 
   </div>
 </template>
 
 <script>
+
 import headerNav from '../components/Header.vue'
+
 import { mapState } from "vuex";
 
 export default {
-  name: "index",
+  name: "exam",
   data() {
     return {
-      isShow: false,
+      activeName: 'second',
+      options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
+        value: '',
+        tableData: [{
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+          }, {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1517 弄'
+          }, {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+          }, {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1516 弄'
+          }]
     };
   },
-  computed: {
-    ...mapState({
-      getMovie: state => state.home.getMovie
-    })
-
-    // newMovies () {
-    //   this.$store.dispatch('HOME_FILTERS_FETCH')
-    // }
-  },
-  // asyncData ({ store, route, cookies}) {
-  //   return Promise.all([
-  //     store.dispatch('HOME_FILTERS_FETCH', {}),
-  //   ])
-  // },
   methods: {
-    tiku() {
-      this.isShow = true;
+    handleClick(tab, event) {
+      console.log(tab, event);
     }
-    // getMovie: function () {
-    // console.log('================');
-    //   // this.$store.dispatch('HOME_FILTERS_FETCH', {})
-    // }
-  },
-  beforeCreate() {
-    console.log(11111111111111);
-  },
-  created() {
-    console.log(22222222222222);
-    // this.getMovie()
   },
   components: {
     headerNav

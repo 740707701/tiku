@@ -85,10 +85,10 @@ export default {
     float: right;
   }
   .sign-box{
-  display: none;
-}
+  // display: none;
+  }
 .user-info{
-  // line-height: 30px;
+  display: none;
   span{
     display: inline-block;
     vertical-align: middle;

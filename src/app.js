@@ -6,7 +6,19 @@ import { sync } from 'vuex-router-sync'
 import titleMixin from './util/title'
 import * as filters from './util/filters'
 
+
+
+import { Tabs, TabPane, Select, Table, TableColumn } from 'element-ui'
+Vue.use(Tabs)
+Vue.use(TabPane)
+Vue.use(Select)
+Vue.use(Table)
+Vue.use(TableColumn)
+
+import 'element-ui/lib/theme-chalk/index.css'
 import 'normalize.css'
+
+
 // mixin for handling title
 Vue.mixin(titleMixin)
 

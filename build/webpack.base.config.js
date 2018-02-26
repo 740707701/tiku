@@ -49,6 +49,14 @@ module.exports = {
               fallback: 'vue-style-loader'
             })
           : ['vue-style-loader', 'css-loader']
+      },
+      {
+        test: /\.less$/,
+        loader: 'vue-style-loader!css-loader!less-loader'
+      },
+      {
+        test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+        loader: 'url-loader'
       }
     ]
   },
@@ -58,6 +66,10 @@ module.exports = {
   },
   plugins: isProd
     ? [
+        new webpack.ContextReplacementPlugin(
+          /moment[\\\/]locale$/,
+          /^\.\/(zh-cn)$/
+        ),
         new webpack.optimize.UglifyJsPlugin({
           compress: { warnings: false }
         }),
