@@ -1,16 +1,6 @@
 <template>
   <div class="exam-page">
-    <header class="header">
-      <nav class="wrapper">
-        <router-link to="/" exact class="logo m-t-25">
-          <img src="../assets/images/logo.png" alt="logo" >
-        </router-link>
-        <div class="nav-right m-t-25">
-          <a class="sign-button sign-in" href="javascript:;" title="SIGN IN"></a>
-          <a class="sign-button sign-up" href="javascript:;" title="SIGN UP"></a>
-        </div>
-      </nav>
-    </header>
+    <header-nav></header-nav>
     <div class="big-banner">
       <div class="wrapper">
         <img src="../assets/images/title.png" class="title">
@@ -18,7 +8,10 @@
     </div>
     <div class="exam-list">
       <div class="wrapper">
-        12321321
+        <ul class="exam-tabs">
+          <li> 最新考试</li>
+          <li> 我的考试</li>
+        </ul>
       </div>
     </div>
 
@@ -44,6 +37,7 @@
 </template>
 
 <script>
+import headerNav from '../components/Header.vue'
 import { mapState } from "vuex";
 
 export default {
@@ -82,36 +76,20 @@ export default {
   created() {
     console.log(22222222222222);
     // this.getMovie()
+  },
+  components: {
+    headerNav
   }
 };
 </script>
 <style lang="less">
 @import "../assets/css/style.less";
 .exam-page {
-  .header {
-    width: 100%;
-    background-color: @c-bg;
-    nav {
-      height: 170px;
-      .logo{
-        display: inline-block;
-      }
-      .sign-button {
-        display: inline-block;
-        width: 110px;
-        height: 46px;
-        background: url(../assets/images/sign-up-in.png) no-repeat;
-        margin-top: 10px;
-        &.sign-in{
-          background-position: 0 0;
-          margin-right: 36px;
-        }
-        &.sign-up{
-          background-position: -144px 0;
-        }
-      }
+  header{
+    padding-top: 10px;
+    nav{
+      height: 160px;
     }
-
   }
   .big-banner{
     height: 320px;

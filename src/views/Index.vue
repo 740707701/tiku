@@ -1,31 +1,7 @@
 <template>
   <div class="index-page">
-    <header class="header">
-      <nav class="wrapper">
-        <router-link to="/" exact class="logo m-t-48">
-          <img src="../assets/images/logo.png" alt="logo" >
-        </router-link>
-        <router-link to="/" exact class="logo m-t-48">
-          首页
-        </router-link>
-        <router-link to="/" exact class="logo m-t-48">
-          我的题库
-        </router-link>
-        <div class="nav-right m-t-48">
-          <div class="sign-box">
-            <a class="sign-button sign-in" href="javascript:;" title="SIGN IN"></a>
-            <a class="sign-button sign-up" href="javascript:;" title="SIGN UP"></a>
-          </div>
-          <div class="user-info">
-            <span class="search-input"></span>
-            <!-- <input type="text" placeholder="请输入您要查找的内容" > -->
-            <span class="user-name"> 你好，345372922</span>
+    <header-nav></header-nav>
 
-            
-          </div>
-        </div>
-      </nav>
-    </header>
     <div class="big-banner">
       <div class="wrapper">
         <img src="../assets/images/title.png" class="title">
@@ -88,6 +64,7 @@
 </template>
 
 <script>
+import headerNav from '../components/Header.vue'
 import { mapState } from "vuex";
 
 export default {
@@ -120,42 +97,19 @@ export default {
     //   // this.$store.dispatch('HOME_FILTERS_FETCH', {})
     // }
   },
-  beforeCreate() {
-    console.log(11111111111111);
-  },
-  created() {
-    console.log(22222222222222);
-    // this.getMovie()
+  components: {
+    headerNav
   }
 };
 </script>
 <style lang="less">
 @import "../assets/css/style.less";
 .index-page {
-  .header {
-    width: 100%;
-    background-color: @c-bg;
-    nav {
-      height: 264px;
-      .logo{
-        display: inline-block;
-      }
-      .sign-button {
-        display: inline-block;
-        width: 110px;
-        height: 46px;
-        background: url(../assets/images/sign-up-in.png) no-repeat;
-        margin-top: 10px;
-        &.sign-in{
-          background-position: 0 0;
-          margin-right: 36px;
-        }
-        &.sign-up{
-          background-position: -144px 0;
-        }
-      }
+  header{
+    padding-top: 48px;
+    nav{
+      height: 216px;
     }
-
   }
   .big-banner{
     height: 742px;
