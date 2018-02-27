@@ -13,13 +13,21 @@
     </div> -->
     <div class="dialog-sign">
       <div class="sign-right">
-        <p>欢迎登录</p>
-        <div class="form-box"><i class="icon-user"></i><input type="text" placeholder="请输入学号"></div>
-        <div class="form-box"><i class="icon-lock"></i><input type="text" placeholder="请输入密码"></div>
-        <el-checkbox v-model="checked" true>记住密码</el-checkbox><span class="reset-pwd">修改密码</span>
-        <a href="#" class="sign-button">登录</a>
+        <div class="user-login" style="display: none">
+          <p>欢迎登录</p>
+          <div class="form-box"><i class="icon-user"></i><input type="text" placeholder="请输入学号"></div>
+          <div class="form-box"><i class="icon-lock"></i><input type="text" placeholder="请输入密码"></div>
+          <el-checkbox v-model="checked" true>记住密码</el-checkbox><span class="reset-pwd">修改密码</span>
+          <a href="#" class="sign-button">登录</a>
+        </div>
+        <div class="user-reset-pwd">
+          <p>修改密码</p>
+          <div class="form-box"><i class="icon-lock"></i><input type="text" placeholder="请输入初始密码"></div>
+          <div class="form-box"><i class="icon-lock"></i><input type="text" placeholder="请输入新密码"></div>
+          <a href="#" class="sign-button">提交</a>
+        </div>
       </div>
-      <span class="back-button"><i class="icon-back"></i>   返回首页</span>
+      <span class="back-button"><i class="icon-back"></i>返回首页</span>
 
     </div>
   </div>
@@ -112,6 +120,7 @@
           font-size: 16px;
           float: right;
           color: #a36bfd;
+          cursor: pointer;
         }
         .sign-button{
           display: block;
@@ -209,7 +218,7 @@ export default {
   name: 'dialog',
   data() {
     return {
-      isShow: true,
+      isShow: false,
       checked: true,
       
     } 

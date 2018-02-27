@@ -16,16 +16,11 @@
           </a>
         </div>
         <div class="list-box list-small list-margin">
-          <a @click="tiku" href="javascript:;">
-            <img src="../assets/images/icon-book.png" alt="">
-            <p>我的考试</p>
-          </a>
+          <router-link to="exam/mytest" class=""><img src="../assets/images/icon-book.png" alt=""><p>我的考试</p></router-link>
         </div>
         <div class="list-box list-small">
-          <a @click="tiku" href="javascript:;">
-            <img src="../assets/images/icon-book.png" alt="">
-            <p>我的错题</p>
-          </a>
+          <router-link to="/myerror" class=""><img src="../assets/images/icon-book.png" alt=""><p>我的错题</p></router-link>
+ 
         </div>
         <div class="list-box list-middle list-margin-right">
           <a @click="tiku" href="javascript:;">

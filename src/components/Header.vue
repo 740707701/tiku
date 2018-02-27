@@ -4,14 +4,14 @@
         <router-link to="/" exact class="logo">
           <img src="../assets/images/logo.png" alt="logo" >
         </router-link>
-        <ul class="nav-list m-t-14">
+        <!-- <ul class="nav-list m-t-14">
           <li><router-link to="/" class="border-line">首页</router-link></li>
           <li><router-link to="/exam/latest">我的题库</router-link></li>
-        </ul>
+        </ul> -->
         <div class="nav-right m-t-14">
           <div class="sign-box">
             <a class="sign-button sign-in" href="javascript:;" title="SIGN IN"></a>
-            <a class="sign-button sign-up" href="javascript:;" title="SIGN UP"></a>
+            <!-- <a class="sign-button sign-up" href="javascript:;" title="SIGN UP"></a> -->
           </div>
           <div class="user-info">
             <input type="text" placeholder="请输入您要查找的内容" style="display: none">
@@ -19,7 +19,7 @@
             <span class="head-img">
               <ul class="head-select">
                   <li><router-link to="/" class="">我的考试</router-link></li>
-                  <li><router-link to="/" class="">我的错题</router-link></li>
+                  <li><router-link to="/exam" class="">我的错题</router-link></li>
                   <li><router-link to="/" class="">我要当考官</router-link></li>
                   <li><router-link to="/" class="">我要当判官</router-link></li>
               </ul>

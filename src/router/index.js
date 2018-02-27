@@ -14,6 +14,7 @@ const Home = () => import(
 const Exam = () => import('../views/Exam.vue')
 const LatestTest = () => import('../views/LatestTest.vue')
 const MyTest = () => import('../views/MyTest.vue')
+const MyError = () => import('../views/MyError.vue')
 
 
 const UserView = () => import('../views/UserView.vue')
@@ -41,6 +42,7 @@ export function createRouter () {
           path: 'mytest',  name: 'mytest', component: MyTest
         }]
       },
+      { path: '/myerror', name: 'myerror', component: MyError },
 
       // { path: '/search', component: Search },
 

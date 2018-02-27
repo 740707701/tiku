@@ -1,56 +1,128 @@
 <template>
-  <el-table
+  <div class="my-test">
+    <el-table
       :data="tableData"
-      style="width: 100%">
-      <el-table-column
-        prop="date"
-        label="日期"
-        width="180">
-      </el-table-column>
+      style="width: 100%"
+      :row-class-name="tableRowClassName">
       <el-table-column
         prop="name"
-        label="姓名"
-        width="180">
+        label="名称"
+        width="224">
+        <template slot-scope="scope">
+          <i class="icon-list"></i>
+          <span>{{ scope.row.name }}</span>
+        </template>
       </el-table-column>
       <el-table-column
-        prop="address"
-        label="地址">
+        prop="founder"
+        label="创建人"
+        width="237">
+      </el-table-column>
+      <el-table-column
+        prop="startTime"
+        label="开始时间"
+        width="252">
+      </el-table-column>
+      <el-table-column
+        prop="endTime"
+        label="结束时间"
+        width="252">
+      </el-table-column>
+      <el-table-column
+        prop="date"
+        label="时长"
+        width="160">
       </el-table-column>
       <el-table-column label="操作">
-            <template slot-scope="scope">
-              <el-button
-                size="mini"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-            </template>
+        <template slot-scope="scope">
+          <p class="operation" @click="handleClick(scope.row)">正在审核</p>
+        </template>
       </el-table-column>
     </el-table>
+  </div>
+
 </template>
  <script>
     export default {
       data() {
         return {
           tableData: [{
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
+            name: '概述试卷测试题',
+            founder: 'admin',
+            startTime: '2018-02-02 15:47',
+            endTime: '2018-02-08 15:47',
+            date: '1.50分',
+            
+          },{
+            name: '宏观经济学概述试卷测试题',
+            founder: 'admin',
+            startTime: '2018-02-02 15:47',
+            endTime: '2018-02-08 15:47',
+            date: '1.50分',
+            
+          },{
+            name: '宏观经济学概述试卷测试题',
+            founder: 'admin',
+            startTime: '2018-02-02 15:47',
+            endTime: '2018-02-08 15:47',
+            date: '1.50分',
+            
+          },{
+            name: '宏观经济学概述试卷测试题',
+            founder: 'admin',
+            startTime: '2018-02-02 15:47',
+            endTime: '2018-02-08 15:47',
+            date: '1.50分',
+            
+          },{
+            name: '概述试卷测试题',
+            founder: 'admin',
+            startTime: '2018-02-02 15:47',
+            endTime: '2018-02-08 15:47',
+            date: '1.50分',
+            
           }]
         }
-      }
+      },
+      methods: {
+        tableRowClassName({row, rowIndex}) {
+          if (rowIndex % 2) {
+            return 'warning-row';
+          }
+          return '';
+        },
+        handleClick(row) {
+          console.log(row);
+        }
+      },
     }
   </script>
+  <style lang="less">
+  .my-test{
+    margin-top: 20px;
+    margin-bottom: 200px;
+    .icon-list{
+      display: inline-block;
+      width: 22px;
+      height: 32px;
+      background: url(../assets/images/icon-list.png) no-repeat;
+      // vertical-align: middle;
+    }
+    .operation{
+      color: #6fe0a7;
+    }
+    span{
+      width: 170px;
+      display: inline-block;
+      margin-left: 10px;
+    }
+    .cell{
+      color: #010101;
+      font-size: 18px;
+    }
+    .el-table .warning-row {
+      background: #f2f2f2;
+    }
+  }
+  </style>
+  
