@@ -1,6 +1,7 @@
 <template>
   <div class="index-page">
     <header-nav></header-nav>
+    <!-- {{ getMovie }} -->
     <div class="big-banner">
       <div class="wrapper">
         <img src="../assets/images/title.png" class="title">
@@ -52,7 +53,7 @@ export default {
   name: "index",
   data() {
     return {
-      showTiku: false
+      showTiku: false,
     };
   },
   computed: {
@@ -76,10 +77,10 @@ export default {
           done();
         })
         .catch(_ => {});
-    }
+    },
     // getMovie: function () {
     // console.log('================');
-    //   // this.$store.dispatch('HOME_FILTERS_FETCH', {})
+    //   this.$store.dispatch('HOME_FILTERS_FETCH', {})
     // }
   },
   components: {

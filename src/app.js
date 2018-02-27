@@ -8,7 +8,7 @@ import * as filters from './util/filters'
 
 
 
-import { Tabs, TabPane, Select, Table, TableColumn, Button, Option, Checkbox, Row, Col, Dialog, CheckboxGroup,Dropdown, DropdownMenu } from 'element-ui'
+import { Tabs, TabPane, Select, Table, TableColumn, Button, Option, Checkbox, Row, Col, Dialog, CheckboxGroup,Dropdown, DropdownMenu, Progress } from 'element-ui'
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Select)
@@ -23,6 +23,7 @@ Vue.use(Dialog)
 Vue.use(CheckboxGroup)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
+Vue.use(Progress)
 
 
 import 'element-ui/lib/theme-chalk/index.css'
