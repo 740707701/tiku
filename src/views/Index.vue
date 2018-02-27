@@ -10,35 +10,37 @@
     <div class="item-list">
       <div class="wrapper">
         <div class="list-box list-small">
-          <a @click="tiku" href="javascript:;">
+          <a @click="showTiku = true" href="javascript:;">
             <img src="../assets/images/icon-book.png" alt="">
             <p>我的题库</p>
           </a>
         </div>
         <div class="list-box list-small list-margin">
-          <router-link to="exam/mytest" class=""><img src="../assets/images/icon-book.png" alt=""><p>我的考试</p></router-link>
+          <router-link to="/exam/mytest" class=""><img src="../assets/images/icon-book.png" alt=""><p>我的考试</p></router-link>
         </div>
         <div class="list-box list-small">
           <router-link to="/myerror" class=""><img src="../assets/images/icon-book.png" alt=""><p>我的错题</p></router-link>
- 
         </div>
         <div class="list-box list-middle list-margin-right">
-          <a @click="tiku" href="javascript:;">
-            <img src="../assets/images/icon-book.png" alt="">
-            <p>我要当考官</p>
-          </a>
+          <router-link to="/examiner" class=""><img src="../assets/images/icon-book.png" alt=""><p>我要当考官</p></router-link>
         </div>
         <div class="list-box list-middle">
-          <a @click="tiku" href="javascript:;">
-            <img src="../assets/images/icon-book.png" alt="">
-            <p>我要当判官</p>
-          </a>
+          <router-link to="/judge" class=""><img src="../assets/images/icon-book.png" alt=""><p>我要当判官</p></router-link>
         </div>
       </div>
     </div>
-
-    
-
+    <div class="tiku-dialog" v-if="showTiku">
+      <div class="dialog-bg" @click="showTiku = !showTiku"></div>
+        <div class="dialog-body">
+          <div class="dialog-content">
+            <!-- <h3>选择课程</h3> -->
+            <router-link to="/questions/occupation">职业题库<i></i></router-link>
+            <router-link to="/questions/economics">经济金融基础题库<i></i></router-link>
+            <router-link to="/questions/finance">金融业务题库<i></i></router-link>
+            <router-link to="/questions/certificate">证书类题库<i></i></router-link>
+          </div>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -50,7 +52,7 @@ export default {
   name: "index",
   data() {
     return {
-      isShow: false,
+      showTiku: false
     };
   },
   computed: {
@@ -68,8 +70,12 @@ export default {
   //   ])
   // },
   methods: {
-    tiku() {
-      this.isShow = true;
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
     }
     // getMovie: function () {
     // console.log('================');
@@ -133,11 +139,12 @@ export default {
       box-shadow: 0 0 40px 20px rgba(102,0,255,.04);
       border-radius: 14px;
       margin-bottom: 50px;
+      border: 1px solid #ccc;
       &.list-small{
-        width: 406px;
+        width: 404px;
       }
       &.list-middle{
-        width: 622px;
+        width: 620px;
       }
       &.list-margin{
         margin: 0 30px;
@@ -160,6 +167,72 @@ export default {
       }
     }
   }
+  .tiku-dialog{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 501;
+    .dialog-bg{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: #808080;
+      opacity: .5;
+    }
+    .dialog-body{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1130px;
+      padding: 76px;
+      transform: translate(-50%, -50%);
+      background: #fff;
+    }
 
+    .dialog-content{
+      margin-right: -30px;
+
+      a{
+        display: inline-block;
+        width: 256px;
+        height: 120px;
+        line-height: 120px;
+        text-align: center;
+        border: 2px #ccc solid;
+        margin-right: 30px;
+        margin-bottom: 52px;
+        font-size: 26px;
+        color: #b2b2b2;
+        text-decoration: none;
+        position: relative;
+        &:hover{
+          border-color: #f95c54;
+          color: #010101;
+          font-size: 28px;
+          i{
+            width: 30px;
+            height: 30px;
+            background: url('../assets/images/icon-check.png') -32px 0 no-repeat;
+            position: absolute;
+            right: -1px;
+            bottom: -1px;
+            display: block;
+          }
+        }
+        &.active i{
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            right: -1px;
+            bottom: -1px;
+            display: block;
+          }
+      }
+    }
+  }
 }
 </style>

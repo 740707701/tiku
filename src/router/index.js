@@ -11,13 +11,26 @@ const Home = () => import(
 )
 
 // const createListView = id => () => import('../views/CreateListView').then(m => m.default(id))
-const Exam = () => import('../views/Exam.vue')
-const LatestTest = () => import('../views/LatestTest.vue')
-const MyTest = () => import('../views/MyTest.vue')
-const MyError = () => import('../views/MyError.vue')
+const Exam = () => import('../views/Exam.vue')     // 考试页面
+const LatestTest = () => import('../views/LatestTest.vue') // 最新考试
+const MyTest = () => import('../views/MyTest.vue')  // 我的考试
+const MyError = () => import('../views/MyError.vue') // 我的错题
+const Judge = () => import('../views/Judge.vue') // 当判官
+const Examiner = () => import('../views/Examiner.vue') // 当考官
+const Examination = () => import('../views/Examination.vue') // 考试题目
 
 
-const UserView = () => import('../views/UserView.vue')
+
+
+
+const Questions = () => import('../views/Questions/Index.vue') // 所有题库
+const Occupation = () => import('../views/Questions/Occupation.vue') // 职业
+const Economics = () => import('../views/Questions/Economics.vue') // 经济
+const Finance = () => import('../views/Questions/Finance.vue') // 金融
+const Certificate = () => import('../views/Questions/Certificate.vue') // 证书
+
+
+
 
 
 // 404
@@ -30,9 +43,8 @@ export function createRouter () {
     fallback: false,
     scrollBehavior: () => ({ y: 0 }),
     routes: [
-      { path: '/', name: 'index', component: Home },
-      // { path: '/', component: createListView('home') },
-      // { path: '/exam', name: 'Exam', component: Exam },
+      { path: '/', name: 'index', component: Home }, 
+
       { path: '/exam', component: Exam,
         children: [{
           path: '/',  name: 'latest', component: LatestTest
@@ -42,7 +54,30 @@ export function createRouter () {
           path: 'mytest',  name: 'mytest', component: MyTest
         }]
       },
+      // 题库
+      { path: '/questions', component: Questions,
+        children: [{
+          path: '/',  name: 'occupation', component: Occupation
+        },{
+          path: 'occupation',  name: 'occupation', component: Occupation
+        },{
+          path: 'economics',  name: 'economics', component: Economics
+        },{
+          path: 'finance',  name: 'finance', component: Finance
+        },{
+          path: 'certificate',  name: 'certificate', component: Certificate
+        }]
+      },
+      
+      // 考试题 
+      { path: '/examination', name: 'examination', component: Examination },
+
+      
       { path: '/myerror', name: 'myerror', component: MyError },
+      { path: '/judge', name: 'judge', component: Judge },
+      { path: '/examiner', name: 'examiner', component: Examiner },
+
+      
 
       // { path: '/search', component: Search },
 

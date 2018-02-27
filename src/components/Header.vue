@@ -13,15 +13,17 @@
             <a class="sign-button sign-in" href="javascript:;" title="SIGN IN"></a>
             <!-- <a class="sign-button sign-up" href="javascript:;" title="SIGN UP"></a> -->
           </div>
+
+
           <div class="user-info">
             <input type="text" placeholder="请输入您要查找的内容" style="display: none">
-            <span class="search-button"></span>
-            <span class="head-img">
-              <ul class="head-select">
-                  <li><router-link to="/" class="">我的考试</router-link></li>
-                  <li><router-link to="/exam" class="">我的错题</router-link></li>
-                  <li><router-link to="/" class="">我要当考官</router-link></li>
-                  <li><router-link to="/" class="">我要当判官</router-link></li>
+            <span class="search-button"></span>   
+            <span class="head-img" @click="isSelect = !isSelect">
+              <ul class="head-select" v-show="isSelect">
+                <li><router-link to="/exam/mytest">我的考试</router-link></li>
+                <li><router-link to="/myerror">我的错题</router-link></li>
+                <li><router-link to="/examiner">我要当考官</router-link></li>
+                <li><router-link to="/judge">我要当判官</router-link></li>
               </ul>
             </span>
           </div>
@@ -32,6 +34,16 @@
 <script>
 export default {
   name: 'header',
+  data(){
+    return {
+      isSelect: false
+    }
+  },
+  ready() {
+   document.addEventListener('click', (e) => {
+       if (!this.$el.contains(e.target)) this.isSelect = false
+   })
+}
 
 }
 </script>
@@ -85,28 +97,30 @@ export default {
     float: right;
   }
   .sign-box{
-  // display: none;
-  }
-.user-info{
   display: none;
-  span{
-    display: inline-block;
-    vertical-align: middle;
   }
-  .search-button{
-    width: 21px;
-    height: 30px;
-    background: url(../assets/images/search.png) center no-repeat;
-    margin-right: 30px;
-    cursor: pointer;
-  }
-  .head-img{
-    width: 30px;
-    height: 30px;
-    background: url(../assets/images/head.png) center no-repeat;
-    cursor: pointer;
-    position: relative;
+  .user-info{
+    // display: none;
+    span{
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .search-button{
+      width: 21px;
+      height: 30px;
+      background: url(../assets/images/search.png) center no-repeat;
+      margin-right: 30px;
+      cursor: pointer;
+    }
+    .head-img{
+      width: 30px;
+      height: 30px;
+      background: url(../assets/images/head.png) center no-repeat;
+      cursor: pointer;
+      position: relative;
+    }
     .head-select{
+
       position: absolute;
       top: 45px;
       left: -60px;
@@ -140,7 +154,6 @@ export default {
         left: 70px;
       }
     }
-  }
     input{
       border: none;
       font-size: 16px;
