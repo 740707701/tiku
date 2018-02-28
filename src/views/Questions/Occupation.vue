@@ -7,7 +7,7 @@
       <itemList :curriculum="chapter"></itemList>
       <p class="title">题型： <span>更多</span></p>
       <topic :topicType="topicType"></topic>
-      <div class="occupation-button">
+      <div class="occupation-button" @click="jumpPath">
         <span>随机练习</span><span>智能答题</span>
       </div>
     </div>
@@ -48,6 +48,11 @@ export default {
         { 'title': '案例题', 'id': 4},
         { 'title': '解答题', 'id': 5},
       ]
+    }
+  },
+  methods: {
+    jumpPath(){
+      this.$router.push(`/examination`) 
     }
   },
   components: {

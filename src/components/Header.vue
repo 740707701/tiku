@@ -18,8 +18,8 @@
           <div class="user-info">
             <input type="text" placeholder="请输入您要查找的内容" style="display: none">
             <span class="search-button"></span>   
-            <span class="head-img" @click="isSelect = !isSelect">
-              <ul class="head-select" v-show="isSelect">
+            <span class="head-img">
+              <ul class="head-select">
                 <li><router-link to="/exam/mytest">我的考试</router-link></li>
                 <li><router-link to="/myerror">我的错题</router-link></li>
                 <li><router-link to="/examiner">我要当考官</router-link></li>
@@ -40,9 +40,9 @@ export default {
     }
   },
   ready() {
-   document.addEventListener('click', (e) => {
-       if (!this.$el.contains(e.target)) this.isSelect = false
-   })
+  //  document.addEventListener('click', (e) => {
+  //      if (!this.$el.contains(e.target)) this.isSelect = false
+  //  })
 }
 
 }
@@ -119,15 +119,19 @@ export default {
       cursor: pointer;
       position: relative;
     }
+    .head-img:hover .head-select {
+      display: block;
+    }
     .head-select{
-
       position: absolute;
-      top: 45px;
+      top: 100%;
       left: -60px;
       padding: 36px 34px;
       width: 94px;
+      margin-top: 14px;
       background: #fff;
       border-radius: 14px;
+      display: none;
       li{
         float: left;
         a{

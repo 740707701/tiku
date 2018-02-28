@@ -11,10 +11,7 @@
     <div class="item-list">
       <div class="wrapper">
         <div class="list-box list-small">
-          <a @click="showTiku = true" href="javascript:;">
-            <img src="../assets/images/icon-book.png" alt="">
-            <p>我的题库</p>
-          </a>
+          <a @click="showTiku = true" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的题库</p></a>
         </div>
         <div class="list-box list-small list-margin">
           <router-link to="/exam/mytest" class=""><img src="../assets/images/icon-book.png" alt=""><p>我的考试</p></router-link>
@@ -23,7 +20,9 @@
           <router-link to="/myerror" class=""><img src="../assets/images/icon-book.png" alt=""><p>我的错题</p></router-link>
         </div>
         <div class="list-box list-middle list-margin-right">
-          <router-link to="/examiner" class=""><img src="../assets/images/icon-book.png" alt=""><p>我要当考官</p></router-link>
+          <a @click="showExaminer = true" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我要当考官</p></a>
+          
+          <!-- <router-link to="/examiner" class=""><img src="../assets/images/icon-book.png" alt=""><p></p></router-link> -->
         </div>
         <div class="list-box list-middle">
           <router-link to="/judge" class=""><img src="../assets/images/icon-book.png" alt=""><p>我要当判官</p></router-link>
@@ -34,7 +33,6 @@
       <div class="dialog-bg" @click="showTiku = !showTiku"></div>
         <div class="dialog-body">
           <div class="dialog-content">
-            <!-- <h3>选择课程</h3> -->
             <router-link to="/questions/occupation">职业题库<i></i></router-link>
             <router-link to="/questions/economics">经济金融基础题库<i></i></router-link>
             <router-link to="/questions/finance">金融业务题库<i></i></router-link>
@@ -42,6 +40,23 @@
           </div>
         </div>
     </div>
+    <div class="tiku-dialog" v-if="showExaminer">
+      <div class="dialog-bg" @click="showExaminer = !showExaminer"></div>
+        <div class="dialog-body">
+          <div class="dialog-content">
+            <h3>选择课程</h3>
+            <div class="examiner-list">
+              <router-link to="/examiner">宏观经济学<i></i></router-link>
+              <router-link to="/examiner">简历<i></i></router-link>
+              <router-link to="/examiner">工作方法<i></i></router-link>
+              <router-link to="/examiner">工作态度<i></i></router-link>
+              <router-link to="/examiner">职业规划<i></i></router-link>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    
   </div>
 </template>
 
@@ -54,6 +69,7 @@ export default {
   data() {
     return {
       showTiku: false,
+      showExaminer: false,
     };
   },
   computed: {
@@ -65,6 +81,7 @@ export default {
     //   this.$store.dispatch('HOME_FILTERS_FETCH')
     // }
   },
+  
   // asyncData ({ store, route, cookies}) {
   //   return Promise.all([
   //     store.dispatch('HOME_FILTERS_FETCH', {}),
@@ -196,7 +213,30 @@ export default {
 
     .dialog-content{
       margin-right: -30px;
-
+      position: relative;
+      h3{
+        font-size: 26px;
+        color: #000;
+        width: 100%;
+        border-bottom: 1px solid #ccc;
+        position: absolute;
+        top: -46px;
+        left: 0;
+        padding-bottom: 14px;
+        &::before{
+          content: "";
+          display: block;
+          clear: both;
+          width: 110px;
+          height: 4px;
+          background: #000;
+          position: absolute;
+          bottom: 0;
+        }
+      }
+      .examiner-list{
+        padding-top: 40px;
+      }
       a{
         display: inline-block;
         width: 256px;
@@ -213,7 +253,7 @@ export default {
         &:hover{
           border-color: #f95c54;
           color: #010101;
-          font-size: 28px;
+          // font-size: 28px;
           i{
             width: 30px;
             height: 30px;
