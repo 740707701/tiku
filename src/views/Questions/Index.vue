@@ -5,6 +5,8 @@
       <div class="wrapper">
         <img src="../../assets/images/title.png" class="title">
       </div>
+                           
+                           
     </div>
     <div class="questions-list">
       <div class="wrapper">
@@ -70,7 +72,7 @@ export default {
   }
   .big-banner{
     height: 320px;
-    background: url("../../assets/images/list-bg.jpg") center top no-repeat;
+    background: #7b27fb url("../../assets/images/list-bg.jpg") center top no-repeat;
     margin-bottom: 30px;
     .title{
       margin-top: 20px;

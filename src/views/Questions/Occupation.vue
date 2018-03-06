@@ -1,14 +1,14 @@
 <template>
   <div class="occupation-page">
     <div class="wrapper">
-      <p class="title">课程选择： <span>更多</span></p>
-      <itemList :curriculum="curriculum"></itemList>
-      <p class="title">章节选择： <span>更多</span></p>
-      <itemList :curriculum="chapter"></itemList>
+      <p class="title">课程选择： {{ currData  }}<span>更多</span></p>
+      <itemList :curriculum="curriculum" @slectEvent="radioItem"></itemList>
+      <p class="title">章节选择： {{ chaptData }}<span>更多</span></p>
+      <itemList :curriculum="chapter" @slectEvent="checkboxItem"></itemList>
       <p class="title">题型： <span>更多</span></p>
       <topic :topicType="topicType"></topic>
-      <div class="occupation-button" @click="jumpPath">
-        <span>随机练习</span><span>智能答题</span>
+      <div class="occupation-button">
+        <span  @click="random">随机练习</span><span  @click="Intelligence">智能答题</span>
       </div>
     </div>
   </div>
@@ -47,12 +47,30 @@ export default {
         { 'title': '判断题', 'id': 3},
         { 'title': '案例题', 'id': 4},
         { 'title': '解答题', 'id': 5},
-      ]
+      ],
+      currData: '',
+      chaptData: []
     }
   },
   methods: {
-    jumpPath(){
-      this.$router.push(`/examination`) 
+    random(){
+      this.$router.push(`/examiner`) 
+    },
+    intelligence(){
+      this.$router.push(`/examiner`) 
+
+    },
+    radioItem(val) {
+      this.currData = val
+    },
+    checkboxItem (val) {
+      let item = this.chaptData.push(val)
+      console.log( '22', item )
+      this.chaptData = this.unique(item)
+      
+    },
+    unique(arr) {
+      return [...new Set(arr)];
     }
   },
   components: {

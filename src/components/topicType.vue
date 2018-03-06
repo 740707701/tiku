@@ -3,7 +3,7 @@
     <el-checkbox-group v-model="checkList">
       <el-checkbox :label="list.title" v-for="list in topicType" :key="list.id"></el-checkbox>
     </el-checkbox-group>
-   <!-- {{ checkList }} -->
+   {{ checkList }}
   </div>
 
 </template>

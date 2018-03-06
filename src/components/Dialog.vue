@@ -1,6 +1,6 @@
 <template>
-  <div class="dialog" v-show="isShow">
-    <div class="dialog-bg" @click="isShow = !isShow"></div>
+  <div class="dialog" v-show="isLogin">
+    <div class="dialog-bg" @click="closeLogin"></div>
     <!-- <div class="dialog-body">
       <div class="dialog-content">
         <h3>选择课程</h3>
@@ -13,21 +13,21 @@
     </div> -->
     <div class="dialog-sign">
       <div class="sign-right">
-        <div class="user-login" style="display: none">
+        <div class="user-login">
           <p>欢迎登录</p>
           <div class="form-box"><i class="icon-user"></i><input type="text" placeholder="请输入学号"></div>
           <div class="form-box"><i class="icon-lock"></i><input type="text" placeholder="请输入密码"></div>
           <el-checkbox v-model="checked" true>记住密码</el-checkbox><span class="reset-pwd">修改密码</span>
           <a href="#" class="sign-button">登录</a>
         </div>
-        <div class="user-reset-pwd">
+        <div class="user-reset-pwd" style="display: none">
           <p>修改密码</p>
           <div class="form-box"><i class="icon-lock"></i><input type="text" placeholder="请输入初始密码"></div>
           <div class="form-box"><i class="icon-lock"></i><input type="text" placeholder="请输入新密码"></div>
           <a href="#" class="sign-button">提交</a>
         </div>
       </div>
-      <span class="back-button"><i class="icon-back"></i>返回首页</span>
+      <span class="back-button" @click="closeLogin"><i class="icon-back"></i>返回首页</span>
 
     </div>
   </div>
@@ -214,14 +214,34 @@
 </style>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: 'dialog',
   data() {
     return {
-      isShow: false,
+      isShowLogin: false,
       checked: true,
-      
     } 
+  },
+  computed: {
+    ...mapState({
+      isLogin: state => state.isLogin
+    })
+  },
+  created() {
+    // 设置弹窗
+    // this.$store.commit('INDEX_SET', {
+    //   target: 'isLogin',
+    //   data: true
+    // })
+  },
+  methods: {
+    closeLogin(){
+      this.$store.commit('INDEX_SET', {
+        target: 'isLogin',
+        data: false
+      })
+    }
   }
 }
 </script>

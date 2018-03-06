@@ -1,6 +1,6 @@
 <template>
   <ul class="questions-item clearfix">
-    <li v-for="item in curriculum" :key="item.id"><a href="javascript:;">{{ item.title }}<i></i></a></li>
+    <li v-for="item in curriculum" :key="item.id"><a href="javascript:;" class="" @click="incrementCounter(item.id)">{{ item.title }}<i></i></a></li>
   </ul>
 </template>
 
@@ -18,6 +18,13 @@ export default {
 
     }
   },
+  methods: {
+    incrementCounter(id) {
+
+      console.log(11111)
+      this.$emit('slectEvent', id)
+    }
+  }
 }
 </script>
 <style lang="less">
@@ -43,10 +50,24 @@ export default {
     color: #b2b2b2;
     text-decoration: none;
     position: relative;
+    transition: all .4s;
     &:hover{
-      border-color: #f95c54;
-      color: #010101;
+      color: #010101; 
+      transform: translateY(-10px);
+      
+      // i{
+      //   width: 30px;
+      //   height: 30px;
+      //   background: url('../assets/images/icon-check.png') -32px 0 no-repeat;
+      //   position: absolute;
+      //   right: -1px;
+      //   bottom: -1px;
+      //   display: block;
+      // }
+    }
+    &.active{
       font-size: 28px;
+      border-color: #f95c54;
       i{
         width: 30px;
         height: 30px;
@@ -56,15 +77,7 @@ export default {
         bottom: -1px;
         display: block;
       }
-    }
-    &.active i{
-        width: 30px;
-        height: 30px;
-        position: absolute;
-        right: -1px;
-        bottom: -1px;
-        display: block;
-      }
+    } 
   }
 }
 </style>

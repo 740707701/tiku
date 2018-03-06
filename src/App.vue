@@ -12,6 +12,12 @@ import dialogBox from './components/Dialog.vue'
 
 export default {
   name: 'index',
+  methods: {
+    isLogin( status ) {
+      console.log('子组件', status);
+      
+    }
+  },
   components: {
     dialogBox,
   }

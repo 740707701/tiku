@@ -157,8 +157,9 @@ export default {
       border: 1px solid #f1eff4;
       box-shadow:0px 6px 6px #E9E7EA;
       margin-bottom: 30px;
+      transition: all .4s;
       &:hover{
-        border: 1px solid red;
+        transform: translateY(-10px);
       }
     }
     .grid-content {

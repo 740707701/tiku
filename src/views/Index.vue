@@ -1,31 +1,31 @@
 <template>
   <div class="index-page">
     <header-nav></header-nav>
-    <!-- {{ getMovie }} -->
     <div class="big-banner">
       <div class="wrapper">
         <img src="../assets/images/title.png" class="title">
-        <a href="#" class="system-button"><i></i></a>
+        <a href="javascript:;" class="system-button" @click="aboutTiku"><i></i></a>
       </div>
     </div>
     <div class="item-list">
       <div class="wrapper">
         <div class="list-box list-small">
-          <a @click="showTiku = true" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的题库</p></a>
+          <a @click="changLogin(0)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的题库</p></a>
         </div>
         <div class="list-box list-small list-margin">
-          <router-link to="/exam/mytest" class=""><img src="../assets/images/icon-book.png" alt=""><p>我的考试</p></router-link>
+          <a @click="changLogin(1)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的考试</p></a>
+          <!-- /exam/mytest -->
         </div>
         <div class="list-box list-small">
-          <router-link to="/myerror" class=""><img src="../assets/images/icon-book.png" alt=""><p>我的错题</p></router-link>
+          <a @click="changLogin(2)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的错题</p></a>
+          <!-- /myerror -->
         </div>
         <div class="list-box list-middle list-margin-right">
-          <a @click="showExaminer = true" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我要当考官</p></a>
-          
-          <!-- <router-link to="/examiner" class=""><img src="../assets/images/icon-book.png" alt=""><p></p></router-link> -->
+          <a @click="changLogin(3)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我要当考官</p></a>
         </div>
         <div class="list-box list-middle">
-          <router-link to="/judge" class=""><img src="../assets/images/icon-book.png" alt=""><p>我要当判官</p></router-link>
+          <a @click="changLogin(4)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我要当判官</p></a>
+          <!-- judge -->
         </div>
       </div>
     </div>
@@ -55,8 +55,26 @@
           </div>
         </div>
     </div>
+    <!-- （学生端）
+ -->
+   <div class="dialog" v-show="isShowTiku">
+    <div class="dialog-bg" @click="isShowTiku = !isShowTiku"></div>
+    <div class="dialog-sign">
+      <div class="sign-right">
+        <div class="user-login">
+          <p>题库功能介绍</p>
+            本题库系统是一个可以内生发展，多用户共建的智能推送题库，本题库的功能包括： 
+              1、可以进行职业类、专业类、金融业务类和金融证书类的专题题库练习；
+              2、可以根据每道题目的标签，搜索自己需要的题目，同时可以对每道题目打标签，建立自己的专属题库；
+              3、可以智能化推送错题以及错题所属知识点的题目，进行薄弱知识点的强化训练；
+              4、可以参与题库共建，自行出题；
+              5、可以参与审题，对每道题目进行多维度评分，以及点评；
+              6、可以参加老师组织的考试，也可以自行组卷，发布给自己或者朋友来考试；
+        </div>
+      </div>
+    </div>
+  </div>
 
-    
   </div>
 </template>
 
@@ -70,11 +88,12 @@ export default {
     return {
       showTiku: false,
       showExaminer: false,
+      isShowTiku: false
     };
   },
   computed: {
     ...mapState({
-      getMovie: state => state.home.getMovie
+      getMovie: state => state.home.getMovie,
     })
 
     // newMovies () {
@@ -87,7 +106,41 @@ export default {
   //     store.dispatch('HOME_FILTERS_FETCH', {}),
   //   ])
   // },
+  created() {
+    // 设置弹窗
+    this.$store.commit('INDEX_SET', {
+      target: 'isLogin',
+      data: false
+    })
+  },
   methods: {
+    aboutTiku(){
+      this.isShowTiku = true
+    },
+    changLogin(id) {
+      console.log('---', id )
+      let userInfo = JSON.parse(sessionStorage.getItem('userinfo'))
+
+      if( userInfo ){
+        this.$store.commit('INDEX_SET', {
+          target: 'isLogin',
+          data: false
+        })
+        this.showExaminer = true
+
+
+      }else{
+        
+        this.$store.commit('INDEX_SET', {
+          target: 'isLogin',
+          data: true
+        })
+  sessionStorage.setItem('userinfo', 123123213)
+        // sessionStorage.removeItem('userinfo');
+      }
+      
+
+    },
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {
@@ -95,13 +148,9 @@ export default {
         })
         .catch(_ => {});
     },
-    // getMovie: function () {
-    // console.log('================');
-    //   this.$store.dispatch('HOME_FILTERS_FETCH', {})
-    // }
   },
   components: {
-    headerNav
+    headerNav,
   }
 };
 </script>
@@ -111,15 +160,15 @@ export default {
   header{
     padding-top: 48px;
     nav{
-      height: 216px;
+      height: 132px;
     }
   }
   .big-banner{
-    height: 742px;
+    height: 520px;
     background: #7b27fb url("../assets/images/home-bg.jpg") center top no-repeat;
     .title{
-      margin-top: 90px;
-      margin-bottom: 134px;
+      margin-top: 30px;
+      margin-bottom: 100px;
     }
     .system-button{
       display: block;
@@ -143,8 +192,8 @@ export default {
     }
   }
   .item-list{
-    height: 816px;
-    margin-top: -100px;
+    height: 540px;
+    margin-top: -42px;
     font-size: 0;
     letter-spacing: -4px;
     text-align: center;
@@ -152,14 +201,15 @@ export default {
       font-size: 20px;
       letter-spacing: 0;
       display: inline-block;
-      height: 318px;
+      height: 250px;
       background-color: #fff;
       box-shadow: 0 0 40px 20px rgba(102,0,255,.04);
       border-radius: 14px;
       margin-bottom: 50px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
       &.list-small{
-        width: 404px;
+        width: 406px;
       }
       &.list-middle{
         width: 620px;
@@ -250,10 +300,14 @@ export default {
         color: #b2b2b2;
         text-decoration: none;
         position: relative;
+        transition: all .4s;
         &:hover{
+          color: #010101; 
+          transform: translateY(-10px);
+        }
+        &.active{
+          font-size: 28px;
           border-color: #f95c54;
-          color: #010101;
-          // font-size: 28px;
           i{
             width: 30px;
             height: 30px;
@@ -263,15 +317,29 @@ export default {
             bottom: -1px;
             display: block;
           }
-        }
-        &.active i{
-            width: 30px;
-            height: 30px;
-            position: absolute;
-            right: -1px;
-            bottom: -1px;
-            display: block;
-          }
+        } 
+        // &:hover{
+        //   border-color: #f95c54;
+        //   color: #010101;
+        //   // font-size: 28px;
+        //   i{
+        //     width: 30px;
+        //     height: 30px;
+        //     background: url('../assets/images/icon-check.png') -32px 0 no-repeat;
+        //     position: absolute;
+        //     right: -1px;
+        //     bottom: -1px;
+        //     display: block;
+        //   }
+        // }
+        // &.active i{
+        //     width: 30px;
+        //     height: 30px;
+        //     position: absolute;
+        //     right: -1px;
+        //     bottom: -1px;
+        //     display: block;
+        //   }
       }
     }
   }

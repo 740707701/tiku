@@ -14,9 +14,8 @@ Vue.use(Vuex)
 export function createStore () {
   return new Vuex.Store({
     state: {
-      activeType: null,
-      showCityChange: false,
-      curCity: {},
+      isLogin: false,
+      userInfo: false
     },
     mutations: {
       [INDEX_SET](state, data){

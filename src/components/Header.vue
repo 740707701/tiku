@@ -1,22 +1,24 @@
 <template>
   <header class="header">
     <nav class="wrapper">
-        <router-link to="/" exact class="logo">
+        <!-- <router-link to="/" exact class="logo">
           <img src="../assets/images/logo.png" alt="logo" >
-        </router-link>
-        <!-- <ul class="nav-list m-t-14">
-          <li><router-link to="/" class="border-line">首页</router-link></li>
-          <li><router-link to="/exam/latest">我的题库</router-link></li>
-        </ul> -->
+        </router-link> -->
+        <ul class="nav-list m-t-14">
+          <li><router-link to="/" class="border-line active">首页</router-link></li>
+          <li><router-link to="/questions/occupation" :class="{'active': isNav(/questions/) }">我的题库</router-link></li>
+          <li><router-link to="/exam/latest" :class="{'active': isNav(/exam/) }">我的考试</router-link></li>
+          <li><router-link to="/myerror" :class="{'active': isNav(/myerror/) }">我的错题</router-link></li>
+          <li><router-link to="/judge" :class="{'active': isNav(/judge/) }">我要当考官</router-link></li>
+          <li><router-link to="/trial" :class="{'active': isNav(/trial/) }">我要当判官</router-link></li>          
+        </ul>
         <div class="nav-right m-t-14">
           <div class="sign-box">
-            <a class="sign-button sign-in" href="javascript:;" title="SIGN IN"></a>
+            <a class="sign-button sign-in" href="javascript:;" title="SIGN IN" @click="login"></a>
             <!-- <a class="sign-button sign-up" href="javascript:;" title="SIGN UP"></a> -->
           </div>
-
-
-          <div class="user-info">
-            <input type="text" placeholder="请输入您要查找的内容" style="display: none">
+          <div class="user-info" v-if="userInfo">
+            <input type="text" placeholder="请输入您要查找的内容">
             <span class="search-button"></span>   
             <span class="head-img">
               <ul class="head-select">
@@ -32,12 +34,41 @@
     </header>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: 'header',
   data(){
     return {
       isSelect: false
     }
+  },
+  computed: {
+    ...mapState({
+      userInfo: state => state.userInfo
+    })
+  },
+  methods:{
+    login() {
+      // sessionStorage.setItem('userinfo', 123123213)
+      this.$store.commit('INDEX_SET', {
+        target: 'isLogin',
+        data: true
+      })
+    },
+    isNav(reg){
+      if(Object.prototype.toString.call(reg) === '[object RegExp]'){
+        return reg.test(this.$router.currentRoute.path)
+      }else if(Object.prototype.toString.call(reg) === '[object String]'){
+        return new RegExp(reg).test(this.$router.currentRoute.path)
+      }else{
+        return false
+      }
+    },
+  },
+  mounted(){
+    let a = sessionStorage.setItem('userinfo', 123123213)
+    console.log('aaa', a);
+    
   },
   ready() {
   //  document.addEventListener('click', (e) => {
@@ -76,10 +107,12 @@ export default {
     li{
       float: left;
       height: 38px;
-      padding-right: 60px;
+      // padding-right: 60px;
       a{
-        display: block;
-        width: 108px;
+        display: none;
+        // width: 108px;
+        padding: 0 10px;
+        margin-right: 10px;
         height: 38px;
         line-height: 38px;
         color: #fff;
@@ -90,14 +123,14 @@ export default {
         &.border-line{
           border: 1px solid #7b27fb;
         }
+        &.active{
+          display: block;
+        }
       }
     }
   }
   .nav-right{
     float: right;
-  }
-  .sign-box{
-  display: none;
   }
   .user-info{
     // display: none;
