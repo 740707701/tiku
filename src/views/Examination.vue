@@ -12,7 +12,7 @@
         <div class="list-main">
           <div class="main-left">
             <div class="box-line timing">
-              <p class="line-title clearfix"> <i class="icon-clock"></i> <span>考试计时</span></p>
+              <p class="line-title title-icon">考试计时</p>
 
               
 
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="box-line examinee">
-              <p class="line-title clearfix"> <i class="icon-clock"></i> <span>考生信息</span></p>
+              <p class="line-title title-icon">考生信息</p>
               <div class="student-info">
                 <p class="info-list"><span>考生姓名:</span> <span>李晓尔</span></p>
                 <p class="info-list"><span>试卷名称:</span> <span>宏观经济学概述试卷测试题</span></p>
@@ -45,14 +45,14 @@
               <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
               <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
             </div>
-            {{ radioNames }}
+            <!-- {{ radioNames }} -->
             <p class="line-title border-bottom">多选题</p>
             <div class="raido-list" v-for="(item, index) in dataList2" :key="index">
               <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
               <p v-for="(num, i) in item.sle" :key="i"><input type="checkbox" :id="'check'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="item.aaa">
               <label :for="'check'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
             </div>
-            {{ dataList2 }}
+            <!-- {{ dataList2 }} -->
           </div>
         </div>
       </div>
@@ -140,7 +140,7 @@ export default {
   }
   .big-banner{
     height: 320px;
-    background: url("../assets/images/list-bg.jpg") center top no-repeat;
+    background: #7b27fb url("../assets/images/list-bg.jpg") center top no-repeat;
     margin-bottom: 30px;
   }
   .examination-list{
@@ -194,22 +194,14 @@ export default {
         }
 
         .line-title{
-          padding-top: 20px;
-            .icon-clock{
-              display: block;
-              width: 20px;
-              height: 23px;
-              background: url(../assets/images/icon-clock.png) no-repeat;
-              margin: 0 14px;
-              float: left;
-            }
-            span{
-              display: block;
-              line-height: 23px;
-              float: left;
-              color: #808080;
-            }
+          margin-top: 20px;
           }
+          .title-icon{
+            line-height: 28px;
+            background: url(../assets/images/icon-clock.png) 14px center no-repeat;
+            padding-left: 46px; 
+          }
+
           .test svg > path:first-of-type{
             stroke: #fafafa !important;
           }

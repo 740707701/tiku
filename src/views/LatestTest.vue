@@ -19,8 +19,7 @@
         label="名称"
         width="224">
         <template slot-scope="scope">
-          <i class="icon-list"></i>
-          <span>{{ scope.row.name }}</span>
+          <span class="icon-list">{{ scope.row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -135,12 +134,15 @@ export default {
     font-size: 18px;
     color: #808080;
   }
-
+  .el-table td{
+    padding: 0;
+  }
   .icon-list{
     display: inline-block;
-    width: 22px;
-    height: 32px;
-    background: url(../assets/images/icon-list.png) no-repeat;
+    // width: 22px;
+    // height: 32px;
+    background: url(../assets/images/icon-list.png) left center no-repeat;
+    padding: 20px 0 20px 30px;
     // vertical-align: middle;
   }
   .operation{
@@ -151,7 +153,7 @@ export default {
       color: #010101;
       font-size: 18px;
       > span{
-        width: 170px;
+        // width: 170px;
         display: inline-block;
         margin-left: 10px;
       }

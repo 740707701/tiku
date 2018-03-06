@@ -116,7 +116,7 @@ export default {
   }
   .big-banner{
     height: 742px;
-    background: url("../assets/images/home-bg.jpg") center top no-repeat;
+    background: #7b27fb url("../assets/images/home-bg.jpg") center top no-repeat;
     .title{
       margin-top: 90px;
       margin-bottom: 134px;

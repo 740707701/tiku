@@ -9,8 +9,7 @@
         label="名称"
         width="224">
         <template slot-scope="scope">
-          <i class="icon-list"></i>
-          <span>{{ scope.row.name }}</span>
+          <span class="icon-list">{{ scope.row.name }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -101,11 +100,15 @@
   .my-test{
     margin-top: 20px;
     margin-bottom: 200px;
+     .el-table td {
+      padding: 0;
+    }
     .icon-list{
       display: inline-block;
-      width: 22px;
-      height: 32px;
-      background: url(../assets/images/icon-list.png) no-repeat;
+      // width: 22px;
+      // height: 32px;
+      background: url(../assets/images/icon-list.png) left center no-repeat;
+      padding: 20px 0 20px 30px;
       // vertical-align: middle;
     }
     .operation{

@@ -18,6 +18,7 @@ const MyError = () => import('../views/MyError.vue') // 我的错题
 const Judge = () => import('../views/Judge.vue') // 当判官
 const Examiner = () => import('../views/Examiner.vue') // 当考官
 const Examination = () => import('../views/Examination.vue') // 考试题目
+const Trial = () => import('../views/Trial.vue') // 审题
 
 
 
@@ -71,7 +72,10 @@ export function createRouter () {
       
       // 考试题 
       { path: '/examination', name: 'examination', component: Examination },
-
+      // 审题
+      { path: '/trial', name: 'trial', component: Trial },
+      
+      
       
       { path: '/myerror', name: 'myerror', component: MyError },
       { path: '/judge', name: 'judge', component: Judge },

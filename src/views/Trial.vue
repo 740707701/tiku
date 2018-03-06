@@ -1,5 +1,5 @@
 <template>
-  <div class="examiner-page">
+  <div class="trial-page">
     <header-nav></header-nav>
     <div class="big-banner">
       <div class="wrapper">
@@ -8,42 +8,26 @@
     </div>
     <div class="examiner-list">
       <div class="wrapper">
-        <p class="list-title">职业题库</p>
+        <!-- <p class="list-title">职业题库</p> -->
         <div class="menu-row">
           <p class="info-list"><span>课程选择：</span> <span>简历</span></p>
           <p class="info-list"><span>章节选择：</span> <span>宏观经济学慨述        职业规划      沟通</span></p>
           <p class="info-list"><span>题库类型：</span> <span>单选题 多选题 案例题</span></p>
         </div>
-        <div class="more-button"> <span>更多选项<i class="triangle"></i></span> </div>
-        <div class="topic-item">
+        <div class="more-button"></div>
+        <div class="topic-item clearfix">
           <div class="f-l topic-left">
             <p class="title bg-icon">选择题</p>
             <div class="pd-left">
               <div class="raido-list" v-for="(item, index) in dataList" :key="index">
-                <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
+                <div class="raido-title">{{ index+1 }}/{{ dataList.length }}、{{ item.name }}</div>
                 <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
                 <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
                 <span class="answer-number">参考答案：D</span>
               </div>
-              <p class="answer-style other-answer">其他的答案: A</p>
-              <p class="answer-style">我的参考答案: 发生故障移动到应急车道内 斤启危险报警闪光灯 并且放置警告标志</p>
-              <p class="reference-msg">我的参考答案</p>
-              <div class="textarea-mn">
-                <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="content"></textarea>
-                <p class="t-right">限20字以内 <span>发表</span> </p>
-              </div>
-              <p class="reference-msg">建议答案</p>
-              <div class="msg-list" v-for="(item, index) in msgList" :key="index">
-                <div class="msg-page-number">0{{ index+1 }}</div>
-                <div class="msg-page-content">
-                  <p>{{ item.userName }}</p>
-                  <p>{{ item.msg }}</p>
-                  <p>{{ item.time }}</p>
-                </div>
-              </div>
             </div>
             <div class="msg-button">
-              <span>提交</span>
+              <span>差题</span><span>好题</span>
             </div>
             
           </div>
@@ -53,9 +37,12 @@
               <div class="slider-list clearfix" v-for="(item, index) in sliderList" :key="index">
                 <div class="left">{{ item.name }}: </div><el-slider v-model="item.value" class="center"></el-slider><div class="right">{{ item.value }}分</div>
               </div>
-              <p class="analysis">题目解析</p>
-              <p class="diff-level">难度等级:</p>
-              <p class="diff-level">驾驶拼装的机动车或者已达到报废标准的机动车上道路行驶的，公安机关交通管理部门应当予以收缴强制报废对驾驶前款所列机动车上道路行驶的驾驶人，处二百元以上二千元以下罚款，并吊销机动车驾驶证。</p>
+              <p class="analysis">其他人对比</p>
+              <div class="qita">
+                <p>重要性 <span>60</span> </p>
+                <p>专业性 <span>60</span></p>
+                <p>知识相关性 <span>60</span></p>
+              </div>
             </div>
           </div>
         </div>
@@ -72,7 +59,7 @@ import headerNav from '../components/Header.vue'
 import { mapState } from "vuex";
 
 export default {
-  name: "examiner-page",
+  name: "trial-page",
   data: () => ({
     progressing: 60,
     radioNames: [],
@@ -171,7 +158,7 @@ export default {
 </script>
 <style lang="less">
 @import "../assets/css/style.less";
-.examiner-page {
+.trial-page {
   header{
     padding-top: 10px;
     nav{
@@ -202,7 +189,7 @@ export default {
       }
     }
     .menu-row{
-
+       margin-bottom: 30px;
       .info-list{
         margin-top: 20px;
         span{
@@ -352,14 +339,16 @@ export default {
           }
         }
       .msg-button{
-          margin: 80px auto;
-          text-align: center;
+          margin: 30px auto;
           >span{
             padding: 10px 44px;
             color: #fff;
+            font-size: 16px;
             border-radius: 4px; 
             background: #5a9cff;
             cursor: pointer;
+            margin-right: 36px;
+            margin-left: 14px;
           }
         }
       }
@@ -389,6 +378,22 @@ export default {
         .diff-level{
           color: #f59631;
           line-height: 1.4;
+        }
+        .qita{
+          box-sizing: border-box;
+          p{
+            width: 33.3%;
+            float: left;
+            text-align: center;
+            color: 18px;
+            color: #979699;
+            span{
+              padding-top: 20px;
+              display: block;
+              font-size: 20px;
+              color: #000;
+            }
+          }
         }
       }
       .pd-left{
