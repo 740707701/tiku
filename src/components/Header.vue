@@ -5,7 +5,7 @@
           <img src="../assets/images/logo.png" alt="logo" >
         </router-link> -->
         <ul class="nav-list m-t-14">
-          <li><router-link to="/" class="border-line" :class="{'active': isNav(/questions/) }">首页</router-link></li>
+          <li><router-link to="/" class="border-line" :class="{'active': url !== '/' }">首页</router-link></li>
           <li><router-link to="/questions/occupation" :class="{'active': isNav(/questions/) }">我的题库</router-link></li>
           <li><router-link to="/exam/latest" :class="{'active': isNav(/exam/) }">我的考试</router-link></li>
           <li><router-link to="/myerror" :class="{'active': isNav(/myerror/) }">我的错题</router-link></li>
@@ -41,7 +41,8 @@ export default {
   name: 'header',
   data(){
     return {
-      isSelect: false
+      isSelect: false,
+      url: this.$route.path
     }
   },
   computed: {
