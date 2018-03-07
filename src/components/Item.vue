@@ -1,6 +1,6 @@
 <template>
   <ul class="questions-item clearfix">
-    <li v-for="item in curriculum" :key="item.id"><a href="javascript:;" class="" @click="incrementCounter(item.id)">{{ item.title }}<i></i></a></li>
+    <li v-for="item in curriculum" :key="item.id"><a href="javascript:;"  :class="{'active': selectedData.includes(item.id) }" @click="incrementCounter(item.id)">{{ item.title }}<i></i></a></li>
   </ul>
 </template>
 
@@ -10,6 +10,9 @@ export default {
   name: 'questions-item',
   props: {
     curriculum:{
+      type: Array,
+    },
+    selectedData:{
       type: Array,
     }
   },
@@ -22,7 +25,7 @@ export default {
     incrementCounter(id) {
 
       console.log(11111)
-      this.$emit('slectEvent', id)
+      this.$emit('selectEvent', id)
     }
   }
 }
@@ -54,7 +57,7 @@ export default {
     &:hover{
       color: #010101; 
       transform: translateY(-10px);
-      
+      box-shadow: 10px 10px 10px #ccc;
       // i{
       //   width: 30px;
       //   height: 30px;

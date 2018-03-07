@@ -1,14 +1,14 @@
 <template>
   <div class="occupation-page">
     <div class="wrapper">
-      <p class="title">课程选择： <span>更多</span></p>
-      <itemList :curriculum="curriculum"></itemList>
-      <p class="title">章节选择： <span>更多</span></p>
-      <itemList :curriculum="chapter"></itemList>
+      <p class="title">课程选择： {{ currData  }}<span>更多</span></p>
+      <itemList :curriculum="curriculum" :selectedData="currData" @selectEvent="radioItem"></itemList>
+      <p class="title">章节选择： {{ chaptData }}<span>更多</span></p>
+      <itemList :curriculum="chapter" :selectedData="chaptData" @selectEvent="checkboxItem"></itemList>
       <p class="title">题型： <span>更多</span></p>
       <topic :topicType="topicType"></topic>
       <div class="occupation-button">
-        <span>随机练习</span><span>智能答题</span>
+        <span  @click="random">随机练习</span><span  @click="intelligence">智能答题</span>
       </div>
     </div>
   </div>
@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       curriculum: [
-        {'title': '金融--简历','id': 1},
+        {'title': '简历','id': 1},
         {'title': '面试','id': 2},
         {'title': '职业规划','id': 3},
         {'title': '职业心态','id': 4},
@@ -47,8 +47,39 @@ export default {
         { 'title': '判断题', 'id': 3},
         { 'title': '案例题', 'id': 4},
         { 'title': '解答题', 'id': 5},
-      ]
+      ],
+      currData: [],
+      chaptData: []
     }
+  },
+  methods: {
+    random(){
+      this.$router.push(`/examiner`) 
+    },
+    intelligence(){
+      this.$router.push(`/examiner`) 
+
+    },
+    radioItem(val) {
+      if(this.currData.includes(val)){
+        this.currData.splice(this.currData.indexOf(val), 1)
+      }else{
+        this.currData = [val]
+      }
+
+      // this.currData = [val]
+    },
+    checkboxItem (val) {
+      if(this.chaptData.includes(val)){
+
+        this.chaptData.splice(this.chaptData.indexOf(val), 1)
+      }else{
+        this.chaptData.push(val)
+      }
+      
+      // selectedData.includes(item.id) 
+      // this.chaptData = [...new Set(this.chaptData)]   
+    },
   },
   components: {
     itemList,

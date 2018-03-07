@@ -35,27 +35,81 @@
             </div>
           </div>
           <div class="box-line main-right">
-            <p class="line-title">出题名称: <span>单选题 <i></i> </span></p>
+
+            <el-collapse v-model="activeNames" @change="handleChange" accordion>
+              <el-collapse-item title="单选题" name="1">
+                          <div class="raido-list" v-for="(item, index) in dataList" :key="index">
+                          <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
+                          <p class="chuti" v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
+                          <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
+                          <p>输入正确答案: <input type="text"> <span class="next-ti">下一题</span></p>
+                          <div class="raido-title">请选择知识点：</div>
+                          <el-cascader
+                            :options="options"
+                            :show-all-levels="false"
+                            @change="elEvent"
+                          ></el-cascader>
+                        </div>
+              </el-collapse-item>
+              <el-collapse-item title="多选题" name="2">
+                <div class="raido-list" v-for="(item, index) in dataList2" :key="index">
+                          <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
+                          <p class="chuti" v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
+                          <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
+                          <p>输入正确答案: <input type="text"> <span class="next-ti">下一题</span></p>
+                          <div class="raido-title">请选择知识点：</div>
+                          <el-cascader
+                            :options="options"
+                            :show-all-levels="false"
+                            @change="elEvent"
+                          ></el-cascader>
+                        </div>
+              </el-collapse-item>
+              <el-collapse-item title="判断题" name="3">
+                <div>简化流程：设计简洁直观的操作流程；</div>
+                <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
+                <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+              </el-collapse-item>
+              <el-collapse-item title="论述题" name="4">
+                <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
+                <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+              </el-collapse-item>
+            </el-collapse>
+
+
+            <!-- <p class="line-title">出题名称: <span>单选题 <i></i> </span></p>
             <div class="raido-list" v-for="(item, index) in dataList" :key="index">
               <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
               <p class="chuti" v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
               <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
               <p>输入正确答案: <input type="text"> <span class="next-ti">下一题</span></p>
               <div class="raido-title">请选择知识点：</div>
+              <el-cascader
+                :options="options"
+                :show-all-levels="false"
+                @change="elEvent"
+              ></el-cascader>
+
               <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
               <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-            </div>
-            <!-- {{ radioNames }} -->
-            <p class="line-title"><span>多选题 <i></i> </span></p>
+            </div> -->
+            {{ radioNames }}
+            {{ dataList2 }}
+            <!-- <p class="line-title"><span>多选题 <i></i> </span></p>
             <div class="raido-list" v-for="(item, index) in dataList2" :key="index">
               <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
               <p v-for="(num, i) in item.sle" :key="i"><input type="checkbox" :id="'check'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="item.aaa">
               <label :for="'check'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
               <p>输入正确答案: <input type="text"> <span class="next-ti">下一题</span></p>
               <div class="raido-title">请选择知识点：</div>
+              <el-cascader
+                :options="options"
+                :show-all-levels="false"
+                @change="elEvent"
+              ></el-cascader>
               <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
               <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-            </div>
+            </div> -->
             <!-- {{ dataList2 }} -->
             <div class="footer-button">
               <span>提交</span> <span>取消</span>
@@ -78,6 +132,7 @@ export default {
   name: "set-topic-page",
   data() {
     return {
+      activeNames: ['1'],
       progressing: 60,
       radioNames: [],
       checkboxNames:[],
@@ -86,18 +141,217 @@ export default {
         name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
         sle:['正确', '错误', '对的', '不对']
       }],
-      dataList2: []
+      dataList2: [],
+      options: [{
+          value: 'zhinan',
+          label: '指南',
+          children: [{
+            value: 'shejiyuanze',
+            label: '设计原则',
+            children: [{
+              value: 'yizhi',
+              label: '一致'
+            }, {
+              value: 'fankui',
+              label: '反馈'
+            }, {
+              value: 'xiaolv',
+              label: '效率'
+            }, {
+              value: 'kekong',
+              label: '可控'
+            }]
+          }, {
+            value: 'daohang',
+            label: '导航',
+            children: [{
+              value: 'cexiangdaohang',
+              label: '侧向导航'
+            }, {
+              value: 'dingbudaohang',
+              label: '顶部导航'
+            }]
+          }]
+        }, {
+          value: 'zujian',
+          label: '组件',
+          children: [{
+            value: 'basic',
+            label: 'Basic',
+            children: [{
+              value: 'layout',
+              label: 'Layout 布局'
+            }, {
+              value: 'color',
+              label: 'Color 色彩'
+            }, {
+              value: 'typography',
+              label: 'Typography 字体'
+            }, {
+              value: 'icon',
+              label: 'Icon 图标'
+            }, {
+              value: 'button',
+              label: 'Button 按钮'
+            }]
+          }, {
+            value: 'form',
+            label: 'Form',
+            children: [{
+              value: 'radio',
+              label: 'Radio 单选框'
+            }, {
+              value: 'checkbox',
+              label: 'Checkbox 多选框'
+            }, {
+              value: 'input',
+              label: 'Input 输入框'
+            }, {
+              value: 'input-number',
+              label: 'InputNumber 计数器'
+            }, {
+              value: 'select',
+              label: 'Select 选择器'
+            }, {
+              value: 'cascader',
+              label: 'Cascader 级联选择器'
+            }, {
+              value: 'switch',
+              label: 'Switch 开关'
+            }, {
+              value: 'slider',
+              label: 'Slider 滑块'
+            }, {
+              value: 'time-picker',
+              label: 'TimePicker 时间选择器'
+            }, {
+              value: 'date-picker',
+              label: 'DatePicker 日期选择器'
+            }, {
+              value: 'datetime-picker',
+              label: 'DateTimePicker 日期时间选择器'
+            }, {
+              value: 'upload',
+              label: 'Upload 上传'
+            }, {
+              value: 'rate',
+              label: 'Rate 评分'
+            }, {
+              value: 'form',
+              label: 'Form 表单'
+            }]
+          }, {
+            value: 'data',
+            label: 'Data',
+            children: [{
+              value: 'table',
+              label: 'Table 表格'
+            }, {
+              value: 'tag',
+              label: 'Tag 标签'
+            }, {
+              value: 'progress',
+              label: 'Progress 进度条'
+            }, {
+              value: 'tree',
+              label: 'Tree 树形控件'
+            }, {
+              value: 'pagination',
+              label: 'Pagination 分页'
+            }, {
+              value: 'badge',
+              label: 'Badge 标记'
+            }]
+          }, {
+            value: 'notice',
+            label: 'Notice',
+            children: [{
+              value: 'alert',
+              label: 'Alert 警告'
+            }, {
+              value: 'loading',
+              label: 'Loading 加载'
+            }, {
+              value: 'message',
+              label: 'Message 消息提示'
+            }, {
+              value: 'message-box',
+              label: 'MessageBox 弹框'
+            }, {
+              value: 'notification',
+              label: 'Notification 通知'
+            }]
+          }, {
+            value: 'navigation',
+            label: 'Navigation',
+            children: [{
+              value: 'menu',
+              label: 'NavMenu 导航菜单'
+            }, {
+              value: 'tabs',
+              label: 'Tabs 标签页'
+            }, {
+              value: 'breadcrumb',
+              label: 'Breadcrumb 面包屑'
+            }, {
+              value: 'dropdown',
+              label: 'Dropdown 下拉菜单'
+            }, {
+              value: 'steps',
+              label: 'Steps 步骤条'
+            }]
+          }, {
+            value: 'others',
+            label: 'Others',
+            children: [{
+              value: 'dialog',
+              label: 'Dialog 对话框'
+            }, {
+              value: 'tooltip',
+              label: 'Tooltip 文字提示'
+            }, {
+              value: 'popover',
+              label: 'Popover 弹出框'
+            }, {
+              value: 'card',
+              label: 'Card 卡片'
+            }, {
+              value: 'carousel',
+              label: 'Carousel 走马灯'
+            }, {
+              value: 'collapse',
+              label: 'Collapse 折叠面板'
+            }]
+          }]
+        }, {
+          value: 'ziyuan',
+          label: '组件交互文档',
+          // children: [{
+          //   value: 'axure',
+          //   label: 'Axure Components'
+          // }, {
+          //   value: 'sketch',
+          //   label: 'Sketch Templates'
+          // }, {
+          //   value: 'jiaohu',
+          //   label: '组件交互文档'
+          // }]
+        }]
     };
   },
   created() {
     this.getPath()
   },
   methods: {
+    handleChange(val){
+      console.log(val);
+    },
+    elEvent(v) {
+      console.log(v)
+    },
     getPath() {
       this.path = this.$route.path
       let that = this;
-
-
 
       // 异步数据
       setTimeout(function(){
@@ -219,6 +473,9 @@ export default {
         min-height: 630px;
         background: #fff;
         float: left;
+        .el-collapse{
+          padding: 0 24px; 
+        }
         .line-title{
           line-height: 60px;
           // background: url(../assets/images/icon-list.png) 10px center no-repeat;

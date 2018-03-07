@@ -23,7 +23,7 @@
                 <div class="raido-title">{{ index+1 }}/{{ dataList.length }}、{{ item.name }}</div>
                 <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
                 <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-                <span class="answer-number">参考答案：D</span>
+                <!-- <span class="answer-number">参考答案：D</span> -->
               </div>
             </div>
             <div class="msg-button">
@@ -365,10 +365,11 @@ export default {
           }
           .center{
             width: 190px;
-             float: left;
+            float: left;
           }
           .right{
             float: right;
+            padding-right: 4px;
           }
         }
         .analysis{

@@ -380,6 +380,7 @@ export default {
           }
           .right{
             float: right;
+            padding-right: 4px;
           }
         }
         .analysis{

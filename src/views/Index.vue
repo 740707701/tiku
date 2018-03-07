@@ -13,18 +13,16 @@
           <a @click="changLogin(0)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的题库</p></a>
         </div>
         <div class="list-box list-small list-margin">
-          <a @click="changLogin(1)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的考试</p></a>
-          <!-- /exam/mytest -->
+          <router-link to="/exam/latest"><img src="../assets/images/icon-book.png" alt=""><p>我的考试</p></router-link>
         </div>
         <div class="list-box list-small">
-          <a @click="changLogin(2)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的错题</p></a>
-          <!-- /myerror -->
+          <router-link to="/myerror"><img src="../assets/images/icon-book.png" alt=""><p>我的错题</p></router-link>
         </div>
         <div class="list-box list-middle list-margin-right">
-          <a @click="changLogin(3)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我要当考官</p></a>
+          <a @click="changLogin(1)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我要当考官</p></a>
         </div>
         <div class="list-box list-middle">
-          <a @click="changLogin(4)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我要当判官</p></a>
+          <a @click="changLogin(2)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我要当判官</p></a>
           <!-- judge -->
         </div>
       </div>
@@ -46,11 +44,11 @@
           <div class="dialog-content">
             <h3>选择课程</h3>
             <div class="examiner-list">
-              <router-link to="/examiner">宏观经济学<i></i></router-link>
-              <router-link to="/examiner">简历<i></i></router-link>
-              <router-link to="/examiner">工作方法<i></i></router-link>
-              <router-link to="/examiner">工作态度<i></i></router-link>
-              <router-link to="/examiner">职业规划<i></i></router-link>
+              <router-link to="/trial">宏观经济学<i></i></router-link>
+              <router-link to="/trial">简历<i></i></router-link>
+              <router-link to="/trial">工作方法<i></i></router-link>
+              <router-link to="/trial">工作态度<i></i></router-link>
+              <router-link to="/trial">职业规划<i></i></router-link>
             </div>
           </div>
         </div>
@@ -59,20 +57,19 @@
  -->
    <div class="dialog" v-show="isShowTiku">
     <div class="dialog-bg" @click="isShowTiku = !isShowTiku"></div>
-    <div class="dialog-sign">
-      <div class="sign-right">
-        <div class="user-login">
-          <p>题库功能介绍</p>
-            本题库系统是一个可以内生发展，多用户共建的智能推送题库，本题库的功能包括： 
-              1、可以进行职业类、专业类、金融业务类和金融证书类的专题题库练习；
-              2、可以根据每道题目的标签，搜索自己需要的题目，同时可以对每道题目打标签，建立自己的专属题库；
-              3、可以智能化推送错题以及错题所属知识点的题目，进行薄弱知识点的强化训练；
-              4、可以参与题库共建，自行出题；
-              5、可以参与审题，对每道题目进行多维度评分，以及点评；
-              6、可以参加老师组织的考试，也可以自行组卷，发布给自己或者朋友来考试；
+      <div class="dialog-banner dialog-info">
+        <div class="sign-right">
+          <p class="title">题库功能介绍</p>
+          <p>本题库系统是一个可以内生发展，多用户共建的智能推送题库，本题库的功能包括：</p>
+          <p>1、可以进行职业类、专业类、金融业务类和金融证书类的专题题库练习；</p>
+          <p>2、可以根据每道题目的标签，搜索自己需要的题目，同时可以对每道题目打标签，建立自己的专属题库；</p>  
+          <p>3、可以智能化推送错题以及错题所属知识点的题目，进行薄弱知识点的强化训练；</p> 
+          <p>4、可以参与题库共建，自行出题；</p>
+          <p>5、可以参与审题，对每道题目进行多维度评分，以及点评；</p>
+          <p>6、可以参加老师组织的考试，也可以自行组卷，发布给自己或者朋友来考试；</p>
+              
         </div>
       </div>
-    </div>
   </div>
 
   </div>
@@ -119,6 +116,7 @@ export default {
     },
     changLogin(id) {
       console.log('---', id )
+
       let userInfo = JSON.parse(sessionStorage.getItem('userinfo'))
 
       if( userInfo ){
@@ -126,7 +124,14 @@ export default {
           target: 'isLogin',
           data: false
         })
-        this.showExaminer = true
+
+        if(id == 2){
+          this.showExaminer = true
+        }else{
+          this.showTiku = true
+        }
+       
+        // this.showExaminer = true
 
 
       }else{
@@ -241,7 +246,7 @@ export default {
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 501;
+    z-index: 1002;
     .dialog-bg{
       position: absolute;
       width: 100%;
@@ -304,6 +309,7 @@ export default {
         &:hover{
           color: #010101; 
           transform: translateY(-10px);
+          box-shadow: 10px 10px 10px #ccc;
         }
         &.active{
           font-size: 28px;

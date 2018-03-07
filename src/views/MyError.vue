@@ -102,6 +102,7 @@ export default {
     },
     getDetails(item) {
       console.log(item.id);
+      this.$router.push(`/trial/${encodeURIComponent(item.id)}`) 
     }
   },
   components: {
@@ -160,6 +161,7 @@ export default {
       transition: all .4s;
       &:hover{
         transform: translateY(-10px);
+        box-shadow: 10px 10px 10px #ccc;
       }
     }
     .grid-content {

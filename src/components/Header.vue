@@ -5,7 +5,7 @@
           <img src="../assets/images/logo.png" alt="logo" >
         </router-link> -->
         <ul class="nav-list m-t-14">
-          <li><router-link to="/" class="border-line active">首页</router-link></li>
+          <li><router-link to="/" class="border-line" :class="{'active': isNav(/questions/) }">首页</router-link></li>
           <li><router-link to="/questions/occupation" :class="{'active': isNav(/questions/) }">我的题库</router-link></li>
           <li><router-link to="/exam/latest" :class="{'active': isNav(/exam/) }">我的考试</router-link></li>
           <li><router-link to="/myerror" :class="{'active': isNav(/myerror/) }">我的错题</router-link></li>
@@ -22,10 +22,12 @@
             <span class="search-button"></span>   
             <span class="head-img">
               <ul class="head-select">
-                <li><router-link to="/exam/mytest">我的考试</router-link></li>
+                <li><router-link to="/exam/latest">我的考试</router-link></li>
                 <li><router-link to="/myerror">我的错题</router-link></li>
                 <li><router-link to="/examiner">我要当考官</router-link></li>
-                <li><router-link to="/judge">我要当判官</router-link></li>
+                <li style="border-bottom: 1px solid #878787;"><router-link to="/judge">我要当判官</router-link></li>
+                <li><a href="javascript:;" @click="loginOut" >退出帐号</a></li>
+                              
               </ul>
             </span>
           </div>
@@ -64,6 +66,9 @@ export default {
         return false
       }
     },
+    loginOut(){
+      this.$router.push('/')
+    }
   },
   mounted(){
     let a = sessionStorage.setItem('userinfo', 123123213)

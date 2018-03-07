@@ -50,7 +50,7 @@ export function createRouter () {
         children: [{
           path: '/',  name: 'latest', component: LatestTest
         },{
-          path: 'latest',  name: 'latest', component: LatestTest
+          path: 'latest', component: LatestTest
         },{
           path: 'mytest',  name: 'mytest', component: MyTest
         }]
@@ -60,7 +60,7 @@ export function createRouter () {
         children: [{
           path: '/',  name: 'occupation', component: Occupation
         },{
-          path: 'occupation',  name: 'occupation', component: Occupation
+          path: 'occupation',  component: Occupation
         },{
           path: 'economics',  name: 'economics', component: Economics
         },{
@@ -73,13 +73,21 @@ export function createRouter () {
       // 考试题 
       { path: '/examination', name: 'examination', component: Examination },
       // 审题
-      { path: '/trial', name: 'trial', component: Trial },
+      { path: '/trial', component: Trial,
+        children: [{
+          path: ':id', name: 'trial', component: Trial,
+        }]
+    },
       
       
       
       { path: '/myerror', name: 'myerror', component: MyError },
       { path: '/judge', name: 'judge', component: Judge },
-      { path: '/examiner', name: 'examiner', component: Examiner },
+      { path: '/examiner', component: Examiner,
+        children: [{
+          path: ':id', name: 'examiner', component: Examiner,
+        }] 
+      },
 
       
 

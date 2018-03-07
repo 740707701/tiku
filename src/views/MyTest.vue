@@ -32,9 +32,10 @@
         label="时长"
         width="160">
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" prop="number">
         <template slot-scope="scope">
-          <p class="operation" @click="handleClick(scope.row)">正在审核</p>
+          <p v-if="scope.row.number">{{ scope.row.number }}</p>
+          <p class="operation" v-else>正在审核</p>
         </template>
       </el-table-column>
     </el-table>
@@ -51,35 +52,35 @@
             startTime: '2018-02-02 15:47',
             endTime: '2018-02-08 15:47',
             date: '1.50分',
-            
+            number: 80
           },{
             name: '宏观经济学概述试卷测试题',
             founder: 'admin',
             startTime: '2018-02-02 15:47',
             endTime: '2018-02-08 15:47',
             date: '1.50分',
-            
+            number: 60
           },{
             name: '宏观经济学概述试卷测试题',
             founder: 'admin',
             startTime: '2018-02-02 15:47',
             endTime: '2018-02-08 15:47',
             date: '1.50分',
-            
+            number: ''
           },{
             name: '宏观经济学概述试卷测试题',
             founder: 'admin',
             startTime: '2018-02-02 15:47',
             endTime: '2018-02-08 15:47',
             date: '1.50分',
-            
+            number: 40
           },{
             name: '概述试卷测试题',
             founder: 'admin',
             startTime: '2018-02-02 15:47',
             endTime: '2018-02-08 15:47',
             date: '1.50分',
-            
+            number: 99
           }]
         }
       },

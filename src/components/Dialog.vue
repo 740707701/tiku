@@ -11,7 +11,7 @@
         <a href="">工作方法<i></i></a>
       </div>
     </div> -->
-    <div class="dialog-sign">
+    <div class="dialog-banner dialog-sign">
       <div class="sign-right">
         <div class="user-login">
           <p>欢迎登录</p>
@@ -39,7 +39,7 @@
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 501;
+    z-index: 1002;
     .dialog-bg{
       position: absolute;
       width: 100%;
@@ -58,16 +58,43 @@
       transform: translate(-50%, -50%);
       background: #fff;
     }
-    .dialog-sign{
+    .dialog-info{
+      height: 390px;
+      padding: 55px;
+      background: #fff url('../assets/images/banner-bg.png') 50px 50px no-repeat;
+      background-size: 499px 384px;
+      .sign-right{
+        width: 610px;
+        float: right;
+        p{
+          font-size: 16px;
+          color: #333;
+          line-height: 40px;
+        }
+        p:first-child{
+          color: #720fb1;
+          border-left: 6px solid #720fb1;
+          padding-left: 20px;
+          line-height: normal;
+        }
+        p:nth-child(2){
+          margin-bottom: 10px;
+        }        
+      }
+    }
+    .dialog-banner{
       position: absolute;
       top: 50%;
       left: 50%;
       width: 1120px;
+      transform: translate(-50%, -50%);
+      
+      border-radius: 14px;
+    }
+    .dialog-sign{
       height: 476px;
       padding: 130px 80px;
-      transform: translate(-50%, -50%);
       background: #fff url('../assets/images/banner-bg.png') 80px 130px no-repeat;
-      border-radius: 14px;
       .sign-right{
         width: 474px;
         float: right;

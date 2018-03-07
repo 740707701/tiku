@@ -4,9 +4,7 @@
     <div class="big-banner">
       <div class="wrapper">
         <img src="../../assets/images/title.png" class="title">
-      </div>
-                           
-                           
+      </div>               
     </div>
     <div class="questions-list">
       <div class="wrapper">
