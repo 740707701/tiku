@@ -77,15 +77,29 @@ app.use('/service-worker.js', serve('./dist/service-worker.js'))
  * 代理跨域配置 https://www.npmjs.com/package/http-proxy-middleware
  * @type {{target: string, changeOrigin: boolean, pathRewrite: {^/api: string}}}
  */
-app.use('/api', proxy(
+// app.use('/api', proxy(
+//   { 
+//     target: 'http://api.douban.com/v2', 
+//     changeOrigin: true, 
+//     pathRewrite: {
+//       '^/api': ''
+//     }
+//   })
+// );
+
+
+app.use('/Portal', proxy(
   { 
-    target: 'http://api.douban.com/v2', 
+    target: 'http://139.196.104.246:8080/Portal', 
     changeOrigin: true, 
     pathRewrite: {
-      '^/api': ''
+      '^/Portal': ''
     }
   })
 );
+
+
+// subject/field-list/1
 
 // since this app has no user-specific content, every page is micro-cacheable.
 // if your app involves user-specific content, you need to implement custom

@@ -74,11 +74,9 @@ export default {
 
         this.chaptData.splice(this.chaptData.indexOf(val), 1)
       }else{
-        this.chaptData.push(val)
-      }
-      
-      // selectedData.includes(item.id) 
-      // this.chaptData = [...new Set(this.chaptData)]   
+        this.chaptData = [val]
+        // this.chaptData.push(val)
+      }  
     },
   },
   components: {

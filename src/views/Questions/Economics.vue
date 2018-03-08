@@ -74,7 +74,8 @@ export default {
 
         this.chaptData.splice(this.chaptData.indexOf(val), 1)
       }else{
-        this.chaptData.push(val)
+        // this.chaptData.push(val)
+        this.chaptData = [val]
       }
       
       // selectedData.includes(item.id) 

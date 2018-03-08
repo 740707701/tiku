@@ -102,7 +102,7 @@ export default {
     },
     getDetails(item) {
       console.log(item.id);
-      this.$router.push(`/trial/${encodeURIComponent(item.id)}`) 
+      this.$router.push(`/examiner/${encodeURIComponent(item.id)}`) 
     }
   },
   components: {

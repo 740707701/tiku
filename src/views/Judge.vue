@@ -49,6 +49,21 @@
                             :show-all-levels="false"
                             @change="elEvent"
                           ></el-cascader>
+                          <el-cascader
+                            :options="options"
+                            :show-all-levels="false"
+                            @change="elEvent"
+                          ></el-cascader>
+                          <el-cascader
+                            :options="options"
+                            :show-all-levels="false"
+                            @change="elEvent"
+                          ></el-cascader>
+                          <el-cascader
+                            :options="options"
+                            :show-all-levels="false"
+                            @change="elEvent"
+                          ></el-cascader>
                         </div>
               </el-collapse-item>
               <el-collapse-item title="多选题" name="2">
@@ -63,6 +78,7 @@
                             :show-all-levels="false"
                             @change="elEvent"
                           ></el-cascader>
+                          
                         </div>
               </el-collapse-item>
               <el-collapse-item title="判断题" name="3">

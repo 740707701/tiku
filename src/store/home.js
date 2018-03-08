@@ -15,10 +15,10 @@ export default {
   },
   actions: {
     [HOME_FILTERS_FETCH]({commit}, params){
-      return api.post('/in_theaters', params).then(res => {
+      return api.get('/subject-list', params).then(res => {
         commit('HOME_SET', {
           target: 'getMovie',
-          data: res.subjects
+          data: res
         })
 
       })

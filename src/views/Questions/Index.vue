@@ -8,11 +8,21 @@
     </div>
     <div class="questions-list">
       <div class="wrapper">
-        <ul class="questions-tabs border-bottom-color">
-          <li><router-link to="/questions/occupation" :class="{'active': isNav(/occupation/) || path == '/questions/' ||  path == '/questions' }" >职业题库</router-link></li>
+        <ul class="questions-tabs border-bottom-color" >
+          <li v-for="(val, index) in tikuList" :key="index">
+            <router-link :to="'/questions/'+ val.questionsId" :class="{'active': isNav(/economics/) }" >{{ val.questionsName }}</router-link>
+          </li>
+
+
+  <!-- <router-link :to="'/questions/'+ val.questionsId" v-if="val.questionsId == '2'"  :class="{'active': val.questionsId == 2 }" >{{ val.questionsName }}</router-link>
+          <router-link :to="'/questions/'+ val.questionsId" v-if="val.questionsId == '3'"  :class="{'active': val.questionsId == 3 }" >{{ val.questionsName }}</router-link>
+          <router-link :to="'/questions/'+ val.questionsId" v-if="val.questionsId == '4'"  :class="{'active': val.questionsId == 4 }" >{{ val.questionsName }}</router-link> -->
+            <!-- <router-link :to="'/questions/'+ val.questionsId" v-for="(val, index) in tikuList" :key="index">{{ val.questionsName }}<i></i></router-link>
+
+
           <li><router-link to="/questions/economics" :class="{'active': isNav(/economics/) }">经济金融基础题库</router-link></li>
           <li><router-link to="/questions/finance" :class="{'active': isNav(/finance/) }">金融业务题库</router-link></li>
-          <li><router-link to="/questions/certificate" :class="{'active': isNav(/certificate/) }">证书类题库</router-link></li>
+          <li><router-link to="/questions/certificate" :class="{'active': isNav(/certificate/) }">证书类题库</router-link></li> -->
         </ul>
         <router-view></router-view>
       </div>
@@ -33,7 +43,22 @@ export default {
     return {
     };
   },
+  computed: {
+    ...mapState({ 
+      tikuList: state => state.tikuList,
+      // fieldList: state => state.fieldList,
+    }),
+  },
+  // asyncData ({ store, route, cookies}) {
+  //   return Promise.all([
+      
+
+  //   ])
+  // },
   created() {
+    this.$store.dispatch('TIKU_LIST_FETCH', {}),
+    // this.$store.dispatch('FIELD_LIST_FETCH', {}),
+    
     this.getPath()
   },
   methods: {

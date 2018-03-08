@@ -60,6 +60,8 @@ export function createRouter () {
         children: [{
           path: '/',  name: 'occupation', component: Occupation
         },{
+          path: ':id',  component: Occupation,
+        },{
           path: 'occupation',  component: Occupation
         },{
           path: 'economics',  name: 'economics', component: Economics

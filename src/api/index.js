@@ -1,5 +1,5 @@
 import axios from 'axios'
-const apiContext = '/api/movie'
+const apiContext = '/Portal'
 let methods = ['get', 'post']
 // let token = ''
 
@@ -15,7 +15,8 @@ class Api {
           timeout: 10000,
           headers: {
             // 'X-Requested-With': 'XMLHttpRequest',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json, application/x-www-form-urlencoded',
+            'Access-Control-Allow-Origin': '*'
           },
         }).then(res => {
           console.log(`[${method}]${url}`, res)

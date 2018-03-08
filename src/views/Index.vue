@@ -8,6 +8,7 @@
       </div>
     </div>
     <div class="item-list">
+      {{ userInfo }}
       <div class="wrapper">
         <div class="list-box list-small">
           <a @click="changLogin(0)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的题库</p></a>
@@ -31,10 +32,7 @@
       <div class="dialog-bg" @click="showTiku = !showTiku"></div>
         <div class="dialog-body">
           <div class="dialog-content">
-            <router-link to="/questions/occupation">职业题库<i></i></router-link>
-            <router-link to="/questions/economics">经济金融基础题库<i></i></router-link>
-            <router-link to="/questions/finance">金融业务题库<i></i></router-link>
-            <router-link to="/questions/certificate">证书类题库<i></i></router-link>
+            <router-link :to="'/questions/'+ val.questionsId" v-for="(val, index) in tikuList" :key="index">{{ val.questionsName }}<i></i></router-link>
           </div>
         </div>
     </div>
@@ -59,7 +57,7 @@
     <div class="dialog-bg" @click="isShowTiku = !isShowTiku"></div>
       <div class="dialog-banner dialog-info">
         <div class="sign-right">
-          <p class="title">题库功能介绍</p>
+          <p>题库功能介绍</p>
           <p>本题库系统是一个可以内生发展，多用户共建的智能推送题库，本题库的功能包括：</p>
           <p>1、可以进行职业类、专业类、金融业务类和金融证书类的专题题库练习；</p>
           <p>2、可以根据每道题目的标签，搜索自己需要的题目，同时可以对每道题目打标签，建立自己的专属题库；</p>  
@@ -89,21 +87,50 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      getMovie: state => state.home.getMovie,
-    })
-
-    // newMovies () {
-    //   this.$store.dispatch('HOME_FILTERS_FETCH')
-    // }
+    ...mapState({ 
+      tikuList: state => state.tikuList,
+      userInfo: state => state.account.userInfo
+    }),
   },
-  
-  // asyncData ({ store, route, cookies}) {
-  //   return Promise.all([
-  //     store.dispatch('HOME_FILTERS_FETCH', {}),
-  //   ])
-  // },
+  mounted() {
+    // let data = "j_username=student&j_password=123456";
+    // this.$http({
+    //   headers: {
+    //     'Access-Control-Allow-Origin': '*',
+    //     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",  
+    //     // 'Accept': 'application/json' 
+    //   },
+    //   method: "GET",
+    //   url: "http://139.196.104.246:8080/Portal/j_spring_security_check",
+    //   dataType: "jsonp",
+    //   // proxy: {
+    //   //   host: '139.196.104.246',
+    //   //   port: 8080
+    //   // },
+    //   data: {
+    //     j_username: 'student',
+    //     j_password: 123456
+    //   },
+      
+    // }).then( (res) =>{
+    //   console.log(res)
+    // }).catch( (err) => {
+    //   console.log(err)
+    // })
+  },
   created() {
+    
+    this.$store.dispatch('TIKU_LIST_FETCH', {}),
+
+    this.$store.dispatch('ACCOUNT_LOGIN', {
+        j_username: 'student',
+        j_password: '123456'
+      }),
+
+
+
+
+
     // 设置弹窗
     this.$store.commit('INDEX_SET', {
       target: 'isLogin',
@@ -246,7 +273,7 @@ export default {
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 1002;
+    z-index: 501;
     .dialog-bg{
       position: absolute;
       width: 100%;
