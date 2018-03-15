@@ -129,7 +129,7 @@ function render (req, res) {
   }
 
   const context = {
-    title: '在线题库系统', // default title
+    title: '在线考试&题库系统', // default title
     url: req.url
   }
   renderer.renderToString(context, (err, html) => {

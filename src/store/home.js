@@ -20,7 +20,6 @@ export default {
           target: 'getMovie',
           data: res
         })
-
       })
     },
   }

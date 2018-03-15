@@ -17,7 +17,7 @@
                 <div class="student-info">
                   <p class="info-list"><span>课程选择:</span> <span>职业技能</span></p>
                   <p class="info-list"><span>章节选择:</span> <span>宏观经济学概述</span></p>
-                  <p class="info-list"><span>题型选择:</span> <span>单选题 多选题 判断题 案例题</span></p>
+                  <p class="info-list"><span>题型选择:</span> <span > <a v-for="(data, index) in typeList" :key="index">{{ data.name }}</a></span></p>
                   <p class="info-list"><span>出题时间:</span> <span>2018-03-01</span></p>
                   <p class="info-list"><span>出题者:</span> <span>在线题库</span></p>
                 </div>
@@ -355,7 +355,13 @@ export default {
         }]
     };
   },
+    computed: {
+    ...mapState({
+      typeList: state => state.question.typeList
+    }),
+  },
   created() {
+    this.$store.dispatch('QUESTION_TYPE_SET'),
     this.getPath()
   },
   methods: {
@@ -473,6 +479,11 @@ export default {
                 width: 180px;
                 line-height: 1.3;
                 margin-left: 6px;
+                a{
+                  margin-right: 10px;
+                  font-size: 16px;
+                  color: #fff;
+                }
               }
             }
           }

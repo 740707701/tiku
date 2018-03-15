@@ -33,12 +33,12 @@
                 <p class="t-right">限20字以内 <span>发表</span> </p>
               </div>
               <p class="reference-msg">建议答案</p>
-              <div class="msg-list" v-for="(item, index) in msgList" :key="index">
+              <div class="msg-list" v-for="(item, index) in answersList.comments" :key="index">
                 <div class="msg-page-number">0{{ index+1 }}</div>
                 <div class="msg-page-content">
-                  <p>{{ item.userName }}</p>
-                  <p>{{ item.msg }}</p>
-                  <p>{{ item.time }}</p>
+                  <p>{{ item.username }}</p>
+                  <p>{{ item.contentMsg }}</p>
+                  <p>{{ new Date(item.createTime).toISOString().replace('T', ' ').slice(0, -8) }}</p>
                 </div>
               </div>
             </div>
@@ -117,8 +117,21 @@ export default {
     sliderNumber: []
 
   }),
+  computed: {
+    ...mapState({
+      answersList: state => state.exam.answersList
+    })
+  },
 
   created() {
+    // 我的题库
+    this.$store.dispatch('EXAM_ANSWERS_PAGE', {
+      "commentType":"0",
+      "referId":"1",
+      "index":"0",
+      "indexId":"7"
+    })
+
     this.getPath()
   },
   methods: {

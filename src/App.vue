@@ -3,23 +3,24 @@
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
-    <dialogBox></dialogBox>
   </div>
 </template>
 <script>
-
-import dialogBox from './components/Dialog.vue'
-
 export default {
   name: 'index',
-  methods: {
-    isLogin( status ) {
-      console.log('子组件', status);
+  mounted() {
+    let uInfo = sessionStorage.getItem('userinfo')
+    if(uInfo){
+      this.$store.commit('ACCOUNT_SET', {
+        target: 'isShowPop',
+        data: true
+      })
+    }else{
+      this.$router.push(`/`) 
       
     }
-  },
-  components: {
-    dialogBox,
+
+    console.log('33333', uInfo)
   }
 }
 </script>

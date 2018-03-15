@@ -1,7 +1,7 @@
 <template>
   <div class="topic-type">
-    <el-checkbox-group v-model="checkList">
-      <el-checkbox :label="list.title" v-for="list in topicType" :key="list.id"></el-checkbox>
+    <el-checkbox-group v-model="checkList" @click="topic(list.id)">
+      <el-checkbox v-for="list in topicType" :key="list.id" :checked="list.subjective" :label="list.id" >{{list.name}}</el-checkbox>
     </el-checkbox-group>
    {{ checkList }}
   </div>
@@ -22,6 +22,11 @@ export default {
       checkList: []
     }
   },
+  methods: {
+    topic(id) {
+      this.$emit('topicEvent', id)
+    }
+  }
 }
 </script>
 <style lang="less">
@@ -38,5 +43,4 @@ export default {
     line-height: 33px;
   }
 }
-
 </style>

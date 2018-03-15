@@ -25,10 +25,10 @@ const Trial = () => import('../views/Trial.vue') // 审题
 
 
 const Questions = () => import('../views/Questions/Index.vue') // 所有题库
-const Occupation = () => import('../views/Questions/Occupation.vue') // 职业
-const Economics = () => import('../views/Questions/Economics.vue') // 经济
-const Finance = () => import('../views/Questions/Finance.vue') // 金融
-const Certificate = () => import('../views/Questions/Certificate.vue') // 证书
+// const Occupation = () => import('../views/Questions/Occupation.vue') // 职业
+// const Economics = () => import('../views/Questions/Economics.vue') // 经济
+// const Finance = () => import('../views/Questions/Finance.vue') // 金融
+// const Certificate = () => import('../views/Questions/Certificate.vue') // 证书
 
 
 
@@ -56,21 +56,24 @@ export function createRouter () {
         }]
       },
       // 题库
-      { path: '/questions', component: Questions,
-        children: [{
-          path: '/',  name: 'occupation', component: Occupation
-        },{
-          path: ':id',  component: Occupation,
-        },{
-          path: 'occupation',  component: Occupation
-        },{
-          path: 'economics',  name: 'economics', component: Economics
-        },{
-          path: 'finance',  name: 'finance', component: Finance
-        },{
-          path: 'certificate',  name: 'certificate', component: Certificate
-        }]
-      },
+      { path: '/questions/:id', name: 'questions', component: Questions },
+      
+      // { path: '/questions/:id', component: Questions,
+      //   children: [{
+      //     path: '/',  name: 'occupation', component: Questions
+      //   },{
+      //     path: ':id',  component: Questions,
+      //   }]
+      //   // {
+      //   //   path: 'occupation',  component: Occupation
+      //   // },{
+      //   //   path: 'economics',  name: 'economics', component: Economics
+      //   // },{
+      //   //   path: 'finance',  name: 'finance', component: Finance
+      //   // },{
+      //   //   path: 'certificate',  name: 'certificate', component: Certificate
+      //   // }
+      // },
       
       // 考试题 
       { path: '/examination', name: 'examination', component: Examination },

@@ -104,8 +104,22 @@ export default {
     sliderNumber: []
 
   }),
-
+  computed: {
+    ...mapState({ 
+      unauditedList: state => state.question.unauditedList,
+      acountList: state => state.question.acountList
+    }),
+  },
   created() {
+    this.$store.dispatch('QUESTION_UNAUDITED_SET', {
+        fieldId: 1,
+        questionTypeId: 1
+      }),
+    this.$store.dispatch('QUESTION_ACOUNT_SET', {
+        fieldId: 1
+      }),
+      
+
     this.getPath()
   },
   methods: {

@@ -2,18 +2,20 @@
   <div class="my-error-page">
     <header-nav></header-nav>
     <div class="my-error-title">
-      <p class="wrapper">我的错题<span>未做错题: 478份</span></p>
+      <p class="wrapper">我的错题<span>未做错题: {{ myErrorList.length }}份</span></p>
     </div>
     <div class="my-error-list">
       <div class="wrapper">
+        
         <p class="title">错题列表:</p>
+       
         <el-row :gutter="20">
-          <el-col :span="6" v-for="item in errorList" :key="item.id" >
+          <el-col :span="6" v-for="item in myErrorList" :key="item.id" >
             <div class="grid-content bg-purple" @click="getDetails(item)">
               <span class="tag-style" :class="`tag_${sortNumber()}`"></span>
               <div class="grid-right">
-                <p>{{ item.title }}</p>
-                <p>错题: <span>{{ item.number }}</span> 题</p>
+                <p>{{ item.fieldName }}</p>
+                <p>错题: <span>{{ item.acount }}</span> 题</p>
               </div>
             </div>
           </el-col>
@@ -34,67 +36,20 @@ export default {
   name: "myerror",
   data() {
     return {
-      errorList: [{
-        id: 1,
-        title: '宏观经济学',
-        number: 35,
-      },{
-        id: 2,
-        title: '宏观经济学2',
-        number: 35,
-      },{
-        id: 3,
-        title: '宏观经济学3',
-        number: 25,
-      },{
-        id: 4,
-        title: '宏观经济学4',
-        number: 335,
-      },{
-        id: 5,
-        title: '宏观经济学5',
-        number: 35,
-      },{
-        id: 6,
-        title: '宏观经济学6',
-        number: 354,
-      },{
-        id: 7,
-        title: '宏观经济学7',
-        number: 35,
-      },{
-        id: 1,
-        title: '宏观经济学',
-        number: 35,
-      },{
-        id: 2,
-        title: '宏观经济学2',
-        number: 35,
-      },{
-        id: 3,
-        title: '宏观经济学3',
-        number: 25,
-      },{
-        id: 4,
-        title: '宏观经济学4',
-        number: 335,
-      },{
-        id: 5,
-        title: '宏观经济学5',
-        number: 35,
-      },{
-        id: 6,
-        title: '宏观经济学6',
-        number: 354,
-      },{
-        id: 7,
-        title: '宏观经济学7',
-        number: 35,
-      }],
+   
     };
   },
+  computed: {
+    ...mapState({
+      myErrorList: state => state.myErrorList,
+      
+    })
+  },
   created() {
-  
+    this.$store.dispatch("EXAM_ERROR_STATISTICAL", {
+      questionsId: 1
+    })
+    
   },
   methods: {
     sortNumber() {
@@ -102,6 +57,8 @@ export default {
     },
     getDetails(item) {
       console.log(item.id);
+
+      // {"commentType":"0","referId":"1","index":"0","indexId":"7"}
       this.$router.push(`/examiner/${encodeURIComponent(item.id)}`) 
     }
   },

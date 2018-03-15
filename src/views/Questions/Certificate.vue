@@ -15,7 +15,7 @@
 </template>
 <script>
 
-import itemList from '../../components/Item.vue'
+import itemList from '../../components/curriculumItemItem.vue'
 import topic from '../../components/topicType.vue'
 
 export default {

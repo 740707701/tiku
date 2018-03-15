@@ -8,7 +8,7 @@ import * as filters from './util/filters'
 
 
 
-import { Tabs, TabPane, Select, Table, TableColumn, Button, Option, Checkbox, Row, Col, Dialog, CheckboxGroup,Dropdown, DropdownMenu, Progress, Slider, Cascader, Collapse, CollapseItem } from 'element-ui'
+import { Tabs, TabPane, Select, Table, TableColumn, Button, Option, Checkbox, Row, Col, Dialog, CheckboxGroup,Dropdown, DropdownMenu, Progress, Slider, Cascader, Collapse, CollapseItem, Message } from 'element-ui'
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Select)
@@ -28,10 +28,11 @@ Vue.use(Slider)
 Vue.use(Cascader)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
+Vue.prototype.$message = Message
 
 
 
-
+import './assets/iconfont/iconfont.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'normalize.css'
 

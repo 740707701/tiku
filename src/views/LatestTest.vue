@@ -3,10 +3,10 @@
     <div class="test-select">考试选择：
       <el-select v-model="value" placeholder="请选择">
         <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
+          v-for="item in curriculumList"
+          :key="item.questionsId"
+          :label="item.fieldName"
+          :value="item.fieldId">
         </el-option>
       </el-select>
     </div>
@@ -52,6 +52,7 @@
 
 </template>
  <script>
+ import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -91,7 +92,7 @@ export default {
             date: '1.50分',
             
           }],
-          options: [{
+        options: [{
           value: '选项1',
           label: '黄金糕'
         }, {
@@ -109,6 +110,22 @@ export default {
         }],
       value: ""
     };
+  },
+  computed: {
+    ...mapState({ 
+      yesList: state => state.exam.yesList,
+      curriculumList: state => state.curriculumList
+    }),
+  },
+  created() {
+    // 下拉框
+    this.$store.dispatch('CURRICULUM_LIST_FETCH', {
+      questionsId: 1
+    }),
+    // 最新考试
+    this.$store.dispatch('EXAM_YES_LIST', {
+      fieldId: 1
+    })
   },
   methods: {
     deleteRow(index, rows) {

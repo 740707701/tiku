@@ -7,7 +7,8 @@ const ACCOUNT_FORGET = 'ACCOUNT_FORGET'
 
 export default {
   state: {
-    userInfo: {}
+    userInfo: {},
+    isShowPop: false
   },
   mutations: {
     [ACCOUNT_SET](state, data){
@@ -16,12 +17,22 @@ export default {
   },
   actions: {
     [ACCOUNT_LOGIN]({commit}, params){
-      return api.post('/j_spring_security_check', params).then(res => {
+      return api.post('/login', params).then(res => {
         commit('ACCOUNT_SET', {
           target: 'userInfo',
           data: res.data
         })
-      }) 
+        return res
+      })
+    },
+    [ACCOUNT_LOGOUT]({commit}, params){
+      return api.post('/logout', params).then(res => {
+        commit('ACCOUNT_SET', {
+          target: 'userInfo',
+          data: {}
+        })
+        return res
+      })
     }
   }
 }

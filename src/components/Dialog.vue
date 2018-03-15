@@ -15,15 +15,15 @@
       <div class="sign-right">
         <div class="user-login">
           <p>欢迎登录</p>
-          <div class="form-box"><i class="icon-user"></i><input type="text" placeholder="请输入学号"></div>
-          <div class="form-box"><i class="icon-lock"></i><input type="text" placeholder="请输入密码"></div>
+          <div class="form-box"><i class="icon-user"></i><input type="text" placeholder="请输入学号" v-model="username"></div>
+          <div class="form-box"><i class="icon-lock"></i><input type="password" placeholder="请输入密码" v-model="password"></div>
           <el-checkbox v-model="checked" true>记住密码</el-checkbox><span class="reset-pwd">修改密码</span>
-          <a href="#" class="sign-button">登录</a>
+          <a href="#" class="sign-button" @click="login">登录</a>
         </div>
         <div class="user-reset-pwd" style="display: none">
           <p>修改密码</p>
-          <div class="form-box"><i class="icon-lock"></i><input type="text" placeholder="请输入初始密码"></div>
-          <div class="form-box"><i class="icon-lock"></i><input type="text" placeholder="请输入新密码"></div>
+          <div class="form-box"><i class="icon-lock"></i><input type="password" placeholder="请输入初始密码"></div>
+          <div class="form-box"><i class="icon-lock"></i><input type="password" placeholder="请输入新密码"></div>
           <a href="#" class="sign-button">提交</a>
         </div>
       </div>
@@ -246,13 +246,17 @@ export default {
   name: 'dialog',
   data() {
     return {
-      isShowLogin: false,
       checked: true,
+      username: '',
+      password: '',
+      
     } 
   },
   computed: {
     ...mapState({
-      isLogin: state => state.isLogin
+      isLogin: state => state.isLogin,
+      userInfo: state => state.account.userInfo,
+      isShowPop: state => state.account.isShowPop
     })
   },
   created() {
@@ -263,6 +267,39 @@ export default {
     // })
   },
   methods: {
+    login(){
+
+      this.$store.dispatch('ACCOUNT_LOGIN', {
+         username: this.username , 
+         password: this.password
+      }).then( res =>{
+        console.log('----',res)
+        if( res.success ){
+          sessionStorage.setItem('userinfo', this.username)
+          this.$message({
+            message: '恭喜你，登录成功！',
+            type: 'success'
+          });
+          this.$store.commit('INDEX_SET', {
+            target: 'isLogin',
+            data: false
+          })
+          this.$store.commit('ACCOUNT_SET', {
+            target: 'isShowPop',
+            data: true
+          })
+        }else{
+          this.$message({
+            message: res.message ,
+            type: 'error'
+          });
+        }
+
+        // 
+        // sessionStorage.removeItem('userinfo');
+
+      })
+    },
     closeLogin(){
       this.$store.commit('INDEX_SET', {
         target: 'isLogin',
