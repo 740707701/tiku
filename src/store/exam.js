@@ -7,6 +7,11 @@ const EXAM_YES_LIST = 'EXAM_YES_LIST' // 按照课程查出已考试清单
 const EXAM_NO_LIST = 'EXAM_NO_LIST' // 按照课程未参加考试清单
 const EXAM_PAGE = 'EXAM_PAGE' // 按照课程未参加考试清单
 const EXAM_ANSWERS_PAGE = 'EXAM_ANSWERS_PAGE' // 建议答案
+const SBUMIT_ANSWERS_PAGE = 'SBUMIT_ANSWERS_PAGE' // 评论添加
+
+
+// （）URL：subject/comment-submit  （post请求）
+// 参数：
 
 
 // subject/curriculum-list 
@@ -17,6 +22,7 @@ export default {
     noList: [],
     pageList: {},
     answersList: [],
+    commentList: [],
   },
   mutations: {
     [EXAM_SET](state, data){
@@ -57,6 +63,14 @@ export default {
         })
       }) 
     },
-    
+    [SBUMIT_ANSWERS_PAGE]({commit}, params){
+      return api.post('/subject/comment-submit', params).then(res => {
+        commit('EXAM_SET', {
+          target: 'commentList',
+          data: res.object
+        })
+        return res;
+      }) 
+    },
   }
 }

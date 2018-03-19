@@ -23,8 +23,9 @@
             <p class="title">题型：</p>
             <!-- <topic :topicType="typeList" :selectedData="checkList" @topicEvent="checkoutTopic"></topic> -->
             <div class="topic-type">
+              <!-- :checked="list.subjective" -->
               <el-checkbox-group v-model="checkList">
-                <el-checkbox v-for="list in typeList" :key="list.id" :checked="list.subjective" :label="list.id" >{{list.name}}</el-checkbox>
+                <el-checkbox v-for="list in typeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
               </el-checkbox-group>
             {{ checkList }}
             </div>
@@ -96,16 +97,19 @@ export default {
       console.log("init", path);
     },
     random() {
-      console.log(this.currData[0]);
-      console.log(this.chaptData);
-      console.log(this.checkList);
+      let fieldId = this.currData[0],
+          pointId = this.chaptData,
+      questionTypeId =     this.checkList;
+
+      
+
    this.$store.dispatch("QUESTION_RANDOM_SET", {
-      fieldId: this.currData[0],
-      pointId: this.chaptData,
-      questionTypeId: this.checkList
+      fieldId,
+      pointId,
+      questionTypeId
     }).then( res => {
       if(res.object){
-          console.log('=====', res.object)
+        this.$router.push(`/examiner/?fieldId=${encodeURIComponent(fieldId)}&pointId=${pointId}&questionTypeId=${questionTypeId}`) 
       }else{
         this.$message({
           message: res.messageInfo,
@@ -116,13 +120,17 @@ export default {
       // this.$router.push(`/examiner`)
     },
     intelligence() {
+      let fieldId = this.currData[0],
+      pointId = this.chaptData,
+      questionTypeId =     this.checkList;
+
       this.$store.dispatch("QUESTION_INTELLIGENT_SET", {
-        fieldId: this.currData[0],
-        pointId: this.chaptData,
-        questionTypeId: this.checkList
+        fieldId,
+        pointId,
+        questionTypeId
       }).then( res => {
         if(res.object){
-            console.log('=====', res.object)
+          this.$router.push(`/itemlist/?fieldId=${encodeURIComponent(fieldId)}&pointId=${pointId}&questionTypeId=${questionTypeId}`) 
         }else{
           this.$message({
             message: res.messageInfo,

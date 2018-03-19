@@ -134,6 +134,7 @@ export function createStore () {
             target: 'curriculumList',
             data: res.object
           })
+          return res.object
         })
       },
       [CHAPTER_LIST_FETCH]({commit}, params){

@@ -10,27 +10,33 @@
       <div class="wrapper">
         <p class="list-title">职业题库</p>
         <div class="menu-row">
-          <p class="info-list"><span>课程选择：</span> <span>简历</span></p>
-          <p class="info-list"><span>章节选择：</span> <span>宏观经济学慨述        职业规划      沟通</span></p>
-          <p class="info-list"><span>题库类型：</span> <span>单选题 多选题 案例题</span></p>
+          <p class="info-list">
+            <span>课程选择：</span><span v-for="(item, index) in curriculumList" :key="index" v-if="item.fieldId == fieldId">{{ item.fieldName}}</span>
+          </p>
+          <p class="info-list"><span>章节选择：</span><span v-for="(item, index) in chapterList" :key="index" v-if="item.pointId == fieldId">{{ item.pointName}}</span></p>
+          <p class="info-list"><span>题库类型：</span><span v-for="(item, index) in typeList" :key="index" v-if="item.id == fieldId">{{ item.name}}</span></p>
         </div>
-        <div class="more-button"> <span>更多选项<i class="triangle"></i></span> </div>
+        <div class="more-button"></div>
         <div class="topic-item">
           <div class="f-l topic-left">
             <p class="title bg-icon">选择题</p>
-            <div class="pd-left">
-              <div class="raido-list" v-for="(item, index) in dataList" :key="index">
-                <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
-                <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
-                <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-                <span class="answer-number">参考答案：D</span>
+            <div class="pd-left" v-if="randomItem[start]">
+              <div class="raido-list">
+                <input type="hidden" v-model="questionid">
+                <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index">
+                  <input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" v-model="radioNames[start]" @click="disabledItem(index)" :disabled="disabled">
+ <!--  -->
+                
+                <label :for="'radio'+(start+1)+'-'+index">{{ index }}、{{ num }}</label></p>
+                <span class="answer-number" v-if="radioNames[start]">参考答案：{{ radioNames[start] }}</span>
               </div>
-              <p class="answer-style other-answer">其他的答案: A</p>
-              <p class="answer-style">我的参考答案: 发生故障移动到应急车道内 斤启危险报警闪光灯 并且放置警告标志</p>
+              <p class="answer-style other-answer">其他的答案: {{ randomItem[start].answer }}</p>
+              <p class="answer-style">我的参考答案: {{ randomItem[start].analysis}}</p>
               <p class="reference-msg">我的参考答案</p>
               <div class="textarea-mn">
-                <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="content"></textarea>
-                <p class="t-right">限20字以内 <span>发表</span> </p>
+                <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsg"></textarea>
+                <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
               </div>
               <p class="reference-msg">建议答案</p>
               <div class="msg-list" v-for="(item, index) in answersList.comments" :key="index">
@@ -42,7 +48,7 @@
                 </div>
               </div>
             </div>
-            <div class="msg-button">
+            <div class="msg-button" @click="sliceItem">
               <span>提交</span>
             </div>
             
@@ -78,52 +84,80 @@ export default {
     radioNames: [],
     checkboxNames:[],
     letter: ['A','B','C','D','E','F','G','H'],
-    dataList:[{
-      name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-      sle:['正确', '错误', '对的', '不对']
-    }],
-    dataList2: [],
-    content: '',
-    msgList:[{
-      userName: '吻别',
-      msg: '发生故障移动到应急车道内 斤启危险报警闪光灯 并且放置警告标志',
-      time: '2018-02-01  12:20'
-    },{
-      userName: '期待明天',
-      msg: '这一刻 尽在无言中...',
-      time: '2018-02-02  12:20'        
-    },{
-      userName: '伤离别',
-      msg: '每天多爱你一天，无求甚么。。',
-      time: '2018-02-02  12:20'
-    },{
-      userName: '风雨无助',
-      msg: '发生故障移动到应急车道内 斤启危险报警闪光灯 并且放置警告标志',
-      time: '2018-02-02  12:20'
-    }],
+    contentMsg: '',
     sliderList:[{
       name: '难度',
-      value: 20,
+      value: 0,
     },{
       name: '专业性',
-      value: 80,
+      value: 0,
     },{
       name: '重要性',
-      value: 85,
+      value: 0,
     },{
       name: '知识相关性',
-      value: 65,
+      value: 0,
     }],
-    sliderNumber: []
-
+    sliderNumber: [],
+    randomItem: [],
+    start: 0,
+    fieldId: 1,
+    pointId: [],
+    questionTypeId: [],
+    curriculumList: [],
+    questionid: '', 
+    disabled: false,
   }),
   computed: {
     ...mapState({
-      answersList: state => state.exam.answersList
+      answersList: state => state.exam.answersList,
+      commentList: state => state.exam.commentList,
+      typeList: state => state.question.typeList,
+      // curriculumList: state => state.curriculumList,
+      chapterList: state => state.chapterList,
     })
   },
 
   created() {
+
+    this.$store.dispatch("QUESTION_TYPE_SET", {});
+
+    this.fieldId = this.$route.query.fieldId,
+    this.pointId = [this.$route.query.pointId],
+    this.questionTypeId = [this.$route.query.questionTypeId];
+
+    if(this.fieldId){
+
+      this.$store.dispatch("CURRICULUM_LIST_FETCH", {
+        questionsId: this.fieldId
+      }).then( res => {
+
+        
+        this.curriculumList = res
+      })
+      this.$store.dispatch("CHAPTER_LIST_FETCH", {
+        fieldId: this.fieldId
+      });
+
+      this.$store.dispatch("QUESTION_RANDOM_SET", {
+        fieldId: this.fieldId,
+        pointId: this.pointId,
+        questionTypeId: this.questionTypeId
+      }).then( res => {
+        if(res.object){
+          this.randomItem = res.object
+          this.questionid =  this.randomItem[this.start].questionId
+          this.randomItem.map((val, index, arr) =>{
+            return val.content = JSON.parse(val.content)
+          })
+        }else{
+        }
+      })
+    }else{
+      this.$router.push(`/`) 
+    }
+
+
     // 我的题库
     this.$store.dispatch('EXAM_ANSWERS_PAGE', {
       "commentType":"0",
@@ -135,32 +169,54 @@ export default {
     this.getPath()
   },
   methods: {
-    getPath() {
-      this.path = this.$route.path
-      let that = this;
+    disabledItem(id) {
+      if(id){
+        this.disabled = true;
+      }
 
-      // 异步数据
-      setTimeout(function(){
-        var a = [{
-          name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-          sle:['正确', '错误', '对的', '不对'],
-        },{
-          name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-          sle:['哈哈', '不对也', '很对', '错'],
-        }]
-        
-        a.map((v, i, arr) => {
-          return v.aaa = []
-        })
-        return that.dataList2 = a
-      },2000)
     },
-    pingfen(){
-     
+    sliceItem(){ 
+      this.start++
+      this.questionid =  this.randomItem[this.start].questionId
+      this.contentMsg = ''
+      this.radioNames[this.start] = ''
+      this.sliderList = this.sliderNumber.map((v, i) => {
+        return v.value = ''
+      })
+    },
+    submitComment(){ // 提交留言
       this.sliderNumber = this.sliderList.map((v, i) => {
         return v.value
       })
- console.log(this.sliderNumber);
+      this.$store.dispatch('SBUMIT_ANSWERS_PAGE', {
+          "referId": this.questionid, // 题目ID
+          "commentType":"0",
+          "indexId":"7",
+          "userId":"2",
+          "contentMsg": this.contentMsg, // 内容
+          "reId":"1",
+          "difficulty": this.sliderNumber[0], // 题目难度
+          "speciality": this.sliderNumber[1], // 题目专业度
+          "importance": this.sliderNumber[2], // 知识重要性
+          "knowledgeCorrelation": this.sliderNumber[3], // 知识相关性
+          "referenceAnswer": this.radioNames[this.start] // 参考答案
+        }).then( res => {
+          console.log(res)
+          if(res.result == "success"){
+            this.$message({
+              message: "发表成功！",
+              type: "success"
+            });
+          }
+      })
+    },    
+    getPath() {
+      this.path = this.$route.path
+      let that = this;
+    },
+    pingfen(){
+     
+
 
       
     },
@@ -235,6 +291,7 @@ export default {
     .more-button{
       text-align: center;
       position: relative;
+      margin-bottom: 40px;
       span{
         height: 60px;
         line-height: 60px;
