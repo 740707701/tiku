@@ -123,6 +123,8 @@ export default {
           this.$router.push(`/exam/latest`) 
         }else if(id ==2){
           this.$router.push(`/myerror`) 
+        }else if(id == 3 && id == 4){
+          this.showExaminer = true
         }else{
           this.showTiku = true
         }

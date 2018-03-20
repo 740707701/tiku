@@ -17,7 +17,7 @@ const MyTest = () => import('../views/MyTest.vue')  // 我的考试
 const MyError = () => import('../views/MyError.vue') // 我的错题
 const Judge = () => import('../views/Judge.vue') // 当判官
 const Examiner = () => import('../views/Examiner.vue') // 当考官
-const itemList = () => import('../views/itemList.vue') // 智能题库
+const ItemList = () => import('../views/ItemList.vue') // 智能题库
 const Examination = () => import('../views/Examination.vue') // 考试题目
 const Trial = () => import('../views/Trial.vue') // 审题
 
@@ -83,9 +83,9 @@ export function createRouter () {
           path: ':fieldId/:pointId/:questionTypeId', name: 'examiner', component: Examiner
         }] 
       },
-      { path: '/itemlist', component: itemList,
+      { path: '/itemlist', component: ItemList,
         children: [{
-          path: ':fieldId/:pointId/:questionTypeId', name: 'itemlist', component: itemList
+          path: ':fieldId/:pointId/:questionTypeId', name: 'itemlist', component: ItemList
         }] 
       },
       
