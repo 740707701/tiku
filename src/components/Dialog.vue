@@ -268,14 +268,18 @@ export default {
   },
   methods: {
     login(){
-
+ console.log(1)
       this.$store.dispatch('ACCOUNT_LOGIN', {
          username: this.username , 
          password: this.password
       }).then( res =>{
-        console.log('----',res)
+
         if( res.success ){
-          sessionStorage.setItem('userinfo', this.username)
+
+          console.log(1)
+          sessionStorage.setItem('username', this.username)
+          sessionStorage.setItem('password', this.password)
+          
           this.$message({
             message: '恭喜你，登录成功！',
             type: 'success'

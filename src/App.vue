@@ -8,19 +8,49 @@
 <script>
 export default {
   name: 'index',
+
+
+  created() {
+    // this.checkLogin();
+
+
+
+  },
   mounted() {
-    let uInfo = sessionStorage.getItem('userinfo')
-    if(uInfo){
+    let username = sessionStorage.getItem('username')
+    let password = sessionStorage.getItem('password')
+    if(username){
       this.$store.commit('ACCOUNT_SET', {
         target: 'isShowPop',
         data: true
       })
+
+      this.$store
+        .dispatch("ACCOUNT_LOGIN", {
+          username,
+          password
+        })
+        .then(res => {
+          if (res.success) {
+            this.$store.commit("INDEX_SET", {
+              target: "isLogin",
+              data: false
+            });
+            // console.log('登录成功！')
+          } else {
+            this.$message({
+              message: res.message,
+              type: "error"
+            });
+          }
+        });
     }else{
       this.$router.push(`/`) 
-      
     }
 
-    console.log('33333', uInfo)
+
+
+
   }
 }
 </script>

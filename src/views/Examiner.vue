@@ -183,6 +183,7 @@ export default {
       this.sliderList = this.sliderNumber.map((v, i) => {
         return v.value = ''
       })
+      this.disabled = false;
     },
     submitComment(){ // 提交留言
       this.sliderNumber = this.sliderList.map((v, i) => {

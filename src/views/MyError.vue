@@ -56,10 +56,13 @@ export default {
       return Math.floor(Math.random() * 7 + 1 )
     },
     getDetails(item) {
-      console.log(item.id);
+      console.log(item.fieldId);
+      // http://localhost:8082/examiner/?fieldId=1&pointId=1&questionTypeId=1
 
+      this.$router.push(`/examiner/?fieldId=${encodeURIComponent(item.fieldId)}&pointId=1&questionTypeId=${encodeURIComponent(item.questionTypeId)}`) 
+      
       // {"commentType":"0","referId":"1","index":"0","indexId":"7"}
-      this.$router.push(`/examiner/${encodeURIComponent(item.id)}`) 
+      // this.$router.push(`/examiner/${encodeURIComponent(item.fieldId)}`) 
     }
   },
   components: {

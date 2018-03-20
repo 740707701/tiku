@@ -23,6 +23,7 @@ const Trial = () => import('../views/Trial.vue') // 审题
 
 
 
+const Question = () => import('../views/Question.vue') // 考官出题
 
 
 const Questions = () => import('../views/Questions/Index.vue') // 所有题库
@@ -58,32 +59,20 @@ export function createRouter () {
       },
       // 题库
       { path: '/questions/:id', name: 'questions', component: Questions },
-      
-      // { path: '/questions/:id', component: Questions,
-      //   children: [{
-      //     path: '/',  name: 'occupation', component: Questions
-      //   },{
-      //     path: ':id',  component: Questions,
-      //   }]
-      //   // {
-      //   //   path: 'occupation',  component: Occupation
-      //   // },{
-      //   //   path: 'economics',  name: 'economics', component: Economics
-      //   // },{
-      //   //   path: 'finance',  name: 'finance', component: Finance
-      //   // },{
-      //   //   path: 'certificate',  name: 'certificate', component: Certificate
-      //   // }
-      // },
+      { path: '/question/:id', name: 'question', component: Question },
       
       // 考试题 
-      { path: '/examination', name: 'examination', component: Examination },
+      { path: '/examination', component: Examination ,
+        children: [{
+          path: ':examId', name: 'examination', component: Examination,
+        }]
+      },
       // 审题
       { path: '/trial', component: Trial,
         children: [{
           path: ':id', name: 'trial', component: Trial,
         }]
-    },
+      },
       
       
       

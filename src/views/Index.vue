@@ -94,29 +94,6 @@ export default {
   },
   mounted() {
     // let data = "j_username=student&j_password=123456";
-    // this.$http({
-    //   headers: {
-    //     'Access-Control-Allow-Origin': '*',
-    //     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",  
-    //     'Accept': 'application/json' 
-    //   },
-    //   method: "GET",
-    //   url: "http://139.196.104.246:8080/Portal/j_spring_security_check",
-    //   dataType: "jsonp",
-    //   // proxy: {
-    //   //   host: '139.196.104.246',
-    //   //   port: 8080
-    //   // },
-    //   data: {
-    //     j_username: 'student',
-    //     j_password: 123456
-    //   },
-      
-    // }).then( (res) =>{
-    //   console.log(res)
-    // }).catch( (err) => {
-    //   console.log(err)
-    // })
   },
   created() {
     // 我的题库
@@ -134,8 +111,9 @@ export default {
     },
     changLogin(id) {
       console.log('---', id )
-      let uInfo = sessionStorage.getItem('userinfo')
-      if(uInfo){
+      let username = sessionStorage.getItem('username')
+
+      if(username){
         this.$store.commit('ACCOUNT_SET', {
           target: 'isShowPop',
           data: true
@@ -155,32 +133,6 @@ export default {
           data: true
         })
       }
-
-
-      // if( userInfo ){
-      //   this.$store.commit('INDEX_SET', {
-      //     target: 'isLogin',
-      //     data: false
-      //   })
-
-      //   if(id == 2){
-      //     this.showExaminer = true
-      //   }else{
-      //     this.showTiku = true
-      //   }
-       
-      //   // this.showExaminer = true
-
-
-      // }else{
-        
-      //   this.$store.commit('INDEX_SET', {
-      //     target: 'isLogin',
-      //     data: true
-      //   })
-      // }
-      
-
     },
     handleClose(done) {
       this.$confirm('确认关闭？')

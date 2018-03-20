@@ -86,30 +86,36 @@ export default {
     };
   },
   created() {
+     this.init()
     this.getPath()
   },
   methods: {
+    init(){
+      let examId = this.$route.params.examId;
+      console.log(examId)
+        // 最新考试我的测试题
+      this.$store.dispatch('EXAM_CONTENT', {
+          examId
+      })
+    },
     getPath() {
       this.path = this.$route.path
-      let that = this;
-
-
 
       // 异步数据
-      setTimeout(function(){
-        var a = [{
-          name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-          sle:['正确', '错误', '对的', '不对'],
-        },{
-          name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-          sle:['哈哈', '不对也', '很对', '错'],
-        }]
+      // setTimeout(function(){
+      //   var a = [{
+      //     name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
+      //     sle:['正确', '错误', '对的', '不对'],
+      //   },{
+      //     name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
+      //     sle:['哈哈', '不对也', '很对', '错'],
+      //   }]
         
-        a.map((v, i, arr) => {
-          return v.aaa = []
-        })
-        return that.dataList2 = a
-      },2000)
+      //   a.map((v, i, arr) => {
+      //     return v.aaa = []
+      //   })
+      //   return that.dataList2 = a
+      // },2000)
     },
     handleClick(tab, event) {
       console.log(tab, event);

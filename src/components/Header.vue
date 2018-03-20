@@ -99,9 +99,7 @@ export default {
           password: this.password
         })
         .then(res => {
-          console.log("----", res);
           if (res.success) {
-            sessionStorage.setItem("userinfo", this.username);
             this.$message({
               message: "恭喜你，登录成功！",
               type: "success"
@@ -114,6 +112,8 @@ export default {
               target: "isShowPop",
               data: true
             });
+            sessionStorage.setItem('username', this.username)
+            sessionStorage.setItem('password', this.password)
           } else {
             this.$message({
               message: res.message,
@@ -150,7 +150,8 @@ export default {
             message: "成功退出！",
             type: "success"
           });
-          sessionStorage.removeItem("userinfo");
+          sessionStorage.removeItem('username')
+          sessionStorage.removeItem('password')
         } else {
           this.$message({
             message: res.message,

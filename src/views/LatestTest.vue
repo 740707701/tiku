@@ -11,7 +11,7 @@
       </el-select>
     </div>
     <el-table
-      :data="tableData"
+      :data="yesList"
       style="width: 100%"
       :row-class-name="tableRowClassName">
       <el-table-column
@@ -19,32 +19,52 @@
         label="名称"
         width="224">
         <template slot-scope="scope">
-          <span class="icon-list">{{ scope.row.name }}</span>
+          <span class="icon-list">{{ scope.row.examName }}</span> 
+          <!-- creatorId  是创建人  creator 是创建人id totalpoint 是总时长 examName 是考试名称
+examId  是考试id   efftime  是开始时间   exptime  是结束时间 exametype是考试类型 -->
         </template>
       </el-table-column>
+
       <el-table-column
-        prop="founder"
+        prop="creatorId"
         label="创建人"
         width="237">
       </el-table-column>
       <el-table-column
-        prop="startTime"
+        prop="effTime"
         label="开始时间"
         width="252">
       </el-table-column>
       <el-table-column
-        prop="endTime"
+        prop="expTime"
         label="结束时间"
         width="252">
       </el-table-column>
       <el-table-column
-        prop="date"
+        prop="totalpoint"
         label="时长"
         width="160">
       </el-table-column>
+      
+      <!-- <el-table-column
+        prop="creatorId"
+        label="创建人"
+        width="237">
+      </el-table-column>
+      <el-table-column
+        prop="efftime"
+        label="开始时间"
+        width="252">
+      </el-table-column>
+      <el-table-column
+        prop="exptime"
+        label="结束时间"
+        width="252">
+      </el-table-column> -->
+  
       <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button type="primary" size="mini"  @click.native.prevent="deleteRow(scope.$index)">参加考试</el-button>
+        <template slot-scope="scope" prop=examId>
+          <el-button type="primary" size="mini"  @click.native.prevent="deleteRow(scope.row)">参加考试</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -56,42 +76,42 @@
 export default {
   data() {
     return {
-       tableData: [{
-            name: '概述试卷测试题',
-            founder: 'admin',
-            startTime: '2018-02-02 15:47',
-            endTime: '2018-02-08 15:47',
-            date: '1.50分',
+      //  tableData: [{
+      //       name: '概述试卷测试题',
+      //       founder: 'admin',
+      //       startTime: '2018-02-02 15:47',
+      //       endTime: '2018-02-08 15:47',
+      //       date: '1.50分',
             
-          },{
-            name: '宏观经济学概述试卷测试题',
-            founder: 'admin',
-            startTime: '2018-02-02 15:47',
-            endTime: '2018-02-08 15:47',
-            date: '1.50分',
+      //     },{
+      //       name: '宏观经济学概述试卷测试题',
+      //       founder: 'admin',
+      //       startTime: '2018-02-02 15:47',
+      //       endTime: '2018-02-08 15:47',
+      //       date: '1.50分',
             
-          },{
-            name: '宏观经济学概述试卷测试题',
-            founder: 'admin',
-            startTime: '2018-02-02 15:47',
-            endTime: '2018-02-08 15:47',
-            date: '1.50分',
+      //     },{
+      //       name: '宏观经济学概述试卷测试题',
+      //       founder: 'admin',
+      //       startTime: '2018-02-02 15:47',
+      //       endTime: '2018-02-08 15:47',
+      //       date: '1.50分',
             
-          },{
-            name: '宏观经济学概述试卷测试题',
-            founder: 'admin',
-            startTime: '2018-02-02 15:47',
-            endTime: '2018-02-08 15:47',
-            date: '1.50分',
+      //     },{
+      //       name: '宏观经济学概述试卷测试题',
+      //       founder: 'admin',
+      //       startTime: '2018-02-02 15:47',
+      //       endTime: '2018-02-08 15:47',
+      //       date: '1.50分',
             
-          },{
-            name: '概述试卷测试题',
-            founder: 'admin',
-            startTime: '2018-02-02 15:47',
-            endTime: '2018-02-08 15:47',
-            date: '1.50分',
+      //     },{
+      //       name: '概述试卷测试题',
+      //       founder: 'admin',
+      //       startTime: '2018-02-02 15:47',
+      //       endTime: '2018-02-08 15:47',
+      //       date: '1.50分',
             
-          }],
+      //     }],
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -125,11 +145,18 @@ export default {
     // 最新考试
     this.$store.dispatch('EXAM_YES_LIST', {
       fieldId: 1
+    }).then( res => {
+      let mapData = res.object.map((v, i) => {
+        return v.expTime = new Date(v.expTime).toISOString().replace('T', ' ').slice(0, -8)
+      })
+      this.tableData = res.object.map((v, i) => {
+        return v.effTime = new Date(v.effTime).toISOString().replace('T', ' ').slice(0, -8)
+      })
     })
   },
   methods: {
     deleteRow(index, rows) {
-      console.log(index);
+      this.$router.push(`/Examination/${encodeURIComponent(index.examId)}`) 
     },
     tableRowClassName({row, rowIndex}) {
       if (rowIndex % 2) {

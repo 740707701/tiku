@@ -9,8 +9,8 @@
     <div class="exam-list">
       <div class="wrapper">
         <ul class="exam-tabs border-bottom-color">
-          <li><router-link to="/exam/latest" :class="{'active': isNav(/latest/) || path == '/exam/' ||  path == '/exam' }" >最新考试</router-link></li>
-          <li><router-link to="/exam/mytest" :class="{'active': isNav(/mytest/) }">我的考试</router-link></li>
+          <li><router-link to="/exam/latest" :class="{'active': isNav(/latest/) || path == '/exam/' ||  path == '/exam' }" >我的考试</router-link></li>
+          <li><router-link to="/exam/mytest" :class="{'active': isNav(/mytest/) }">考试记录</router-link></li>
         </ul>
         <router-view></router-view>
       </div>
