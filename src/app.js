@@ -30,9 +30,7 @@ Vue.use(Collapse)
 Vue.use(CollapseItem)
 Vue.prototype.$message = Message
 
-
-
-import './assets/iconfont/iconfont.css'
+import './assets/icomoon/style.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'normalize.css'
 

@@ -13,19 +13,20 @@
     <div class="item-list">
       <div class="wrapper">
         <div class="list-box list-small">
-          <a @click="changLogin(0)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的题库</p></a>
+          <a @click="changLogin(0)" href="javascript:;">
+            <span class="icon-style icon-icon-tk"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span></span><p>我的题库</p></a>
         </div>
         <div class="list-box list-small list-margin">
-          <a @click="changLogin(1)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的考试</p></a>
+          <a @click="changLogin(1)" href="javascript:;"><span class="icon-style icon-icon-ks"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span><span class="path12"></span></span><p>我的考试</p></a>
         </div>
         <div class="list-box list-small">
-          <a @click="changLogin(2)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我的错题</p></a>
+          <a @click="changLogin(2)" href="javascript:;"><span class="icon-style icon-icon-ct"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span><span class="path12"></span><span class="path13"></span><span class="path14"></span><span class="path15"></span><span class="path16"></span></span><p>我的错题</p></a>
         </div>
         <div class="list-box list-middle list-margin-right">
-          <a @click="changLogin(3)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我要当考官</p></a>
+          <a @click="changLogin(3)" href="javascript:;"><span class="icon-style icon-icon-dkg"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span></span><p>我要当考官</p></a>
         </div>
         <div class="list-box list-middle">
-          <a @click="changLogin(4)" href="javascript:;"><img src="../assets/images/icon-book.png" alt=""><p>我要当判官</p></a>
+          <a @click="changLogin(4)" href="javascript:;"><span class="icon-style icon-icon-dpg"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span></span><p>我要当判官</p></a>
           <!-- judge -->
         </div>
       </div>
@@ -83,7 +84,7 @@
 </template>
 
 <script>
-import headerNav from '../components/Header.vue'
+import headerNav from '../components/Header.vue';
 import { mapState } from "vuex";
 
 export default {
@@ -162,6 +163,7 @@ export default {
 </script>
 <style lang="less">
 @import "../assets/css/style.less";
+// @import '../assets/iconfont/iconfont.css';
 .index-page {
   header{
     padding-top: 48px;
@@ -208,12 +210,17 @@ export default {
       letter-spacing: 0;
       display: inline-block;
       height: 250px;
+      padding-top: 50px;
       background-color: #fff;
       box-shadow: 0 0 40px 20px rgba(102,0,255,.04);
       border-radius: 14px;
       margin-bottom: 50px;
       border: 1px solid #ccc;
       box-sizing: border-box;
+      .icon-style {
+        font-size: 100px;
+      }
+
       &.list-small{
         width: 406px;
       }
@@ -235,6 +242,7 @@ export default {
           margin-top: 56px;
         }
         p{
+          margin-top: 6px;
           font-size: 20px;
           color: #2c285f;
         }

@@ -36,63 +36,109 @@
             </div>
           </div>
           <div class="box-line main-right">
-  
-            <!-- 1 单选
-            2 多选
-            3 判断
-            4 填空 
-            5 解答
-            6 论述
-            7 分析 -->
+            <div class="main-right-wrap">
+              <!-- 1 单选
+              2 多选
+              3 判断
+              4 填空
+              5 解答
+              6 论述
+              7 分析 -->
+                        <div class="main-right-item" v-for="(id, idIndex) in questionTypeId" :key="idIndex">
+                          <div v-if="id === 1">
+                            <p class="line-title border-bottom">单选题</p>
+                            <div class="raido-list" v-for="( item, index) in radioNamesContent" :key="idIndex+'-'+index">
+                              <div class="raido-title">{{ index+1 }}、{{ item.content.title }}</div>
+                              <p v-for="(num, i) in item.content.choiceList" :key="i">
 
-             <p class="line-title border-bottom">单选题</p>
-             
-            <div v-for="( item, index) in examContent.content" :key="index">
-             
-              <div  v-if="item.questionTypeId === 1">
-                
-                  <div class="raido-list">
-                    <div class="raido-title">{{ index+1 }}、{{ item.content.title }}</div>
-                    <p v-for="(num, i) in item.content.choiceList" :key="i">
+                                 <input type="radio" :id="'radio'+idIndex+'-'+(index+1)+'-'+i"  :value="i" v-model="radioNames[index]">
+                                 <label :for="'radio'+idIndex+'-'+(index+1)+'-'+i">{{ i }}、{{ num }}</label>
+                              </p>
+                            </div>
+                        </div>
+                        <div v-else-if="id === 2">
+                          <p class="line-title border-bottom">多选题</p>
+                          <div class="raido-list" v-for="( item, index) in checkboxNamesContent" :key="idIndex+'-'+index">
+                            <div class="raido-title">{{ index+1 }}、{{ item.content.title }}</div>
+                            <p v-for="(num, i) in item.content.choiceList" :key="i">
 
-                       <input type="radio" :id="'radio'+(index+1)+'-'+i"  :value="index" v-model="radioNames[index]">
-                       <label :for="'radio'+(index+1)+'-'+i">{{ i }}、{{ num }}</label>
+                               <input type="checkbox" :id="'checkbox'+idIndex+'-'+(index+1)+'-'+i"  :value="i" v-model="checkboxNames[index]">
+                               <label :for="'checkbox'+idIndex+'-'+(index+1)+'-'+i">{{ i }}、{{ num }}</label>
+                            </p>
+                          </div>
+                      </div>
+                      <div v-else-if="id === 3">
+                        <p class="line-title border-bottom">判断题</p>
+                        <div class="raido-list" v-for="( item, index) in judgeNamesContent" :key="idIndex+'-'+index">
+                          <div class="raido-title">{{ index+1 }}、{{ item.content.title }}</div>
 
-                      <!-- <input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
-                      <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label> -->
-                    </p>
-                   ---  {{ radioNames }}
+                          <p>
+                             <input type="radio" :id="'radio'+idIndex+'-'+(index+1)+'-T'" value="T" v-model="judgeNames[index]">
+                             <label :for="'radio'+idIndex+'-'+(index+1)+'-T'">A、正确</label>
+                          </p>
+                          <p>
+                             <input type="radio" :id="'radio'+idIndex+'-'+(index+1)+'-F'" value="F" v-model="judgeNames[index]">
+                             <label :for="'radio'+idIndex+'-'+(index+1)+'-F'">B、错误</label>
+                          </p>
+                        </div>
+                    </div>
+                    <div v-else-if="id === 5">
+                      <p class="line-title border-bottom">解答题</p>
+                      <div class="raido-list" v-for="( item, index) in answerNamesContent" :key="idIndex+'-'+index">
+                        <div class="raido-title">{{ index+1 }}、{{ item.content.title }}</div>
+
+                        <div class="textarea-mn">
+                          <textarea cols="30" rows="10" placeholder="答：" v-model.trim="answerNames[index]"></textarea>
+                        </div>
+                      </div>
                   </div>
+                    <div v-else-if="id === 6">
+                      <p class="line-title border-bottom">论述题</p>
+                      <div class="raido-list" v-for="( item, index) in discussNamesContent" :key="idIndex+'-'+index">
+                        <div class="raido-title">{{ index+1 }}、{{ item.content.title }}</div>
+                        <div class="textarea-mn">
+                          <textarea cols="30" rows="10" placeholder="答：" v-model.trim="discussNames[index]"></textarea>
+                        </div>
+                      </div>
+                  </div>
+                  <div v-else-if="id === 7">
+                    <p class="line-title border-bottom">分析题</p>
+                    <div class="raido-list" v-for="( item, index) in analysisNamesContent" :key="idIndex+'-'+index">
+                      <div class="raido-title">{{ index+1 }}、{{ item.content.title }}</div>
+
+                      <div class="textarea-mn">
+                        <textarea cols="30" rows="10" placeholder="答：" v-model.trim="analysisNames[index]"></textarea>
+                      </div>
+                    </div>
+                </div>
+
               </div>
-              <!-- <div class="raido-list" v-for="(item, index) in dataList" :key="index">
-                <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
-                <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
-                <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-              </div> -->
-
-              <!-- {{ radioNames }} -->
-              <!-- <p class="line-title border-bottom" v-if="item.questionTypeId === 2">多选题</p> -->
-              <!-- <div class="raido-list" v-for="(item, index) in dataList2" :key="index">
-                <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
-                <p v-for="(num, i) in item.sle" :key="i"><input type="checkbox" :id="'check'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="item.aaa">
-                <label :for="'check'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-              </div> -->
-              <!-- {{ dataList2 }} -->
-
-              <!-- <p class="line-title border-bottom" v-if="item.questionTypeId === 3">判断题</p> -->
-             
             </div>
+            <p class="main-right-btn">
+              <span @click="examSubmit">提交</span>
+              <!-- <span @click="centerDialogVisible = true">提交</span> -->
+            </p>
           </div>
         </div>
       </div>
     </div>
 
+<!-- <el-dialog
+  title="提示"
+  :visible.sync="centerDialogVisible"
+  width="30%"
+  center>
+  <span>确定要提交试卷，提交后不能修改。</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+  </span>
+</el-dialog> -->
   </div>
 </template>
 
 <script>
-
-import headerNav from '../components/Header.vue'
+import headerNav from "../components/Header.vue";
 
 import { mapState } from "vuex";
 
@@ -102,179 +148,259 @@ export default {
     return {
       progressing: 0,
       radioNames: [],
-      checkboxNames:[],
-      letter: ['A','B','C','D','E','F','G','H'],
-      dataList:[{
-        name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-        sle:['正确', '错误', '对的', '不对']
-      },{
-        name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-        sle:['哈哈', '不对也', '很对', '错']
-      }],
-      dataList2: [],
+      checkboxNames: [],
+      judgeNames: [],
+      answerNames: [],
+      discussNames: [],
+      analysisNames: [],
+      examContent: [],
+      radioNamesContent: [],
+      checkboxNamesContent: [],
+      judgeNamesContent: [],
+      answerNamesContent: [],
+      discussNamesContent: [],
+      analysisNamesContent: [],
       examContent: [],
       contentLength: 0,
-      time: '',
+      time: "",
       flag: false,
-      format: '',
-      questionTypeId: []
+      format: "",
+      questionTypeId: [],
+      answerSheetItems: [],
+      centerDialogVisible: false
     };
   },
   computed: {
-    ...mapState({ 
-      storeExamContent: state => state.exam.storeExamContent,
-    }),
+    ...mapState({
+      storeExamContent: state => state.exam.storeExamContent
+    })
   },
-  mounted () {
-
-  },
+  mounted() {},
   created() {
-    this.init()
-    this.getPath()
+    this.init();
+    this.getPath();
   },
   methods: {
-    init(){
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+    init() {
       let examId = this.$route.params.examId;
       let examPaperId = this.$route.params.examPaperId;
-        // 最新考试我的测试题
-      this.$store.dispatch('EXAM_CONTENT', {
+      // 最新考试我的测试题
+      this.$store
+        .dispatch("EXAM_CONTENT", {
           examId,
           examPaperId
-      }).then( res => {
+        })
+        .then(res => {
+          // this.examContent = res.object
 
-        // this.examContent = res.object
-
-        for (var val in res.object) {
-          if(val == 'answer_sheet' || val == 'content'){
-            res.object[val] = JSON.parse(res.object[val])
-          }
-          if(val == 'startTime' || val == 'endTime'){
-            res.object[val] = res.object[val] - 8 * 60 * 60 * 1000;
-          }
-          
-          
-          
-
-        }
-        for(let key in res.object.content){
-          for(let keyio in res.object.content[key]){
-            if(keyio == 'questionTypeId'){
-              this.questionTypeId.push(res.object.content[key][keyio])
+          for (var val in res.object) {
+            if (val == "answer_sheet" || val == "content") {
+              res.object[val] = JSON.parse(res.object[val]);
             }
-            if(keyio == 'content'){
-              res.object.content[key][keyio] = JSON.parse(res.object.content[key][keyio])
+            if (val == "startTime" || val == "endTime") {
+              res.object[val] = res.object[val] - 8 * 60 * 60 * 1000;
             }
+          }
+          let answerArrStr = [
+            "radioNames",
+            "checkboxNames",
+            "judgeNames",
+            "answerNames",
+            "discussNames",
+            "analysisNames"
+          ];
+          for (let key in res.object.content) {
+            let obj = {};
+            for (let keyio in res.object.content[key]) {
+              if (keyio == "content") {
+                res.object.content[key][keyio] = JSON.parse(
+                  res.object.content[key][keyio]
+                );
+                obj["comment"] = res.object.content[key][keyio]["title"];
+              }
 
+              if (keyio == "questionTypeId") {
+                obj["questionTypeId"] = res.object.content[key][keyio];
+                this.questionTypeId.push(res.object.content[key][keyio]);
+                if (res.object.content[key][keyio] === 2) {
+                  this.checkboxNames.push([]);
+                } else {
+                  this[answerArrStr[res.object.content[key][keyio] - 1]].push(
+                    ""
+                  );
+                }
+                this[
+                  answerArrStr[res.object.content[key][keyio] - 1] + "Content"
+                ].push(res.object.content[key]);
+              }
+
+              if (keyio == "questionPoint") {
+                obj["point"] = res.object.content[key][keyio];
+                obj["answer"] = "";
+              }
+              if (keyio == "questionId") {
+                obj["questionId"] = res.object.content[key][keyio];
+              }
+            }
+            this.answerSheetItems.push(obj);
           }
-            
-          }
-        
-          this.questionTypeId = new Set(this.questionTypeId)
-  console.log( this.questionTypeId )
-        this.examContent = res.object
-        this.contentLength = this.examContent.content.length
-      })
-      this.totalLine()
+          this.questionTypeId = new Set(this.questionTypeId);
+          this.questionTypeId = [...this.questionTypeId];
+          this.examContent = res.object;
+          this.contentLength = this.examContent.content.length;
+        });
+      this.totalLine();
     },
-    totalLine(){
-      
-
-    let time = setInterval(()=>{
-        if(this.flag == true){
-            clearInterval(time)
+    totalLine() {
+      let time = setInterval(() => {
+        if (this.flag == true) {
+          clearInterval(time);
         }
 
-        let now = this.examContent.endTime - (+new Date()) // 剩余时间
-        if( now < 0){
-          this.flag = true
-          this.progressing = 100
-          return this.format = '00:00:00';
+        let now = this.examContent.endTime - +new Date(); // 剩余时间
+        if (now < 0) {
+          this.flag = true;
+          this.progressing = 100;
+          return (this.format = "00:00:00");
         }
-          let hour=Math.floor(( now/3600000)%24);  
-          let min=Math.floor((now/60000)%60);  
-          let sec=Math.floor((now/1000)%60); 
-          hour = hour < 10 ? "0" + hour : hour;  
-          min = min < 10 ? "0" + min : min;  
-          sec = sec < 10 ? "0" + sec : sec;  
-          let format = '';  
+        let hour = Math.floor((now / 3600000) % 24);
+        let min = Math.floor((now / 60000) % 60);
+        let sec = Math.floor((now / 1000) % 60);
+        hour = hour < 10 ? "0" + hour : hour;
+        min = min < 10 ? "0" + min : min;
+        sec = sec < 10 ? "0" + sec : sec;
+        let format = "";
 
-          if(hour > 0 ){  
-            format = `${hour}:${min}:${sec}`;   
-          }  
-          if(hour <= 0){  
-            format =`${min}:${sec}`;  
-          }  
-          this.format = format
-          this.progressing = parseInt((+new Date() - this.examContent.startTime) / (this.examContent.endTime - this.examContent.startTime) *100);
-    },1000)
-
-
+        if (hour > 0) {
+          format = `${hour}:${min}:${sec}`;
+        }
+        if (hour <= 0) {
+          format = `${min}:${sec}`;
+        }
+        this.format = format;
+        this.progressing = parseInt(
+          (+new Date() - this.examContent.startTime) /
+            (this.examContent.endTime - this.examContent.startTime) *
+            100
+        );
+      }, 1000);
     },
-    totalTime(){
-      let hours = new Date(this.examContent.endTime).getHours() - new Date(this.examContent.startTime ).getHours(),
-          miuntes = new Date(this.examContent.endTime).getMinutes() - new Date(this.examContent.startTime ).getMinutes();
-      if( miuntes < 0){
-        hours --;
-        miuntes = 60 + miuntes
+    totalTime() {
+      let hours =
+          new Date(this.examContent.endTime).getHours() -
+          new Date(this.examContent.startTime).getHours(),
+        miuntes =
+          new Date(this.examContent.endTime).getMinutes() -
+          new Date(this.examContent.startTime).getMinutes();
+      if (miuntes < 0) {
+        hours--;
+        miuntes = 60 + miuntes;
       }
-      if(hours <= 0){
-        return `${miuntes}分钟`
+      if (hours <= 0) {
+        return `${miuntes}分钟`;
       }
 
-      if( miuntes <= 0 ){
-        return `${hours}小时`
+      if (miuntes <= 0) {
+        return `${hours}小时`;
       }
 
-      
-      return `${hours}小时${miuntes}分钟`
+      return `${hours}小时${miuntes}分钟`;
       // this.examContent.startTime - this.examContent.endTime
     },
-    setDate(time){
+    setDate(time) {
       let hours = new Date(time).getHours(),
-          miuntes = new Date(time).getMinutes();
-      if(miuntes < 10){
-        miuntes = `0${miuntes}`
+        miuntes = new Date(time).getMinutes();
+      if (miuntes < 10) {
+        miuntes = `0${miuntes}`;
       }
-      return `${hours}:${miuntes}`
-
+      return `${hours}:${miuntes}`;
     },
-    setTime(time){
+    setTime(time) {
       let year = new Date(time).getFullYear(),
-          month = new Date(time).getMonth() + 1,
-          day = new Date(time).getDate();
-      return `${year}-${month}-${day}`
+        month = new Date(time).getMonth() + 1,
+        day = new Date(time).getDate();
+      return `${year}-${month}-${day}`;
     },
     getPath() {
-      this.path = this.$route.path
-      let that = this
-      // 异步数据
-      setTimeout(function(){
-        var a = [{
-          name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-          sle:['正确', '错误', '对的', '不对'],
-        },{
-          name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-          sle:['哈哈', '不对也', '很对', '错'],
-        }]
-        
-        a.map((v, i, arr) => {
-          return v.aaa = []
-        })
-        return that.dataList2 = a
-      },2000)
+      this.path = this.$route.path;
     },
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    isNav(reg){
-      if(Object.prototype.toString.call(reg) === '[object RegExp]'){
-        return reg.test(this.$router.currentRoute.path)
-      }else if(Object.prototype.toString.call(reg) === '[object String]'){
-        return new RegExp(reg).test(this.$router.currentRoute.path)
-      }else{
-        return false
+    isNav(reg) {
+      if (Object.prototype.toString.call(reg) === "[object RegExp]") {
+        return reg.test(this.$router.currentRoute.path);
+      } else if (Object.prototype.toString.call(reg) === "[object String]") {
+        return new RegExp(reg).test(this.$router.currentRoute.path);
+      } else {
+        return false;
       }
     },
+    examSubmit() {
+
+      this.$notify.success({
+          title: 'Info',
+          message: '这是一条没有关闭按钮的消息',
+          showClose: false
+        });
+        
+      let examId = this.$route.params.examId;
+      let examPaperId = this.$route.params.examPaperId;
+      let duration = parseInt(
+        (+new Date() - this.examContent.startTime) / 1000
+      );
+      let answers = [
+        this.radioNames,
+        this.checkboxNames,
+        this.judgeNames,
+        this.answerNames,
+        this.discussNames,
+        this.analysisNames
+      ];
+      let answerRus = [];
+
+      if (this.checkboxNames.length) {
+        this.checkboxNames.forEach((checkVal, checkIndex, checkArr) => {
+          checkArr[checkIndex] = checkVal.sort().join();
+        });
+      }
+
+      this.questionTypeId.forEach((val, index, arr) => {
+        answers[val - 1].forEach((ansVal, ansIndex, ansArr) => {
+          answerRus.push(ansVal);
+        });
+      });
+
+      answerRus.forEach((ansRusVal, ansRusIndex, ansRusArr) => {
+        this.answerSheetItems[ansRusIndex]["answer"] = ansRusVal;
+      });
+      let answerSheetItems = this.answerSheetItems;
+      console.log(this.answerSheetItems);
+
+      this.$store
+        .dispatch("EXAM_SUBMIT", {
+          examId,
+          examPaperId,
+          duration,
+          answerSheetItems
+        })
+        .then(res => {
+          console.log(res);
+          if (res.result == "success") {
+            this.$message({
+              message: "试卷提交成功，请等待审核。",
+              type: "success"
+            });
+          }
+        });
+    }
   },
   components: {
     headerNav
@@ -284,58 +410,58 @@ export default {
 <style lang="less">
 @import "../assets/css/style.less";
 .examination-page {
-  header{
+  header {
     padding-top: 10px;
-    nav{
+    nav {
       height: 160px;
     }
   }
-  .big-banner{
+  .big-banner {
     height: 320px;
     background: #7b27fb url("../assets/images/list-bg.jpg") center top no-repeat;
     margin-bottom: 30px;
   }
-  .examination-list{
-    .list-title{
+  .examination-list {
+    .list-title {
       font-size: 18px;
       color: #333;
       padding-left: 14px;
       border-left: 6px solid #6404ff;
       margin-top: 20px;
-      margin-bottom: 26px; 
-      span{
+      margin-bottom: 26px;
+      span {
         color: #b2b2b2;
         float: right;
         font-size: 16px;
       }
     }
-    .list-main{
+    .list-main {
       border-top: 1px solid #ccc;
       padding-top: 30px;
-      .main-left{
+      .main-left {
         width: 228px;
         margin-right: 26px;
         float: left;
-        .timing{
+        .timing {
           width: 228px;
         }
-        .examinee{
+        .examinee {
           width: 228px;
           font-size: 15px;
-          .student-info{
+          .student-info {
             padding: 0 10px;
             margin-bottom: 86px;
-            .info-list{
+            .info-list {
               margin-top: 15px;
-              span{
+              span {
                 display: inline-block;
               }
-              span:first-child{
+              span:first-child {
                 width: 80px;
                 color: #b2b2b2;
                 vertical-align: top;
               }
-              span:last-child{
+              span:last-child {
                 width: 110px;
                 line-height: 1.3;
                 margin-left: 6px;
@@ -345,116 +471,156 @@ export default {
           }
         }
 
-        .line-title{
+        .line-title {
           margin-top: 20px;
-          }
-          .title-icon{
-            line-height: 28px;
-            background: url(../assets/images/icon-clock.png) 14px center no-repeat;
-            padding-left: 46px; 
-          }
+        }
+        .title-icon {
+          line-height: 28px;
+          background: url(../assets/images/icon-clock.png) 14px center no-repeat;
+          padding-left: 46px;
+        }
 
-          .test svg > path:first-of-type{
-            stroke: #fafafa !important;
-          }
-          .test svg > path:last-of-type{
-            stroke: #6809ff !important;
-          }
+        .test svg > path:first-of-type {
+          stroke: #fafafa !important;
+        }
+        .test svg > path:last-of-type {
+          stroke: #6809ff !important;
+        }
 
-          
-          .line-times{
-            // width: 156px;
-            // height: 156px;
-            // background: linear-gradient(to top, #eedeff, #6402ff);
-            // border-radius: 50%;
-            margin: 36px auto;
-            position: relative;
+        .line-times {
+          // width: 156px;
+          // height: 156px;
+          // background: linear-gradient(to top, #eedeff, #6402ff);
+          // border-radius: 50%;
+          margin: 36px auto;
+          position: relative;
+          text-align: center;
+          // &::before{
+          //   content: "";
+          //   display: block;
+          //   clear: both;
+          //   position: absolute;
+          //   left: 50%;
+          //   top: 50%;
+          //   transform: translate(-50%, -50%);
+          //   width: 148px;
+          //   height: 148px;
+          //   background: #fff;
+          //   border-radius: 50%;
+          // }
+          .line-timing {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+        .timing-number {
+          color: #333333;
+          font-family: "PingFang SC";
+          font-size: 15px;
+          p {
+            margin-bottom: 20px;
+          }
+          .test-time {
+            padding-left: 36px;
+          }
+          .test-number {
+            padding-left: 46px;
+          }
+          .count-number {
             text-align: center;
-            // &::before{
-            //   content: "";
-            //   display: block;
-            //   clear: both;
-            //   position: absolute;
-            //   left: 50%;
-            //   top: 50%;
-            //   transform: translate(-50%, -50%);
-            //   width: 148px;
-            //   height: 148px;
-            //   background: #fff;
-            //   border-radius: 50%;
-            // }
-            .line-timing{
-              position: absolute;
-              left: 50%;
-              top: 50%;
-              transform: translate(-50%, -50%);
-            }
+            color: #b2b2b2;
+            margin-bottom: 40px;
           }
-          .timing-number{
-            color: #333333;
-            font-family: 'PingFang SC';
-            font-size: 15px;
-            p{
-              margin-bottom: 20px;
-            }
-            .test-time{
-              padding-left: 36px;
-            }
-            .test-number{
-              padding-left: 46px;
-            }
-            .count-number{
-              text-align: center;
-              color: #b2b2b2;
-              margin-bottom: 40px;
-            }
-          }
-
+        }
       }
-      .main-right{
+      .main-right {
         width: 1016px;
         float: left;
-        .line-title{
-          line-height: 60px;
-          background: url(../assets/images/icon-list.png) 10px center no-repeat;
-          padding-left: 50px; 
+        .main-right-btn {
+          padding-bottom: 30px;
+          span {
+            background: #5a9cff;
+            padding: 8px 18px;
+            border-radius: 6px;
+            color: #fff;
+            margin-left: 20px;
+            cursor: pointer;
+            display: inline-block;
+          }
         }
-        .border-bottom{
+
+        .main-right-item {
           border-bottom: 5px solid #f7f7f7;
-        }
-        .raido-list{
-          padding-left: 30px; 
-          border-bottom: 1px solid #ccc;
-          .raido-title{
-            padding: 20px 0 20px;
+          &:last-child {
+            border-bottom: 0;
           }
-          p{
-            margin-bottom: 14px;
-            input{
-              vertical-align:middle;
-              cursor: pointer;
+          .line-title {
+            line-height: 60px;
+            background: url(../assets/images/icon-list.png) 10px center
+              no-repeat;
+            padding-left: 50px;
+          }
+          .border-bottom {
+            border-bottom: 5px solid #f7f7f7;
+          }
+          .raido-list {
+            padding-left: 30px;
+            border-bottom: 1px solid #ccc;
+            &:last-child {
+              border-bottom: 0;
             }
-            label{
-              padding-left: 16px;
-              vertical-align:middle;display:inline-block;
-              cursor: pointer;
+            .raido-title {
+              padding: 20px 0 20px;
+            }
+            p {
+              margin-bottom: 14px;
+              input {
+                vertical-align: middle;
+                cursor: pointer;
+              }
+              label {
+                padding-left: 16px;
+                vertical-align: middle;
+                display: inline-block;
+                cursor: pointer;
+              }
+            }
+          }
+
+          .textarea-mn {
+            position: relative;
+            padding: 5px;
+            border: 1px solid #ddd;
+            margin: 0 30px 20px 0;
+            border-radius: 5px;
+            em {
+              position: absolute;
+              top: 5px;
+              left: 5px;
+              font-style: normal;
+              font-size: 14px;
+              color: #999;
+            }
+            textarea {
+              width: 100%;
+              height: 95px;
+              line-height: 16px;
+              resize: none;
             }
           }
         }
-        
       }
 
-      .box-line{
+      .box-line {
         box-sizing: border-box;
         border: 1px solid #fafafa;
-        box-shadow:0px 6px 6px #E9E7EA;
+        box-shadow: 0px 6px 6px #e9e7ea;
         margin-bottom: 30px;
         float: left;
       }
-      
-
     }
   }
-
 }
 </style>
