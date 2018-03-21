@@ -38,6 +38,14 @@
           </div>
         </div>
     </div>
+    <div class="tiku-dialog" v-if="showPanguan">
+      <div class="dialog-bg" @click="showPanguan = !showPanguan"></div>
+        <div class="dialog-body">
+          <div class="dialog-content">
+            <router-link :to="'/question/'+ val.questionsId" v-for="(val, index) in tikuList" :key="index">{{ val.questionsName }}<i></i></router-link>
+          </div>
+        </div>
+    </div>
     <div class="tiku-dialog" v-if="showExaminer">
       <div class="dialog-bg" @click="showExaminer = !showExaminer"></div>
         <div class="dialog-body">
@@ -84,7 +92,8 @@ export default {
     return {
       showTiku: false,
       showExaminer: false,
-      isShowTiku: false
+      isShowTiku: false,
+      showPanguan: false,
     };
   },
   computed: {
@@ -123,7 +132,9 @@ export default {
           this.$router.push(`/exam/latest`) 
         }else if(id ==2){
           this.$router.push(`/myerror`) 
-        }else if(id == 3 && id == 4){
+        }else if(id == 3){
+          this.showPanguan = true
+        }else if(id == 4){
           this.showExaminer = true
         }else{
           this.showTiku = true

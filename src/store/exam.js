@@ -25,8 +25,8 @@ export default {
     pageList: {},
     answersList: [],
     commentList: [],
-    examContent: [],
-
+    storeExamContent: [],
+    
   },
   mutations: {
     [EXAM_SET](state, data){
@@ -80,7 +80,7 @@ export default {
     [EXAM_CONTENT]({commit}, params){
       return api.post('/subject/exam-content', params).then(res => {
         commit('EXAM_SET', {
-          target: 'examContent',
+          target: 'storeExamContent',
           data: res.object
         })
         return res;

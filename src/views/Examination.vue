@@ -8,51 +8,80 @@
     </div>
     <div class="examination-list">
       <div class="wrapper">
-        <p class="list-title">宏观经济学概述试卷测试题 <span>共计:118题</span></p>
+        <p class="list-title">{{ examContent.name }}试卷测试题 <span>共计:{{ contentLength }}题</span></p>
         <div class="list-main">
           <div class="main-left">
             <div class="box-line timing">
               <p class="line-title title-icon">考试计时</p>
-
-              
-
               <div class="line-times">
                 <el-progress class="test" type="circle" :percentage="progressing" :show-text="false" :width="156"></el-progress>
-                <span class="line-timing">02:45:35</span>
+                <span class="line-timing" v-html="format"></span>
               </div>
               <div class="timing-number">
                   <p class="test-time">开考时间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结束时间</p>
-                  <p class="test-number">14:20&nbsp;&nbsp;&nbsp;——&nbsp;&nbsp;&nbsp;15:30</p>
-                  <p class="count-number">总时长:1小时10分钟</p>
+                  <p class="test-number">{{ setDate(examContent.startTime) }}&nbsp;&nbsp;&nbsp;——&nbsp;&nbsp;&nbsp;{{ setDate(examContent.endTime) }}</p>
+                  <p class="count-number">总时长:{{ totalTime() }}</p>
                 </div>
             </div>
             <div class="box-line examinee">
               <p class="line-title title-icon">考生信息</p>
               <div class="student-info">
-                <p class="info-list"><span>考生姓名:</span> <span>李晓尔</span></p>
-                <p class="info-list"><span>试卷名称:</span> <span>宏观经济学概述试卷测试题</span></p>
-                <p class="info-list"><span>试卷题库:</span> <span>单选题 多选题 案例题</span></p>
-                <p class="info-list"><span>数量:</span> <span>共180题</span></p>
-                <p class="info-list"><span>时长:</span> <span>1小时20分</span></p>
-                <p class="info-list"><span>开始时间:</span> <span>2018-03-01</span></p>
+                <p class="info-list"><span>考生姓名:</span> <span>{{ examContent.userName }}</span></p>
+                <p class="info-list"><span>试卷名称:</span> <span>{{ examContent.examName }}</span></p>
+                <!-- <p class="info-list"><span>试卷题库:</span> <span>单选题 多选题 案例题</span></p> -->
+                <p class="info-list"><span>数量:</span> <span>共{{ contentLength }}题</span></p>
+                <p class="info-list"><span>时长:</span> <span>{{ totalTime() }}</span></p>
+                <p class="info-list"><span>开始时间:</span> <span>{{ setTime(examContent.startTime) }}</span></p>
               </div>
             </div>
           </div>
           <div class="box-line main-right">
-            <p class="line-title border-bottom">单选题</p>
-            <div class="raido-list" v-for="(item, index) in dataList" :key="index">
-              <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
-              <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
-              <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
+  
+            <!-- 1 单选
+            2 多选
+            3 判断
+            4 填空 
+            5 解答
+            6 论述
+            7 分析 -->
+
+             <p class="line-title border-bottom">单选题</p>
+             
+            <div v-for="( item, index) in examContent.content" :key="index">
+             
+              <div  v-if="item.questionTypeId === 1">
+                
+                  <div class="raido-list">
+                    <div class="raido-title">{{ index+1 }}、{{ item.content.title }}</div>
+                    <p v-for="(num, i) in item.content.choiceList" :key="i">
+
+                       <input type="radio" :id="'radio'+(index+1)+'-'+i"  :value="index" v-model="radioNames[index]">
+                       <label :for="'radio'+(index+1)+'-'+i">{{ i }}、{{ num }}</label>
+
+                      <!-- <input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
+                      <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label> -->
+                    </p>
+                   ---  {{ radioNames }}
+                  </div>
+              </div>
+              <!-- <div class="raido-list" v-for="(item, index) in dataList" :key="index">
+                <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
+                <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
+                <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
+              </div> -->
+
+              <!-- {{ radioNames }} -->
+              <!-- <p class="line-title border-bottom" v-if="item.questionTypeId === 2">多选题</p> -->
+              <!-- <div class="raido-list" v-for="(item, index) in dataList2" :key="index">
+                <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
+                <p v-for="(num, i) in item.sle" :key="i"><input type="checkbox" :id="'check'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="item.aaa">
+                <label :for="'check'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
+              </div> -->
+              <!-- {{ dataList2 }} -->
+
+              <!-- <p class="line-title border-bottom" v-if="item.questionTypeId === 3">判断题</p> -->
+             
             </div>
-            <!-- {{ radioNames }} -->
-            <p class="line-title border-bottom">多选题</p>
-            <div class="raido-list" v-for="(item, index) in dataList2" :key="index">
-              <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
-              <p v-for="(num, i) in item.sle" :key="i"><input type="checkbox" :id="'check'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="item.aaa">
-              <label :for="'check'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-            </div>
-            <!-- {{ dataList2 }} -->
           </div>
         </div>
       </div>
@@ -71,7 +100,7 @@ export default {
   name: "examination-page",
   data() {
     return {
-      progressing: 60,
+      progressing: 0,
       radioNames: [],
       checkboxNames:[],
       letter: ['A','B','C','D','E','F','G','H'],
@@ -82,40 +111,157 @@ export default {
         name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
         sle:['哈哈', '不对也', '很对', '错']
       }],
-      dataList2: []
+      dataList2: [],
+      examContent: [],
+      contentLength: 0,
+      time: '',
+      flag: false,
+      format: '',
+      questionTypeId: []
     };
   },
+  computed: {
+    ...mapState({ 
+      storeExamContent: state => state.exam.storeExamContent,
+    }),
+  },
+  mounted () {
+
+  },
   created() {
-     this.init()
+    this.init()
     this.getPath()
   },
   methods: {
     init(){
       let examId = this.$route.params.examId;
-      console.log(examId)
+      let examPaperId = this.$route.params.examPaperId;
         // 最新考试我的测试题
       this.$store.dispatch('EXAM_CONTENT', {
-          examId
+          examId,
+          examPaperId
+      }).then( res => {
+
+        // this.examContent = res.object
+
+        for (var val in res.object) {
+          if(val == 'answer_sheet' || val == 'content'){
+            res.object[val] = JSON.parse(res.object[val])
+          }
+          if(val == 'startTime' || val == 'endTime'){
+            res.object[val] = res.object[val] - 8 * 60 * 60 * 1000;
+          }
+          
+          
+          
+
+        }
+        for(let key in res.object.content){
+          for(let keyio in res.object.content[key]){
+            if(keyio == 'questionTypeId'){
+              this.questionTypeId.push(res.object.content[key][keyio])
+            }
+            if(keyio == 'content'){
+              res.object.content[key][keyio] = JSON.parse(res.object.content[key][keyio])
+            }
+
+          }
+            
+          }
+        
+          this.questionTypeId = new Set(this.questionTypeId)
+  console.log( this.questionTypeId )
+        this.examContent = res.object
+        this.contentLength = this.examContent.content.length
       })
+      this.totalLine()
+    },
+    totalLine(){
+      
+
+    let time = setInterval(()=>{
+        if(this.flag == true){
+            clearInterval(time)
+        }
+
+        let now = this.examContent.endTime - (+new Date()) // 剩余时间
+        if( now < 0){
+          this.flag = true
+          this.progressing = 100
+          return this.format = '00:00:00';
+        }
+          let hour=Math.floor(( now/3600000)%24);  
+          let min=Math.floor((now/60000)%60);  
+          let sec=Math.floor((now/1000)%60); 
+          hour = hour < 10 ? "0" + hour : hour;  
+          min = min < 10 ? "0" + min : min;  
+          sec = sec < 10 ? "0" + sec : sec;  
+          let format = '';  
+
+          if(hour > 0 ){  
+            format = `${hour}:${min}:${sec}`;   
+          }  
+          if(hour <= 0){  
+            format =`${min}:${sec}`;  
+          }  
+          this.format = format
+          this.progressing = parseInt((+new Date() - this.examContent.startTime) / (this.examContent.endTime - this.examContent.startTime) *100);
+    },1000)
+
+
+    },
+    totalTime(){
+      let hours = new Date(this.examContent.endTime).getHours() - new Date(this.examContent.startTime ).getHours(),
+          miuntes = new Date(this.examContent.endTime).getMinutes() - new Date(this.examContent.startTime ).getMinutes();
+      if( miuntes < 0){
+        hours --;
+        miuntes = 60 + miuntes
+      }
+      if(hours <= 0){
+        return `${miuntes}分钟`
+      }
+
+      if( miuntes <= 0 ){
+        return `${hours}小时`
+      }
+
+      
+      return `${hours}小时${miuntes}分钟`
+      // this.examContent.startTime - this.examContent.endTime
+    },
+    setDate(time){
+      let hours = new Date(time).getHours(),
+          miuntes = new Date(time).getMinutes();
+      if(miuntes < 10){
+        miuntes = `0${miuntes}`
+      }
+      return `${hours}:${miuntes}`
+
+    },
+    setTime(time){
+      let year = new Date(time).getFullYear(),
+          month = new Date(time).getMonth() + 1,
+          day = new Date(time).getDate();
+      return `${year}-${month}-${day}`
     },
     getPath() {
       this.path = this.$route.path
-
+      let that = this
       // 异步数据
-      // setTimeout(function(){
-      //   var a = [{
-      //     name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-      //     sle:['正确', '错误', '对的', '不对'],
-      //   },{
-      //     name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-      //     sle:['哈哈', '不对也', '很对', '错'],
-      //   }]
+      setTimeout(function(){
+        var a = [{
+          name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
+          sle:['正确', '错误', '对的', '不对'],
+        },{
+          name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
+          sle:['哈哈', '不对也', '很对', '错'],
+        }]
         
-      //   a.map((v, i, arr) => {
-      //     return v.aaa = []
-      //   })
-      //   return that.dataList2 = a
-      // },2000)
+        a.map((v, i, arr) => {
+          return v.aaa = []
+        })
+        return that.dataList2 = a
+      },2000)
     },
     handleClick(tab, event) {
       console.log(tab, event);
