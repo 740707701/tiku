@@ -6,14 +6,15 @@ const QUESTION_UNAUDITED_SET = 'QUESTION_UNAUDITED_SET' // 未审核题目清单
 const QUESTION_TYPE_SET = 'QUESTION_TYPE_SET' // 题型选择
 const QUESTION_RANDOM_SET = 'QUESTION_RANDOM_SET' // 题型提交
 const QUESTION_INTELLIGENT_SET = 'QUESTION_INTELLIGENT_SET' // 智能题库
+const QUESTION_PRACTICE_IMPROVE = 'QUESTION_PRACTICE_IMPROVE' // 提交答案
 
 
 // 未审核题目清单
 // subject/question-unaudited/{fieldId}/{questionTypeId}
-// 随机 
+// 随机
 // subject/practice_random_list
 // 智能题库
-// intelligent_exercise_list 
+// intelligent_exercise_list
 export default {
   state: {
     acountList: {},
@@ -34,7 +35,7 @@ export default {
           target: 'acountList',
           data: res.data
         })
-      }) 
+      })
     },
     [QUESTION_UNAUDITED_SET]({commit}, params){
       return api.post('/subject/questiontype-unaudited', params).then(res => {
@@ -42,7 +43,7 @@ export default {
           target: 'unauditedList',
           data: res.data
         })
-      }) 
+      })
     },
     [QUESTION_TYPE_SET]({commit}, params){
       return api.get('/subject/question-type', params).then(res => {
@@ -50,7 +51,7 @@ export default {
           target: 'typeList',
           data: res.object
         })
-      }) 
+      })
     },
     [QUESTION_RANDOM_SET]({commit}, params){
       return api.post('/subject/practice_random_list', params).then(res => {
@@ -59,7 +60,7 @@ export default {
           data: res.object
         })
         return res
-      }) 
+      })
     },
     [QUESTION_INTELLIGENT_SET]({commit}, params){
       return api.post('/subject/intelligent_exercise_list', params).then(res => {
@@ -68,9 +69,19 @@ export default {
           data: res.object
         })
         return res
-      }) 
+      })
     },
 
-    
+    [QUESTION_PRACTICE_IMPROVE]({commit}, params){
+      return api.post('/student/practice-improve', params).then(res => {
+        commit('QUESTION_SET', {
+          target: 'improvePractice',
+          data: res.object
+        })
+        return res
+      })
+    },
+
+
   }
 }

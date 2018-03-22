@@ -1,5 +1,5 @@
 <template>
-  <div class="examiner-page">
+  <div class="examiner-page" v-if="randomItem.length">
     <header-nav></header-nav>
     <div class="big-banner">
       <div class="wrapper">
@@ -13,31 +13,59 @@
           <p class="info-list">
             <span>课程选择：</span><span v-for="(item, index) in curriculumList" :key="index" v-if="item.fieldId == fieldId">{{ item.fieldName}}</span>
           </p>
-          <p class="info-list"><span>章节选择：</span><span v-for="(item, index) in chapterList" :key="index" v-if="item.pointId == fieldId">{{ item.pointName}}</span></p>
-          <p class="info-list"><span>题库类型：</span><span v-for="(item, index) in typeList" :key="index" v-if="item.id == fieldId">{{ item.name}}</span></p>
+          <p class="info-list"><span>章节选择：</span><span v-for="(item, index) in chapterList" :key="index" v-if="item.pointId == fieldId">{{ item.pointName}}</span></p>         
+          <p class="info-list"><span>题库类型：</span><span v-for="(item, index) in QusTypeList" :key="index">{{ item }}</span></p>
         </div>
         <div class="more-button"></div>
         <div class="topic-item">
           <div class="f-l topic-left">
-            <p class="title bg-icon">选择题</p>
+            <p class="title bg-icon">{{ typeList[randomItem[start]['questionTypeId']-1]['name'] }}</p>
             <div class="pd-left" v-if="randomItem[start]">
-              <div class="raido-list">
-                <input type="hidden" v-model="questionid">
-                <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
-                <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index">
-                  <input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" v-model="radioNames[start]" @click="disabledItem(index)" :disabled="disabled">
- <!--  -->
+              <div class="pd-left-wrap">
+                <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == 1">
+                  <div class="raido-list">
+                    <input type="hidden" v-model="questionid">
+                    <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                    <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index">
+                      <input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" v-model="radioNames[start]" @click="disabledItem(index)" :disabled="disabled">
+    <!--  -->
+
+                    <label :for="'radio'+(start+1)+'-'+index">{{ index }}、{{ num }}</label></p>
+                    <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
+                  </div>
+                  <p class="answer-style other-answer" v-if="radioNames[start]">其他的答案: {{ radioNames[start] }}</p>
+                  <p class="answer-style" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">我的参考答案: {{ randomItem[start].analysis}}</p>
+                  <p class="reference-msg">我的参考答案解析</p>
+                  <div class="textarea-mn">
+                    <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsg"></textarea>
+                    <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
+                  </div>
+                </div>
+
+
+              <div class="pd-left-item" v-else-if="randomItem[start]['questionTypeId'] == 2">
+                  <div class="raido-list">
+                    <input type="hidden" v-model="questionid">
+                    <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                    <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index">
+                      <input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" v-model="radioNames[start]" @click="disabledItem(index)" :disabled="disabled">
+    <!--  -->
+
+                    <label :for="'radio'+(start+1)+'-'+index">{{ index }}、{{ num }}</label></p>
+                    <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
+                  </div>
+                  <p class="answer-style other-answer">其他的答案: {{ randomItem[start].answer }}</p>
+                  <p class="answer-style" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案解析: {{ randomItem[start].analysis}}</p>
+                  <p class="reference-msg">我的参考答案</p>
+                  <div class="textarea-mn">
+                    <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsg"></textarea>
+                    <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
+                  </div>
+                </div>
+
                 
-                <label :for="'radio'+(start+1)+'-'+index">{{ index }}、{{ num }}</label></p>
-                <span class="answer-number" v-if="radioNames[start]">参考答案：{{ radioNames[start] }}</span>
               </div>
-              <p class="answer-style other-answer">其他的答案: {{ randomItem[start].answer }}</p>
-              <p class="answer-style">我的参考答案: {{ randomItem[start].analysis}}</p>
-              <p class="reference-msg">我的参考答案</p>
-              <div class="textarea-mn">
-                <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsg"></textarea>
-                <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
-              </div>
+                          
               <p class="reference-msg">建议答案</p>
               <div class="msg-list" v-for="(item, index) in answersList.comments" :key="index">
                 <div class="msg-page-number">0{{ index+1 }}</div>
@@ -51,7 +79,7 @@
             <div class="msg-button" @click="sliceItem">
               <span>提交</span>
             </div>
-            
+
           </div>
           <div class="f-l topic-right">
             <p class="title" @click="pingfen">评分</p>
@@ -60,8 +88,9 @@
                 <div class="left">{{ item.name }}: </div><el-slider v-model="item.value" class="center"></el-slider><div class="right">{{ item.value }}分</div>
               </div>
               <p class="analysis">题目解析</p>
-              <p class="diff-level">难度等级:</p>
-              <p class="diff-level">驾驶拼装的机动车或者已达到报废标准的机动车上道路行驶的，公安机关交通管理部门应当予以收缴强制报废对驾驶前款所列机动车上道路行驶的驾驶人，处二百元以上二千元以下罚款，并吊销机动车驾驶证。</p>
+              <!-- <p class="diff-level">难度等级:</p> -->
+              <!-- <p class="diff-level" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">{{ randomItem[start].analysis}}</p> -->
+              <p class="diff-level" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">{{ randomItem[start].analysis}}</p>
             </div>
           </div>
         </div>
@@ -105,8 +134,9 @@ export default {
     pointId: [],
     questionTypeId: [],
     curriculumList: [],
-    questionid: '', 
+    questionid: 1,
     disabled: false,
+    QusTypeList:[]
   }),
   computed: {
     ...mapState({
@@ -122,9 +152,9 @@ export default {
 
     this.$store.dispatch("QUESTION_TYPE_SET", {});
 
-    this.fieldId = this.$route.query.fieldId,
-    this.pointId = [this.$route.query.pointId],
-    this.questionTypeId = [this.$route.query.questionTypeId];
+    this.fieldId = this.$route.query.fieldId;
+    this.pointId = this.$route.query.pointId.split(',');
+    this.questionTypeId = this.$route.query.questionTypeId.split(',');
 
     if(this.fieldId){
 
@@ -132,11 +162,21 @@ export default {
         questionsId: this.fieldId
       }).then( res => {
 
-        
+
         this.curriculumList = res
       })
       this.$store.dispatch("CHAPTER_LIST_FETCH", {
         fieldId: this.fieldId
+      }).then( res => {
+        if(res.result == 'success' && res.object){
+          this.typeList.forEach((val, index) => {
+            this.questionTypeId.forEach((qusVal, qusIndex) => {
+              if(val.id == qusVal){
+                this.QusTypeList.push(val.name)
+              }
+            })
+          })
+        }
       });
 
       this.$store.dispatch("QUESTION_RANDOM_SET", {
@@ -150,21 +190,16 @@ export default {
           this.randomItem.map((val, index, arr) =>{
             return val.content = JSON.parse(val.content)
           })
+          this.getCommentList(this.questionid)
+
+
+          this.randomItem[this.start]['questionTypeId'] = 2;
         }else{
         }
       })
     }else{
-      this.$router.push(`/`) 
+      this.$router.push(`/`)
     }
-
-
-    // 我的题库
-    this.$store.dispatch('EXAM_ANSWERS_PAGE', {
-      "commentType":"0",
-      "referId":"1",
-      "index":"0",
-      "indexId":"7"
-    })
 
     this.getPath()
   },
@@ -175,15 +210,53 @@ export default {
       }
 
     },
-    sliceItem(){ 
-      this.start++
-      this.questionid =  this.randomItem[this.start].questionId
-      this.contentMsg = ''
-      this.radioNames[this.start] = ''
-      this.sliderList = this.sliderNumber.map((v, i) => {
-        return v.value = ''
+    getCommentList(id){
+      // 我的题库
+      this.$store.dispatch('EXAM_ANSWERS_PAGE', {
+        "commentType":"0",
+        "referId": id+'',
+        "index":"0",
+        "indexId":"7"
       })
-      this.disabled = false;
+    },
+    sliceItem(){
+      let answer = this.randomItem[this.start].answer
+      let thisRandom = this.randomItem[this.start]
+      this.$store.dispatch('QUESTION_PRACTICE_IMPROVE', {
+          "questionId": this.questionid+'',  //题目id
+          answer,			//参考答案
+          "myAnswer": this.radioNames[this.start],     //自己的答案
+          "questionTypeId": thisRandom.questionTypeId+'', //题目类型id
+          "pointId": thisRandom.knowledgePointId+''    //章节id
+        }).then( res => {
+          if(res.result == "success"){
+            if(this.start < this.randomItem.length - 1){
+              this.start++
+              this.questionid =  this.randomItem[this.start].questionId
+              this.contentMsg = ''
+              this.radioNames[this.start] = ''
+              this.sliderList = this.sliderList.map((v, i) => {
+                v.value = 0
+                return v;
+              })
+              this.disabled = false;
+              this.getCommentList(this.questionid)
+
+              this.$message({
+                message: "提交成功！查看下一题",
+                type: "success"
+              });
+              document.documentElement.scrollTo(0,0);
+            }else{
+              this.$message({
+                message: "本次练习已完成！请选择其他题库练习",
+                type: "success"
+              });
+            }
+
+          }
+      })
+
     },
     submitComment(){ // 提交留言
       this.sliderNumber = this.sliderList.map((v, i) => {
@@ -204,22 +277,24 @@ export default {
         }).then( res => {
           console.log(res)
           if(res.result == "success"){
+            this.contentMsg = ''
             this.$message({
               message: "发表成功！",
               type: "success"
             });
+            this.getCommentList(this.questionid)
           }
       })
-    },    
+    },
     getPath() {
       this.path = this.$route.path
       let that = this;
     },
     pingfen(){
-     
 
 
-      
+
+
     },
     handleClick(tab, event) {
       console.log(tab, event);
@@ -358,7 +433,8 @@ export default {
         .answer-style{
           font-size: 18px;
           color: #000;
-          line-height: 50px;
+          line-height: 30px;
+          padding-top: 15px;
           &.other-answer{
             margin-top: 10px;
           }
@@ -369,6 +445,7 @@ export default {
           background: url(../assets/images/msg.png) 0 center no-repeat;
           line-height: 30px;
           padding-left: 40px;
+          margin-top: 20px;
         }
         .textarea-mn {
           position: relative;
@@ -410,7 +487,7 @@ export default {
           padding: 20px 0;
           line-height: 30px;
           font-size: 18px;
-          .msg-page-number{ 
+          .msg-page-number{
             float: left;
             padding-right: 30px;
           }
@@ -428,7 +505,7 @@ export default {
           >span{
             padding: 10px 44px;
             color: #fff;
-            border-radius: 4px; 
+            border-radius: 4px;
             background: #5a9cff;
             cursor: pointer;
           }
@@ -471,7 +548,7 @@ export default {
         color: #fff;
         font-family: "宋体";
         font-size: 18px;
-        padding-left: 50px; 
+        padding-left: 50px;
         background: #5a9cff;
         &.bg-icon{
           background: #5a9cff url(../assets/images/icon-list.png) 18px center no-repeat;

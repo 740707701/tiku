@@ -4,21 +4,21 @@
     <div class="big-banner">
       <div class="wrapper">
         <img src="../../assets/images/title.png" class="title">
-      </div>               
+      </div>
     </div>
     <div class="questions-list">
       <div class="wrapper">
         <ul class="questions-tabs border-bottom-color" >
           <li v-for="(val, index) in tikuList" :key="index">
-            <router-link :to="'/questions/'+ val.questionsId" :class="{'active': isNav(/val.questionsId/) }" >{{ val.questionsName }}</router-link>
+            <router-link :to="'/questions/'+ val.questionsId" :class="{'active': isNav(/val.questionsId/) }" @click.native="flushCom">{{ val.questionsName }}</router-link>
           </li>
         </ul>
         <!-- 就设置一个内页 router-view-->
         <div class="occupation-page">
-          <div class="wrapper">
+          <div class="wrapper" v-if="curriculumList">
             <p class="title">课程选择： {{ currData  }}<span v-if="curriculumList.length > 8" @click="showCurr" v-show="!isShowCurr">更多></span> <span v-show="isShowCurr" @click="showCurr">收起</span></p>
             <curriculum-box :curriculum="curriculumList" :selectedData="currData"  @selectEvent="radioItem"></curriculum-box>
-            <p class="title">章节选择： {{ chaptData }}<span v-if="chapterList.length && chapterList.length > 8">更多></span></p>
+            <p class="title" v-if="isShowChapter">章节选择： {{ chaptData }}<span v-if="chapterList.length > 8">更多></span></p>
             <chapterBox :curriculum="chapterList" :selectedData="chaptData" @selectEvent="checkboxItem"></chapterBox>
             <p class="title">题型：</p>
             <!-- <topic :topicType="typeList" :selectedData="checkList" @topicEvent="checkoutTopic"></topic> -->
@@ -33,6 +33,9 @@
             <div class="occupation-button">
               <span  @click="random">随机练习</span><span  @click="intelligence">智能答题</span>
             </div>
+          </div>
+          <div class="wrapper" style="height: 200px;text-align:center;line-height: 100px;font-size:30px;" v-else-if="!curriculumList">
+            没有更多数据
           </div>
         </div>
 
@@ -59,7 +62,8 @@ export default {
       chaptData: [],
       isShowCurr: false,
       isShowChapter: false,
-      checkList: []
+      checkList: [],
+      chapterList: []
     };
   },
   computed: {
@@ -69,7 +73,7 @@ export default {
       // konwledList: state => state.konwledList,
       typeList: state => state.question.typeList,
       curriculumList: state => state.curriculumList,
-      chapterList: state => state.chapterList,
+      // chapterList: state => state.chapterList,
     })
   },
   created() {
@@ -81,6 +85,11 @@ export default {
     });
     this.$store.dispatch("CHAPTER_LIST_FETCH", {
       fieldId: questions
+    }).then(res => {
+      if(res.object){
+        this.chapterList = res.object;
+        this.isShowChapter = true;
+      }
     });
     this.$store.dispatch("QUESTION_TYPE_SET", {});
   },
@@ -96,12 +105,36 @@ export default {
     init(path) {
       console.log("init", path);
     },
+    flushCom:function(){
+　　　　this.$router.go(0);
+　　},
     random() {
+
+      if(!this.currData.length){
+        this.$message({
+          message: "请选择课程",
+          type: "warning"
+        });
+        return false;
+      }
+      if(!this.chaptData.length){
+        this.$message({
+          message: "请选择章节",
+          type: "warning"
+        });
+        return false;
+      }
+      if(!this.checkList.length){
+        this.$message({
+          message: "请选择题型",
+          type: "warning"
+        });
+        return false;
+      }
+
       let fieldId = this.currData[0],
           pointId = this.chaptData,
       questionTypeId =     this.checkList;
-
-      
 
    this.$store.dispatch("QUESTION_RANDOM_SET", {
       fieldId,
@@ -109,7 +142,7 @@ export default {
       questionTypeId
     }).then( res => {
       if(res.object){
-        this.$router.push(`/examiner/?fieldId=${encodeURIComponent(fieldId)}&pointId=${pointId}&questionTypeId=${questionTypeId}`) 
+        this.$router.push(`/examiner/?fieldId=${encodeURIComponent(fieldId)}&pointId=${pointId}&questionTypeId=${questionTypeId}`)
       }else{
         this.$message({
           message: res.messageInfo,
@@ -120,6 +153,27 @@ export default {
       // this.$router.push(`/examiner`)
     },
     intelligence() {
+      if(!this.currData.length){
+        this.$message({
+          message: "请选择课程",
+          type: "warning"
+        });
+        return false;
+      }
+      if(!this.chaptData.length){
+        this.$message({
+          message: "请选择章节",
+          type: "warning"
+        });
+        return false;
+      }
+      if(!this.checkList.length){
+        this.$message({
+          message: "请选择题型",
+          type: "warning"
+        });
+        return false;
+      }
       let fieldId = this.currData[0],
       pointId = this.chaptData,
       questionTypeId =     this.checkList;
@@ -130,7 +184,7 @@ export default {
         questionTypeId
       }).then( res => {
         if(res.object){
-          this.$router.push(`/itemlist/?fieldId=${encodeURIComponent(fieldId)}&pointId=${pointId}&questionTypeId=${questionTypeId}`) 
+          this.$router.push(`/itemlist/?fieldId=${encodeURIComponent(fieldId)}&pointId=${pointId}&questionTypeId=${questionTypeId}`)
         }else{
           this.$message({
             message: res.messageInfo,
@@ -147,21 +201,19 @@ export default {
         this.currData.splice(this.currData.indexOf(val), 1);
       } else {
         this.currData = [val];
+        this.$store.dispatch('CHAPTER_LIST_FETCH', {
+          fieldId: val
+        }).then( res => {
+          this.chaptData = []
+          if(res.object){
+            this.isShowChapter = true
+            this.chapterList = res.object
+          }else{
+            this.isShowChapter = false
+            this.chapterList = []
+          }
 
-        // this.$store.dispatch('CHAPTER_LIST_FETCH', {
-        //   fieldId: this.currData[0]
-        // }).then( res => {
-
-        //   console.log('-----',  )
-        //   if(res.object){
-        //     this.isShowChapter = true
-        //     this.chapterList = res
-        //   }else{
-        //     this.isShowChapter = false
-        //     this.chapterList = []
-        //   }
-
-        // })
+        })
       }
 
       // this.currData = [val]
@@ -197,18 +249,6 @@ export default {
       } else {
         return false;
       }
-    }
-  },
-  watch: {
-    $route(to, from, next) {
-      // this.$store.dispatch('CURRICULUM_LIST_FETCH', {
-      //   questionsId: to.params.id
-      // })
-      // this.$store.dispatch('CHAPTER_LIST_FETCH', {
-      //   fieldId: to.params.id
-      // })
-      // this.init(to.params.id)
-      // next()
     }
   },
   components: {
