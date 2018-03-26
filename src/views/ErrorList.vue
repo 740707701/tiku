@@ -184,7 +184,7 @@ export default {
 
   created() {
     this.fieldId = this.$route.query.fieldId;
-    this.pointId = this.$route.query.pointId.split(",");
+    // this.pointId = this.$route.query.pointId.split(",");
     this.questionTypeId = this.$route.query.questionTypeId.split(",");
 
     this.$store.dispatch("QUESTION_TYPE_SET", {}).then(res => {
@@ -213,10 +213,9 @@ export default {
       });
 
        this.$store
-          .dispatch("QUESTION_RANDOM_SET", {
+          .dispatch("EXAM_ERROR_LIST_FETCH", {
             fieldId: this.fieldId,
-            pointId: this.pointId,
-            questionTypeId: this.questionTypeId
+            questionTypeId: this.$route.query.questionTypeId
           })
           .then(res => {
             if (res.object) {

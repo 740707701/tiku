@@ -7,6 +7,11 @@ const QUESTION_TYPE_SET = 'QUESTION_TYPE_SET' // 题型选择
 const QUESTION_RANDOM_SET = 'QUESTION_RANDOM_SET' // 题型提交
 const QUESTION_INTELLIGENT_SET = 'QUESTION_INTELLIGENT_SET' // 智能题库
 const QUESTION_PRACTICE_IMPROVE = 'QUESTION_PRACTICE_IMPROVE' // 提交答案
+const QUESTION_ADD = 'QUESTION_ADD' // 提交答案
+
+const QUESTIONTYPE_GROUPING = 'QUESTIONTYPE_GROUPING' // 提交答案
+const QUESTION_UNAUDITED = 'QUESTION_UNAUDITED' // 提交答案
+const UPDATE_EXAMINE = 'UPDATE_EXAMINE' // 提交答案
 
 
 // 未审核题目清单
@@ -51,6 +56,7 @@ export default {
           target: 'typeList',
           data: res.object
         })
+        return res
       })
     },
     [QUESTION_RANDOM_SET]({commit}, params){
@@ -77,6 +83,39 @@ export default {
         commit('QUESTION_SET', {
           target: 'improvePractice',
           data: res.object
+        })
+        return res
+      })
+    },
+    [QUESTION_ADD]({commit}, params){
+      return api.post('/subject/question-add', params).then(res => {
+        commit('QUESTION_SET', {
+          target: 'iquestionAdd'
+        })
+        return res
+      })
+    },
+
+    [QUESTIONTYPE_GROUPING]({commit}, params){
+      return api.post('/subject/questiontype-grouping', params).then(res => {
+        commit('QUESTION_SET', {
+          target: 'questiontypeGrouping'
+        })
+        return res
+      })
+    },
+    [QUESTION_UNAUDITED]({commit}, params){
+      return api.post('/subject/question-unaudited', params).then(res => {
+        commit('QUESTION_SET', {
+          target: 'questionUnaudited'
+        })
+        return res
+      })
+    },
+    [UPDATE_EXAMINE]({commit}, params){
+      return api.post('/subject/updateExamine', params).then(res => {
+        commit('QUESTION_SET', {
+          target: 'updateExamine'
         })
         return res
       })

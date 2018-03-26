@@ -1,5 +1,5 @@
 <template>
-  <div class="examiner-page">
+  <div class="examiner-page" v-if="randomItem.length">
     <header-nav></header-nav>
     <div class="big-banner">
       <div class="wrapper">
@@ -13,35 +13,91 @@
           <p class="info-list">
             <span>课程选择：</span><span v-for="(item, index) in curriculumList" :key="index" v-if="item.fieldId == fieldId">{{ item.fieldName}}</span>
           </p>
-          <p class="info-list"><span>章节选择：</span><span v-for="(item, index) in chapterList" :key="index" v-if="item.pointId == fieldId">{{ item.pointName}}</span></p>
-          <p class="info-list"><span>题库类型：</span><span v-for="(item, index) in typeList" :key="index" v-if="item.id == fieldId">{{ item.name}}</span></p>
+          <p class="info-list"><span>章节选择：</span><span v-for="(item, index) in chapterList" :key="index" v-if="item.pointId == pointId[0]">{{ item.pointName}}</span></p>
+          <p class="info-list"><span>题库类型：</span><span v-for="(item, index) in QusTypeList" :key="index">{{ item }}&nbsp;&nbsp;</span></p>
         </div>
         <div class="more-button"></div>
         <div class="topic-item">
           <div class="f-l topic-left">
-            <p class="title bg-icon">选择题</p>
+            <p class="title bg-icon" v-if="typeList[randomItem[start]['questionTypeId']-1]">{{ typeList[randomItem[start]['questionTypeId']-1]['name'] }}</p>
             <div class="pd-left" v-if="randomItem[start]">
-              <div class="raido-list">
-                <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
-                <!-- <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
-                <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p> -->
-                <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index"><input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" v-model="radioNames[start]">
-                <label :for="'radio'+(start+1)+'-'+index">{{ index }}、{{ num }}</label></p>
-                <span class="answer-number" v-if="radioNames[start]">参考答案：{{ radioNames[start] }}</span>
+              <div class="pd-left-wrap">
+                <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == 1">
+                  <div class="raido-list">
+                    <input type="hidden" v-model="questionid">
+                    <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                    <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index">
+                      <input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" v-model="radioNames[start]" @click="disabledItem(index)" :disabled="disabled">
+    <!--  -->
+
+                    <label :for="'radio'+(start+1)+'-'+index">{{ index }}、{{ num }}</label></p>
+                    <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
+                  </div>
+                  <p class="answer-style other-answer" v-if="radioNames[start]">其他的答案: <input maxlength="1" type="text" v-model="otherAnswer"/></p>
+                  <p class="answer-style" v-if="contentMsgShow">我的参考答案: {{ contentMsg }}</p>
+                  <p class="reference-msg">我的参考答案</p>
+                  <div class="textarea-mn">
+                    <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsgText"></textarea>
+                    <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
+                  </div>
+                </div>
+
+
+              <div class="pd-left-item" v-else-if="randomItem[start]['questionTypeId'] == 2">
+                  <div class="raido-list">
+                    <input type="hidden" v-model="questionid">
+                    <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                    <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index">
+                      <input type="checkbox" :id="'checkbox'+(start+1)+'-'+index"  :value="index" v-model="checkboxNames" :disabled="disabled">
+
+                    <label :for="'checkbox'+(start+1)+'-'+index">{{ index }}、{{ num }}</label></p>
+                    <span class="answer-number" v-if="checkboxNamesStr  && checkboxNamesStr != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
+                    <div class="answer-confirm">
+                      <span  @click="disabledItem('checkbox')">确认答案</span>
+                    </div>
+                  </div>
+                  <p class="answer-style other-answer" v-if="checkboxNamesStr">其他的答案: <input type="text" v-model="otherAnswer" placeholder="多个答案用,号隔开"/></p>
+                  <p class="answer-style" v-if="contentMsgShow">我的参考答案: {{ contentMsg }}</p>
+                  <p class="reference-msg">我的参考答案</p>
+                  <div class="textarea-mn">
+                    <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsgText"></textarea>
+                    <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
+                  </div>
+                </div>
+
+
+                <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == 3">
+                  <div class="raido-list">
+                    <input type="hidden" v-model="questionid">
+                    <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                    <p>
+                      <input type="radio" :id="'radio'+(start+1)+'-A'" value="A" v-model="radioNames[start]" @click="disabledItem(1)" :disabled="disabled">
+                             <label :for="'radio'+(start+1)+'-'+'-A'">A、正确</label>
+                    </p>
+                    <p>
+                      <input type="radio" :id="'radio'+(start+1)+'-B'" value="B" v-model="radioNames[start]" @click="disabledItem(2)" :disabled="disabled">
+                             <label :for="'radio'+(start+1)+'-B'">B、错误</label>
+                      </p>
+                    <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
+                  </div>
+                  <p class="answer-style other-answer" v-if="radioNames[start]">其他的答案: <input maxlength="1" type="text" v-model="otherAnswer"/></p>
+                  <p class="answer-style" v-if="contentMsgShow">我的参考答案: {{ contentMsg }}</p>
+                  <p class="reference-msg">我的参考答案</p>
+                  <div class="textarea-mn">
+                    <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsgText"></textarea>
+                    <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
+                  </div>
+                </div>
+
+
               </div>
-              <p class="answer-style other-answer">其他的答案: {{ randomItem[start].answer }}</p>
-              <p class="answer-style">我的参考答案: referenceAnswer  {{ randomItem[start].analysis}}</p>
-              <p class="reference-msg">我的参考答案</p>
-              <div class="textarea-mn">
-                <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsg"></textarea>
-                <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
-              </div>
+
               <p class="reference-msg">建议答案</p>
               <div class="msg-list" v-for="(item, index) in answersList.comments" :key="index">
                 <div class="msg-page-number">0{{ index+1 }}</div>
                 <div class="msg-page-content">
                   <p>{{ item.username }}</p>
-                  <p>{{ item.contentMsg }}</p>
+                  <p><span v-if="item.referenceAnswer">{{ (item.referenceAnswer)+'&nbsp;&nbsp;&nbsp;' }}</span>{{ item.contentMsg }}</p>
                   <p>{{ new Date(item.createTime).toISOString().replace('T', ' ').slice(0, -8) }}</p>
                 </div>
               </div>
@@ -49,7 +105,7 @@
             <div class="msg-button" @click="sliceItem">
               <span>提交</span>
             </div>
-            
+
           </div>
           <div class="f-l topic-right">
             <p class="title" @click="pingfen">评分</p>
@@ -57,9 +113,10 @@
               <div class="slider-list clearfix" v-for="(item, index) in sliderList" :key="index">
                 <div class="left">{{ item.name }}: </div><el-slider v-model="item.value" class="center"></el-slider><div class="right">{{ item.value }}分</div>
               </div>
-              <p class="analysis">题目解析</p>
-              <p class="diff-level">难度等级:</p>
-              <p class="diff-level">驾驶拼装的机动车或者已达到报废标准的机动车上道路行驶的，公安机关交通管理部门应当予以收缴强制报废对驾驶前款所列机动车上道路行驶的驾驶人，处二百元以上二千元以下罚款，并吊销机动车驾驶证。</p>
+              <p class="analysis" v-if="radioNames[start] || checkboxNamesStr">题目解析</p>
+              <!-- <p class="diff-level">难度等级:</p> -->
+              <!-- <p class="diff-level" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">{{ randomItem[start].analysis}}</p> -->
+              <p class="diff-level" v-if="radioNames[start] || checkboxNamesStr">{{ randomItem[start].analysis}}</p>
             </div>
           </div>
         </div>
@@ -70,8 +127,7 @@
 </template>
 
 <script>
-
-import headerNav from '../components/Header.vue'
+import headerNav from "../components/Header.vue";
 
 import { mapState } from "vuex";
 
@@ -80,139 +136,237 @@ export default {
   data: () => ({
     progressing: 60,
     radioNames: [],
-    checkboxNames:[],
-    letter: ['A','B','C','D','E','F','G','H'],
-    contentMsg: '',
-    sliderList:[{
-      name: '难度', // difficulty
-      value: 20,
-    },{
-      name: '专业性', // speciality
-      value: 80,
-    },{
-      name: '重要性', // importance
-      value: 85,
-    },{
-      name: '知识相关性', //  knowledgeCorrelation
-      value: 65,
-    }],
+    checkboxNames: [],
+    checkboxNamesStr: "",
+    letter: ["A", "B", "C", "D", "E", "F", "G", "H"],
+    contentMsg: "",
+    sliderList: [
+      {
+        name: "难度",
+        value: 0
+      },
+      {
+        name: "专业性",
+        value: 0
+      },
+      {
+        name: "重要性",
+        value: 0
+      },
+      {
+        name: "知识相关性",
+        value: 0
+      }
+    ],
     sliderNumber: [],
     randomItem: [],
     start: 0,
     fieldId: 1,
     pointId: [],
     questionTypeId: [],
-    curriculumList: []
+    curriculumList: [],
+    questionid: 1,
+    disabled: false,
+    QusTypeList: [],
+    contentMsgShow: false,
+    contentMsgText: "",
+    otherAnswer: "",
+    typeList: []
   }),
   computed: {
     ...mapState({
       answersList: state => state.exam.answersList,
       commentList: state => state.exam.commentList,
-      typeList: state => state.question.typeList,
+      // typeList: state => state.question.typeList,
       // curriculumList: state => state.curriculumList,
-      chapterList: state => state.chapterList,
+      chapterList: state => state.chapterList
     })
   },
 
   created() {
+    this.fieldId = this.$route.query.fieldId;
+    this.pointId = this.$route.query.pointId.split(",");
+    this.questionTypeId = this.$route.query.questionTypeId.split(",");
 
-    this.$store.dispatch("QUESTION_TYPE_SET", {});
+    this.$store.dispatch("QUESTION_TYPE_SET", {}).then(res => {
+      if (res.result == "success" && res.object) {
+        this.typeList = res.object;
+        this.typeList.forEach((val, index) => {
+          this.questionTypeId.forEach((qusVal, qusIndex) => {
+            if (val.id == qusVal) {
+              this.QusTypeList.push(val.name);
+            }
+          });
+        });
+      }
+    });
 
-    this.fieldId = this.$route.query.fieldId,
-    this.pointId = [this.$route.query.pointId],
-    this.questionTypeId = [this.$route.query.questionTypeId];
-
-    if(this.fieldId){
-
-      this.$store.dispatch("CURRICULUM_LIST_FETCH", {
-        questionsId: this.fieldId
-      }).then( res => {
-        this.curriculumList = res
-      })
+    if (this.fieldId) {
+      this.$store
+        .dispatch("CURRICULUM_LIST_FETCH", {
+          questionsId: this.fieldId
+        })
+        .then(res => {
+          this.curriculumList = res;
+        });
       this.$store.dispatch("CHAPTER_LIST_FETCH", {
-        fieldId: this.fieldId
+        fieldId: this.pointId[0]
       });
 
-      this.$store.dispatch("QUESTION_INTELLIGENT_SET", {
-        fieldId: this.fieldId,
-        pointId: this.pointId,
-        questionTypeId: this.questionTypeId
-      }).then( res => {
-        if(res.object){
-          this.randomItem = res.object
-          this.randomItem.map((val, index, arr) =>{
-            return val.content = JSON.parse(val.content)
+       this.$store
+          .dispatch("QUESTION_INTELLIGENT_SET", {
+            fieldId: parseInt(this.fieldId),
+            pointId: this.pointId,
+            questionTypeId: this.questionTypeId
           })
-        }else{
+          .then(res => {
+            if (res.object) {
+              this.randomItem = res.object;
+              this.questionid = this.randomItem[this.start].questionId;
+              this.randomItem.map((val, index, arr) => {
+                if (val['questionTypeId'] == 3){
+                  if(val.answer == 'T'){
+                    val.answer = 'A'
+                  }else if(val.answer == 'F'){
+                    val.answer = 'B'
+                  }
+                  
+                }
+                return (val.content = JSON.parse(val.content));
+              });
+              
+              this.getCommentList(this.questionid);
+            } else {
+            }
+          });
 
-        }
-      })
-    }else{
-      this.$router.push(`/`) 
+    } else {
+      this.$router.push(`/`);
     }
 
-
-    // 我的题库
-    this.$store.dispatch('EXAM_ANSWERS_PAGE', {
-      "commentType":"0",
-      "referId":"1",
-      "index":"0",
-      "indexId":"7"
-    })
-
-    this.getPath()
+    this.getPath();
   },
   methods: {
-    sliceItem(){ 
-      this.start++
-    },
-    submitComment(){
-      this.$store.dispatch('SBUMIT_ANSWERS_PAGE', {
-          "referId":"1",
-          "commentType":"0",
-          "indexId":"7",
-          "userId":"2",
-          "contentMsg": this.contentMsg,
-          "reId":"1",
-          "difficulty":"10",
-          "speciality":"10",
-          "importance":"10",
-          "referenceAnswer":"B"
-        }).then( res => {
-          console.log(res)
-          if(res.result == "success"){
-            this.$message({
-              message: "发表成功！",
-              type: "success"
-            });
+    disabledItem(id) {
+      if (id) {
+        if (id == "checkbox") {
+          if (this.checkboxNames.length) {
+            this.checkboxNamesStr = this.checkboxNames.sort().join();
+            this.disabled = true;
           }
-      })
-    },    
+        } else {
+          this.disabled = true;
+        }
+      }
+    },
+    getCommentList(id) {
+      // 我的题库
+      this.$store.dispatch("EXAM_ANSWERS_PAGE", {
+        commentType: "0",
+        referId: id + "",
+        index: "0",
+        indexId: "7"
+      });
+    },
+    sliceItem() {
+      this.sliderNumber = this.sliderList.map((v, i) => {
+        return v.value;
+      });
+
+      let answer = this.randomItem[this.start].answer;
+      let thisRandom = this.randomItem[this.start];
+      if(thisRandom.questionTypeId == 3){
+        if(answer == 'A'){
+          answer = 'T'        
+        }else if(answer == 'B'){
+          answer = 'F'
+        }
+        if(this.radioNames[this.start] == 'A'){
+          this.radioNames[this.start] = 'T'
+        }else if(this.radioNames[this.start] == 'B'){
+          this.radioNames[this.start] = 'F'
+        }
+      }
+      this.$store
+        .dispatch("QUESTION_PRACTICE_IMPROVE", {
+          questionHistory: {
+            questionId: this.questionid + "", //题目id
+            answer, //参考答案
+            myAnswer: this.radioNames[this.start] || this.checkboxNamesStr, //自己的答案
+            questionTypeId: thisRandom.questionTypeId + "", //题目类型id
+            pointId: thisRandom.knowledgePointId + "" //章节id
+          },
+          comment: {
+            referId: this.questionid, // 题目ID
+            commentType: "0",
+            indexId: "7",
+            userId: "2",
+            contentMsg: this.contentMsg, // 内容
+            reId: "1",
+            difficulty: this.sliderNumber[0], // 题目难度
+            speciality: this.sliderNumber[1], // 题目专业度
+            importance: this.sliderNumber[2], // 知识重要性
+            knowledgeCorrelation: this.sliderNumber[3], // 知识相关性
+            referenceAnswer: this.otherAnswer // 其他答案
+          }
+
+        })
+        .then(res => {
+          if (res.result == "success") {
+            if (this.start < this.randomItem.length - 1) {
+              this.start++;
+              this.questionid = this.randomItem[this.start].questionId;
+              this.contentMsg = "";
+              this.radioNames[this.start] = "";
+              this.sliderList = this.sliderList.map((v, i) => {
+                v.value = 0;
+                return v;
+              });
+              this.disabled = false;
+              this.contentMsg = "";
+              this.contentMsgShow = false;
+              this.otherAnswer = "";
+              this.checkboxNamesStr = "";
+              this.checkboxNames = [];
+              this.getCommentList(this.questionid);
+
+              this.$message({
+                message: "提交成功！查看下一题",
+                type: "success"
+              });
+              document.documentElement.scrollTo(0, 0);
+            } else {
+              this.$message({
+                message: "本次练习已完成！请选择其他题库练习",
+                type: "success"
+              });
+            }
+          }
+        });
+    },
+    submitComment() {
+      // 提交留言
+      this.contentMsgShow = true;
+      this.contentMsg = this.contentMsgText;
+      this.contentMsgText = "";
+    },
     getPath() {
-      this.path = this.$route.path
+      this.path = this.$route.path;
       let that = this;
     },
-    pingfen(){
-     
-      this.sliderNumber = this.sliderList.map((v, i) => {
-        return v.value
-      })
- console.log('pingfen', this.sliderNumber);
-
-      
-    },
+    pingfen() {},
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    isNav(reg){
-      if(Object.prototype.toString.call(reg) === '[object RegExp]'){
-        return reg.test(this.$router.currentRoute.path)
-      }else if(Object.prototype.toString.call(reg) === '[object String]'){
-        return new RegExp(reg).test(this.$router.currentRoute.path)
-      }else{
-        return false
+    isNav(reg) {
+      if (Object.prototype.toString.call(reg) === "[object RegExp]") {
+        return reg.test(this.$router.currentRoute.path);
+      } else if (Object.prototype.toString.call(reg) === "[object String]") {
+        return new RegExp(reg).test(this.$router.currentRoute.path);
+      } else {
+        return false;
       }
-    },
+    }
   },
   components: {
     headerNav
@@ -222,63 +376,61 @@ export default {
 <style lang="less">
 @import "../assets/css/style.less";
 .examiner-page {
-  header{
+  header {
     padding-top: 10px;
-    nav{
+    nav {
       height: 160px;
     }
   }
-  .big-banner{
+  .big-banner {
     height: 320px;
     background: #7b27fb url("../assets/images/list-bg.jpg") center top no-repeat;
     margin-bottom: 30px;
   }
-  .examiner-list{
-    .list-title{
+  .examiner-list {
+    .list-title {
       font-size: 28px;
       color: #000;
       border-bottom: 1px solid #ccc;
       padding-bottom: 18px;
       position: relative;
-      &::before{
+      &::before {
         content: "";
-          display: block;
-          clear: both;
-          width: 110px;
-          height: 4px;
-          background: #5a9cff;
-          position: absolute;
-          bottom: 0;
+        display: block;
+        clear: both;
+        width: 110px;
+        height: 4px;
+        background: #5a9cff;
+        position: absolute;
+        bottom: 0;
       }
     }
-    .menu-row{
-
-      .info-list{
+    .menu-row {
+      .info-list {
         margin-top: 20px;
-        span{
+        span {
           display: inline-block;
           color: #808080;
         }
-        span:first-child{
+        span:first-child {
           width: 110px;
           vertical-align: top;
         }
-        span:last-child{
-          width: 1150px;
+        span:last-child {
           line-height: 1.3;
         }
       }
     }
-    .more-button{
+    .more-button {
       text-align: center;
       position: relative;
       margin-bottom: 40px;
-      span{
+      span {
         height: 60px;
         line-height: 60px;
         cursor: pointer;
       }
-      .triangle{
+      .triangle {
         width: 0;
         height: 0;
         border-top: 10px solid transparent;
@@ -291,7 +443,7 @@ export default {
         margin-left: 40px;
         margin-top: -4px;
         transform: rotate(180deg);
-        &::before{
+        &::before {
           content: "";
           border-top: 8px solid transparent;
           border-right: 8px solid transparent;
@@ -303,31 +455,43 @@ export default {
         }
       }
     }
-    .topic-item{
+    .topic-item {
       margin-bottom: 160px;
-      .topic-left{
+      .topic-left {
         width: 875px;
         margin-right: 30px;
-        .raido-list{
+        .raido-list {
           border-bottom: 1px solid #ccc;
           position: relative;
-          .raido-title{
+          .raido-title {
             padding: 20px 0 20px;
             font-size: 20px;
           }
-          p{
-            margin-bottom: 14px;
-            input{
-              vertical-align:middle;
-              cursor: pointer;
-            }
-            label{
-              padding-left: 16px;
-              vertical-align:middle;display:inline-block;
+          .answer-confirm {
+            margin: 10px 0;
+            span {
+              display: inline-block;
+              padding: 10px;
+              color: #fff;
+              border-radius: 4px;
+              background: #5a9cff;
               cursor: pointer;
             }
           }
-          .answer-number{
+          p {
+            margin-bottom: 14px;
+            input {
+              vertical-align: middle;
+              cursor: pointer;
+            }
+            label {
+              padding-left: 16px;
+              vertical-align: middle;
+              display: inline-block;
+              cursor: pointer;
+            }
+          }
+          .answer-number {
             position: absolute;
             bottom: 22px;
             right: 40px;
@@ -335,20 +499,31 @@ export default {
             color: #ff0000;
           }
         }
-        .answer-style{
+        .answer-style {
           font-size: 18px;
           color: #000;
-          line-height: 50px;
-          &.other-answer{
+          line-height: 30px;
+          padding-top: 15px;
+          &.other-answer {
             margin-top: 10px;
+            input {
+              border: 1px solid #ccc;
+              font-size: 16px;
+              color: #333;
+              height: 35px;
+              padding: 0 10px;
+              border-radius: 4px;
+              vertical-align: middle;
+            }
           }
         }
-        .reference-msg{
+        .reference-msg {
           font-size: 18px;
           color: #808080;
           background: url(../assets/images/msg.png) 0 center no-repeat;
           line-height: 30px;
           padding-left: 40px;
+          margin-top: 20px;
         }
         .textarea-mn {
           position: relative;
@@ -374,7 +549,7 @@ export default {
             bottom: 18px;
             right: 18px;
             color: #999;
-            span{
+            span {
               background: #5a9cff;
               padding: 8px 18px;
               border-radius: 6px;
@@ -384,81 +559,82 @@ export default {
             }
           }
         }
-        .msg-list{
+        .msg-list {
           margin-top: 10px;
           border-bottom: 1px solid #ccc;
           padding: 20px 0;
           line-height: 30px;
           font-size: 18px;
-          .msg-page-number{ 
+          .msg-page-number {
             float: left;
             padding-right: 30px;
           }
-          .msg-page-content{
+          .msg-page-content {
             overflow: hidden;
             color: #000;
-            p:last-child{
+            p:last-child {
               color: #b3b3b3;
             }
           }
         }
-      .msg-button{
+        .msg-button {
           margin: 80px auto;
           text-align: center;
-          >span{
+          > span {
             padding: 10px 44px;
             color: #fff;
-            border-radius: 4px; 
+            border-radius: 4px;
             background: #5a9cff;
             cursor: pointer;
           }
         }
       }
-      .topic-right{
+      .topic-right {
         width: 372px;
         font-size: 18px;
-        .slider-list{
+        .slider-list {
           margin-top: 4px;
           line-height: 38px;
-          .left{
+          .left {
             width: 106px;
             float: left;
             color: #979699;
           }
-          .center{
+          .center {
             width: 190px;
-             float: left;
+            float: left;
           }
-          .right{
+          .right {
             float: right;
             padding-right: 4px;
           }
         }
-        .analysis{
-          line-height: 60px;
+        .analysis {
+          line-height: 30px;
           color: #808080;
+          padding: 15px 0 6px;
         }
-        .diff-level{
+        .diff-level {
           color: #f59631;
           line-height: 1.4;
         }
       }
-      .pd-left{
+      .pd-left {
         padding-left: 15px;
       }
-      .title{
+      .title {
         line-height: 50px;
         color: #fff;
         font-family: "宋体";
         font-size: 18px;
-        padding-left: 50px; 
+        padding-left: 50px;
         background: #5a9cff;
-        &.bg-icon{
-          background: #5a9cff url(../assets/images/icon-list.png) 18px center no-repeat;
+        &.bg-icon {
+          background: #5a9cff url(../assets/images/icon-list.png) 18px center
+            no-repeat;
         }
       }
     }
   }
-
 }
 </style>

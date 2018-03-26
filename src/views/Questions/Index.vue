@@ -15,7 +15,7 @@
         </ul>
         <!-- 就设置一个内页 router-view-->
         <div class="occupation-page">
-          <div class="wrapper" v-if="curriculumList">
+          <div class="wrapper" v-if="curriculumList.length">
             <p class="title">课程选择： {{ currData  }}<span v-if="curriculumList.length > 8" @click="showCurr" v-show="!isShowCurr">更多></span> <span v-show="isShowCurr" @click="showCurr">收起</span></p>
             <curriculum-box :curriculum="curriculumList" :selectedData="currData"  @selectEvent="radioItem"></curriculum-box>
             <p class="title" v-if="isShowChapter">章节选择： {{ chaptData }}<span v-if="chapterList.length > 8">更多></span></p>
@@ -34,7 +34,7 @@
               <span  @click="random">随机练习</span><span  @click="intelligence">智能答题</span>
             </div>
           </div>
-          <div class="wrapper" style="height: 200px;text-align:center;line-height: 100px;font-size:30px;" v-else-if="!curriculumList">
+          <div class="wrapper" style="height: 200px;text-align:center;line-height: 100px;font-size:30px;" v-else-if="!curriculumList.length">
             没有更多数据
           </div>
         </div>
@@ -63,7 +63,8 @@ export default {
       isShowCurr: false,
       isShowChapter: false,
       checkList: [],
-      chapterList: []
+      chapterList: [],
+      curriculumList: []
     };
   },
   computed: {
@@ -72,7 +73,7 @@ export default {
       // fieldList: state => state.fieldList,
       // konwledList: state => state.konwledList,
       typeList: state => state.question.typeList,
-      curriculumList: state => state.curriculumList,
+      // curriculumList: state => state.curriculumList,
       // chapterList: state => state.chapterList,
     })
   },
@@ -82,15 +83,20 @@ export default {
     this.$store.dispatch("TIKU_LIST_FETCH", {});
     this.$store.dispatch("CURRICULUM_LIST_FETCH", {
       questionsId: questions
-    });
-    this.$store.dispatch("CHAPTER_LIST_FETCH", {
-      fieldId: questions
     }).then(res => {
-      if(res.object){
-        this.chapterList = res.object;
-        this.isShowChapter = true;
+      if(res.result != 'success'){
+        return false;
+      }
+      if(!res.object){
+        this.curriculumList = []
+        return false;
+      }
+      this.curriculumList = res.object;
+      if(this.curriculumList.length){
+        this.getChapter(this.curriculumList[0]['fieldId'])       
       }
     });
+    
     this.$store.dispatch("QUESTION_TYPE_SET", {});
   },
   methods: {
@@ -106,8 +112,33 @@ export default {
       console.log("init", path);
     },
     flushCom:function(){
-　　　　this.$router.go(0);
+      let questions = this.$route.params.id;
+      this.$store.dispatch("CURRICULUM_LIST_FETCH", {
+        questionsId: questions
+      }).then(res => {
+        if(res.result != 'success'){
+          return false;
+        }
+        if(!res.object){
+          this.curriculumList = []
+          return false;
+        }
+        this.curriculumList = res.object;
+        if(this.curriculumList.length){
+          this.getChapter(this.curriculumList[0]['fieldId']) 
+        }
+      });
 　　},
+    getChapter(id){
+      this.$store.dispatch("CHAPTER_LIST_FETCH", {
+          fieldId: id
+        }).then(res => {
+          if(res.object){
+            this.chapterList = res.object;
+            this.isShowChapter = true;
+          }
+        });
+    },
     random() {
 
       if(!this.currData.length){

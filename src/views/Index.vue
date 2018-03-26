@@ -53,11 +53,7 @@
           <div class="dialog-content">
             <h3>选择课程</h3>
             <div class="examiner-list">
-              <router-link to="/trial">宏观经济学<i></i></router-link>
-              <router-link to="/trial">简历<i></i></router-link>
-              <router-link to="/trial">工作方法<i></i></router-link>
-              <router-link to="/trial">工作态度<i></i></router-link>
-              <router-link to="/trial">职业规划<i></i></router-link>
+              <router-link :to="'/triallist/'+ val.questionsId" v-for="(val, index) in tikuList" :key="index">{{ val.questionsName }}<i></i></router-link>
             </div>
           </div>
         </div>

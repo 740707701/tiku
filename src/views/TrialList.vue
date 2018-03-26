@@ -10,7 +10,7 @@
       <div class="wrapper">
         <ul class="questions-tabs border-bottom-color" >
           <li v-for="(val, index) in tikuList" :key="index">
-            <router-link :to="'/question/'+ val.questionsId" :class="{'active': isNav(/val.questionsId/) }"  @click.native="flushCom">{{ val.questionsName }}</router-link>
+            <router-link :to="'/triallist/'+ val.questionsId" :class="{'active': isNav(/val.questionsId/) }"  @click.native="flushCom">{{ val.questionsName }}</router-link>
           </li>
         </ul>
         <!-- 就设置一个内页 router-view-->
@@ -18,18 +18,16 @@
           <div class="wrapper" v-if="curriculumList">
             <p class="title">课程选择： {{ currData  }}<span v-if="curriculumList.length > 8" @click="showCurr" v-show="!isShowCurr">更多></span> <span v-show="isShowCurr" @click="showCurr">收起</span></p>
             <curriculum-box :curriculum="curriculumList" :selectedData="currData"  @selectEvent="radioItem"></curriculum-box>
-            <p class="title">题型：</p>
-            <!-- <topic :topicType="typeList" :selectedData="checkList" @topicEvent="checkoutTopic"></topic> -->
+            <!-- <p class="title">题型：</p>
             <div class="topic-type">
-              <!-- :checked="list.subjective" -->
               <el-checkbox-group v-model="checkList">
                 <el-checkbox v-for="list in typeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
               </el-checkbox-group>
             {{ checkList }}
-            </div>
+            </div> -->
 
             <div class="occupation-button">
-              <span @click="exitQuestion">点击出题</span>
+              <span @click="exitQuestion">点击审题</span>
             </div>
           </div>
           <div class="wrapper" style="height: 200px;text-align:center;line-height: 100px;font-size:30px;" v-else-if="!curriculumList">
@@ -80,10 +78,8 @@ export default {
   },
   methods: {
     exitQuestion() {
-      let question = this.$route.params.id,
-      fieldId = this.currData[0],
-      questionTypeId =     this.checkList.join();
-      this.$router.push(`/judge/?question=${question}&fieldId=${fieldId}&questionTypeId=${questionTypeId}`)
+      let fieldId = this.currData[0]
+      this.$router.push(`/trial/?fieldId=${fieldId}`)
     },
     flushCom:function(){
 // 　　　　this.$router.go(0);

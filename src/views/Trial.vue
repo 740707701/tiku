@@ -101,22 +101,41 @@ export default {
       name: '知识相关性',
       value: 65,
     }],
-    sliderNumber: []
+    sliderNumber: [],
+
+    questiontypeGrouping: '',
+    questionUnaudited: '',
+    questionTypeId: []
 
   }),
   computed: {
     ...mapState({ 
-      unauditedList: state => state.question.unauditedList,
-      acountList: state => state.question.acountList
+      typeList: state => state.question.typeList,
+      // unauditedList: state => state.question.unauditedList,
+      // acountList: state => state.question.acountList
     }),
   },
   created() {
-    this.$store.dispatch('QUESTION_UNAUDITED_SET', {
+
+    this.fieldId = this.$route.query.fieldId
+
+    this.$store.dispatch("QUESTION_TYPE_SET", {});
+
+    this.$store.dispatch('QUESTIONTYPE_GROUPING', {
+      fieldId: this.fieldId
+      
+    }).then(res => {
+      if(res.result == 'success'){
+        this.questiontypeGrouping = res.Object
+        res.Object.forEach((val,index) => {
+          this.questionTypeId.push(val.questionTypeId)
+        })
+      }
+      console.log(res)
+    })
+    this.$store.dispatch('QUESTION_UNAUDITED', {
         fieldId: 1,
         questionTypeId: 1
-      }),
-    this.$store.dispatch('QUESTION_ACOUNT_SET', {
-        fieldId: 1
       }),
       
 

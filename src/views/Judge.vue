@@ -8,27 +8,23 @@
     </div>
     <div class="set-topic-list">
       <div class="wrapper">
-       
+
         <div class="list-main clearfix">
           <div class="main-left">
             <div class="line-box">
               <div class="box-line examinee">
                 <p class="line-title clearfix">出题信息</p>
                 <div class="student-info">
-                  <p class="info-list"><span>课程选择:</span> <span>职业技能</span></p>
-                  <p class="info-list"><span>章节选择:</span> <span>宏观经济学概述</span></p>
-                  <p class="info-list"><span>题型选择:</span> <span > <a v-for="(data, index) in typeList" :key="index">{{ data.name }}</a></span></p>
-                  <p class="info-list"><span>出题时间:</span> <span>2018-03-01</span></p>
-                  <p class="info-list"><span>出题者:</span> <span>在线题库</span></p>
+                  <p class="info-list"><span>题库选择:</span> <span><i v-for="(item, index) in tikuList" :key="index" v-if="item.questionsId == tikuId">{{ item.questionsName }}</i></span></p>
+                  <p class="info-list"><span>课程选择:</span> <span><i v-for="(item, index) in curriculumList" :key="index" v-if="item.fieldId == fieldId">{{ item.fieldName}}</i></span></p>                 
+                  <p class="info-list"><span>出题时间:</span> <span>{{nowTime}}</span></p>
+                  <!-- <p class="info-list"><span>出题者:</span> <span>在线题库</span></p> -->
                 </div>
               </div>
               <div class="box-line examinee">
                 <p class="line-title clearfix">出题状态</p>
                 <div class="student-info">
-                  <p class="info-list"><span>单选题</span></p>
-                  <p class="info-list"><span>多选题</span></p>
-                  <p class="info-list"><span>判断题</span></p>
-                  <p class="info-list"><span>案例题</span></p>
+                  <p class="info-list" v-for="(item, index) in QusTypeList" :key="index"><span>{{item}}</span></p>
                 </div>
               </div>
 
@@ -36,99 +32,129 @@
           </div>
           <div class="box-line main-right">
 
-            <el-collapse v-model="activeNames" @change="handleChange" accordion>
-              <el-collapse-item title="单选题" name="1">
-                          <div class="raido-list" v-for="(item, index) in dataList" :key="index">
-                          <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
-                          <p class="chuti" v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
-                          <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-                          <p>输入正确答案: <input type="text"> <span class="next-ti">下一题</span></p>
-                          <div class="raido-title">请选择知识点：</div>
-                          <el-cascader
-                            :options="options"
-                            :show-all-levels="false"
-                            @change="elEvent"
-                          ></el-cascader>
-                          <el-cascader
-                            :options="options"
-                            :show-all-levels="false"
-                            @change="elEvent"
-                          ></el-cascader>
-                          <el-cascader
-                            :options="options"
-                            :show-all-levels="false"
-                            @change="elEvent"
-                          ></el-cascader>
-                          <el-cascader
-                            :options="options"
-                            :show-all-levels="false"
-                            @change="elEvent"
-                          ></el-cascader>
-                        </div>
+            <el-collapse accordion v-model="activeNames" @change="handleChange" v-for="(item, index) in questionTypeId" :key="index">
+
+              <el-collapse-item title="单选题" v-if="item == 1" :name="(index+1)">
+                <div class="raido-list">
+                  <div class="raido-title">{{radioTopics.length+1}}、<input class="judge-title" v-model="radioTitle" type="text" placeholder="输入标题"></div>
+                  <p class="chuti">A、<input class="judge-option" v-model="radioOptions[0]" type="text" placeholder="输入选项A的内容"></p>
+                  <p class="chuti">B、<input class="judge-option" v-model="radioOptions[1]" type="text" placeholder="输入选项B的内容"></p>
+                  <p class="chuti">C、<input class="judge-option" v-model="radioOptions[2]" type="text" placeholder="输入选项C的内容"></p>
+                  <p class="chuti">D、<input class="judge-option" v-model="radioOptions[3]" type="text" placeholder="输入选项D的内容"></p>
+                  <p class="answer">输入正确答案: <input type="text" v-model="radioAnswer" class="judge-answer"> <span class="next-ti" @click="nextBtn('radio')">下一题</span></p>
+                  <div class="select-title">请选择知识点：</div>
+                  <template>
+                    <el-select v-model="radioKnowledge" placeholder="请选择">
+                      <el-option
+                        v-for="item in chapterList"
+                        :key="item.pointId"
+                        :label="item.pointName"
+                        :value="item.pointId">
+                      </el-option>
+                    </el-select>
+                  </template>
+
+                </div>
+
               </el-collapse-item>
-              <el-collapse-item title="多选题" name="2">
-                <div class="raido-list" v-for="(item, index) in dataList2" :key="index">
-                          <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
-                          <p class="chuti" v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
-                          <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-                          <p>输入正确答案: <input type="text"> <span class="next-ti">下一题</span></p>
-                          <div class="raido-title">请选择知识点：</div>
-                          <el-cascader
-                            :options="options"
-                            :show-all-levels="false"
-                            @change="elEvent"
-                          ></el-cascader>
-                          
-                        </div>
+              <el-collapse-item title="多选题" v-if="item == 2" :name="(index+1)">
+                <div class="raido-list">
+                  <div class="raido-title">{{checkboxTopics.length+1}}、<input class="judge-title" v-model="checkboxTitle" type="text" placeholder="输入标题"></div>
+                  <p class="chuti">A、<input class="judge-option" v-model="checkboxOptions[0]" type="text" placeholder="输入选项A的内容"></p>
+                  <p class="chuti">B、<input class="judge-option" v-model="checkboxOptions[1]" type="text" placeholder="输入选项B的内容"></p>
+                  <p class="chuti">C、<input class="judge-option" v-model="checkboxOptions[2]" type="text" placeholder="输入选项C的内容"></p>
+                  <p class="chuti">D、<input class="judge-option" v-model="checkboxOptions[3]" type="text" placeholder="输入选项D的内容"></p>
+                  <p class="chuti">E、<input class="judge-option" v-model="checkboxOptions[4]" type="text" placeholder="输入选项D的内容"></p>
+                  <p class="chuti">F、<input class="judge-option" v-model="checkboxOptions[5]" type="text" placeholder="输入选项D的内容"></p>
+                  <p class="answer">输入正确答案: <input type="text" v-model="checkboxAnswer" class="judge-answer checkbox-answer"> <span class="next-ti" @click="nextBtn('checkbox')">下一题</span></p>
+                  <div class="select-title">请选择知识点：</div>
+                  <template>
+                    <el-select v-model="checkboxKnowledge" placeholder="请选择">
+                      <el-option
+                        v-for="item in chapterList"
+                        :key="item.pointId"
+                        :label="item.pointName"
+                        :value="item.pointId">
+                      </el-option>
+                    </el-select>
+                  </template>
+
+                </div>
               </el-collapse-item>
-              <el-collapse-item title="判断题" name="3">
-                <div>简化流程：设计简洁直观的操作流程；</div>
-                <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-                <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+              <el-collapse-item title="判断题" v-if="item == 3" :name="(index+1)">
+                <div class="raido-list">
+                  <div class="raido-title">{{judgeTopics.length+1}}、<input class="judge-title" v-model="judgeTitle" type="text" placeholder="输入标题"></div>
+                  <p class="chuti">A、正确</p>
+                  <p class="chuti">B、错误</p>
+                  <p class="answer">输入正确答案: <input type="text" v-model="judgeAnswer" class="judge-answer"> <span class="next-ti" @click="nextBtn('judge')">下一题</span></p>
+                  <div class="select-title">请选择知识点：</div>
+                  <template>
+                    <el-select v-model="judgeKnowledge" placeholder="请选择">
+                      <el-option
+                        v-for="item in chapterList"
+                        :key="item.pointId"
+                        :label="item.pointName"
+                        :value="item.pointId">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </div>
               </el-collapse-item>
-              <el-collapse-item title="论述题" name="4">
-                <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-                <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+              <el-collapse-item title="解答题" v-if="item == 4" :name="(index+1)">
+                <div class="raido-list answer-list">
+                  <div class="raido-title">{{answerTopics.length+1}}、<input class="judge-title" v-model="answerTitle" type="text" placeholder="输入标题"></div>
+                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="answerAnswer" class="judge-answer"></textarea><span class="next-ti" @click="nextBtn('answer')">下一题</span></p>
+                  <div class="select-title">请选择知识点：</div>
+                  <template>
+                    <el-select v-model="answerKnowledge" placeholder="请选择">
+                      <el-option
+                        v-for="item in chapterList"
+                        :key="item.pointId"
+                        :label="item.pointName"
+                        :value="item.pointId">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </div>
+              </el-collapse-item>
+              <el-collapse-item title="论述题" v-if="item == 5" :name="(index+1)">
+                <div class="raido-list answer-list">
+                  <div class="raido-title">{{discussTopics.length+1}}、<input class="judge-title" v-model="discussTitle" type="text" placeholder="输入标题"></div>
+                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="discussAnswer" class="judge-answer"></textarea><span class="next-ti" @click="nextBtn('answer')">下一题</span></p>
+                  <div class="select-title">请选择知识点：</div>
+                  <template>
+                    <el-select v-model="discussKnowledge" placeholder="请选择">
+                      <el-option
+                        v-for="item in chapterList"
+                        :key="item.pointId"
+                        :label="item.pointName"
+                        :value="item.pointId">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </div>
+              </el-collapse-item>
+              <el-collapse-item title="分析题" v-if="item == 6" :name="(index+1)">
+                <div class="raido-list answer-list">
+                  <div class="raido-title">{{analysisTopics.length+1}}、<input class="judge-title" v-model="analysisTitle" type="text" placeholder="输入标题"></div>
+                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="analysisAnswer" class="judge-answer"></textarea><span class="next-ti" @click="nextBtn('answer')">下一题</span></p>
+                  <div class="select-title">请选择知识点：</div>
+                  <template>
+                    <el-select v-model="analysisKnowledge" placeholder="请选择">
+                      <el-option
+                        v-for="item in chapterList"
+                        :key="item.pointId"
+                        :label="item.pointName"
+                        :value="item.pointId">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </div>
               </el-collapse-item>
             </el-collapse>
 
-
-            <!-- <p class="line-title">出题名称: <span>单选题 <i></i> </span></p>
-            <div class="raido-list" v-for="(item, index) in dataList" :key="index">
-              <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
-              <p class="chuti" v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
-              <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-              <p>输入正确答案: <input type="text"> <span class="next-ti">下一题</span></p>
-              <div class="raido-title">请选择知识点：</div>
-              <el-cascader
-                :options="options"
-                :show-all-levels="false"
-                @change="elEvent"
-              ></el-cascader>
-
-              <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
-              <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-            </div> -->
-            {{ radioNames }}
-            {{ dataList2 }}
-            <!-- <p class="line-title"><span>多选题 <i></i> </span></p>
-            <div class="raido-list" v-for="(item, index) in dataList2" :key="index">
-              <div class="raido-title">{{ index+1 }}、{{ item.name }}</div>
-              <p v-for="(num, i) in item.sle" :key="i"><input type="checkbox" :id="'check'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="item.aaa">
-              <label :for="'check'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-              <p>输入正确答案: <input type="text"> <span class="next-ti">下一题</span></p>
-              <div class="raido-title">请选择知识点：</div>
-              <el-cascader
-                :options="options"
-                :show-all-levels="false"
-                @change="elEvent"
-              ></el-cascader>
-              <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
-              <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-            </div> -->
-            <!-- {{ dataList2 }} -->
             <div class="footer-button">
-              <span>提交</span> <span>取消</span>
+              <span @click="submitBtn">提交</span> <span @click="resetBtn">取消</span>
             </div>
           </div>
         </div>
@@ -148,258 +174,243 @@ export default {
   name: "set-topic-page",
   data() {
     return {
-      activeNames: ['1'],
-      progressing: 60,
-      radioNames: [],
-      checkboxNames:[],
-      letter: ['A','B','C','D','E','F','G','H'],
-      dataList:[{
-        name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-        sle:['正确', '错误', '对的', '不对']
-      }],
-      dataList2: [],
-      options: [{
-          value: 'zhinan',
-          label: '指南',
-          children: [{
-            value: 'shejiyuanze',
-            label: '设计原则',
-            children: [{
-              value: 'yizhi',
-              label: '一致'
-            }, {
-              value: 'fankui',
-              label: '反馈'
-            }, {
-              value: 'xiaolv',
-              label: '效率'
-            }, {
-              value: 'kekong',
-              label: '可控'
-            }]
-          }, {
-            value: 'daohang',
-            label: '导航',
-            children: [{
-              value: 'cexiangdaohang',
-              label: '侧向导航'
-            }, {
-              value: 'dingbudaohang',
-              label: '顶部导航'
-            }]
-          }]
-        }, {
-          value: 'zujian',
-          label: '组件',
-          children: [{
-            value: 'basic',
-            label: 'Basic',
-            children: [{
-              value: 'layout',
-              label: 'Layout 布局'
-            }, {
-              value: 'color',
-              label: 'Color 色彩'
-            }, {
-              value: 'typography',
-              label: 'Typography 字体'
-            }, {
-              value: 'icon',
-              label: 'Icon 图标'
-            }, {
-              value: 'button',
-              label: 'Button 按钮'
-            }]
-          }, {
-            value: 'form',
-            label: 'Form',
-            children: [{
-              value: 'radio',
-              label: 'Radio 单选框'
-            }, {
-              value: 'checkbox',
-              label: 'Checkbox 多选框'
-            }, {
-              value: 'input',
-              label: 'Input 输入框'
-            }, {
-              value: 'input-number',
-              label: 'InputNumber 计数器'
-            }, {
-              value: 'select',
-              label: 'Select 选择器'
-            }, {
-              value: 'cascader',
-              label: 'Cascader 级联选择器'
-            }, {
-              value: 'switch',
-              label: 'Switch 开关'
-            }, {
-              value: 'slider',
-              label: 'Slider 滑块'
-            }, {
-              value: 'time-picker',
-              label: 'TimePicker 时间选择器'
-            }, {
-              value: 'date-picker',
-              label: 'DatePicker 日期选择器'
-            }, {
-              value: 'datetime-picker',
-              label: 'DateTimePicker 日期时间选择器'
-            }, {
-              value: 'upload',
-              label: 'Upload 上传'
-            }, {
-              value: 'rate',
-              label: 'Rate 评分'
-            }, {
-              value: 'form',
-              label: 'Form 表单'
-            }]
-          }, {
-            value: 'data',
-            label: 'Data',
-            children: [{
-              value: 'table',
-              label: 'Table 表格'
-            }, {
-              value: 'tag',
-              label: 'Tag 标签'
-            }, {
-              value: 'progress',
-              label: 'Progress 进度条'
-            }, {
-              value: 'tree',
-              label: 'Tree 树形控件'
-            }, {
-              value: 'pagination',
-              label: 'Pagination 分页'
-            }, {
-              value: 'badge',
-              label: 'Badge 标记'
-            }]
-          }, {
-            value: 'notice',
-            label: 'Notice',
-            children: [{
-              value: 'alert',
-              label: 'Alert 警告'
-            }, {
-              value: 'loading',
-              label: 'Loading 加载'
-            }, {
-              value: 'message',
-              label: 'Message 消息提示'
-            }, {
-              value: 'message-box',
-              label: 'MessageBox 弹框'
-            }, {
-              value: 'notification',
-              label: 'Notification 通知'
-            }]
-          }, {
-            value: 'navigation',
-            label: 'Navigation',
-            children: [{
-              value: 'menu',
-              label: 'NavMenu 导航菜单'
-            }, {
-              value: 'tabs',
-              label: 'Tabs 标签页'
-            }, {
-              value: 'breadcrumb',
-              label: 'Breadcrumb 面包屑'
-            }, {
-              value: 'dropdown',
-              label: 'Dropdown 下拉菜单'
-            }, {
-              value: 'steps',
-              label: 'Steps 步骤条'
-            }]
-          }, {
-            value: 'others',
-            label: 'Others',
-            children: [{
-              value: 'dialog',
-              label: 'Dialog 对话框'
-            }, {
-              value: 'tooltip',
-              label: 'Tooltip 文字提示'
-            }, {
-              value: 'popover',
-              label: 'Popover 弹出框'
-            }, {
-              value: 'card',
-              label: 'Card 卡片'
-            }, {
-              value: 'carousel',
-              label: 'Carousel 走马灯'
-            }, {
-              value: 'collapse',
-              label: 'Collapse 折叠面板'
-            }]
-          }]
-        }, {
-          value: 'ziyuan',
-          label: '组件交互文档',
-          // children: [{
-          //   value: 'axure',
-          //   label: 'Axure Components'
-          // }, {
-          //   value: 'sketch',
-          //   label: 'Sketch Templates'
-          // }, {
-          //   value: 'jiaohu',
-          //   label: '组件交互文档'
-          // }]
-        }]
+      activeNames: 1,
+      radioTopics: [],
+      checkboxTopics: [],
+      judgeTopics: [],
+      answerTopics: [],
+      discussTopics: [],
+      analysisTopics: [],
+      radioTitle: '',
+      radioOptions: [],
+      radioAnswer: '',
+      radioKnowledge: '',
+      radioSubFlag: false,
+      checkboxTitle: '',
+      checkboxOptions: [],
+      checkboxAnswer: '',
+      checkboxKnowledge: '',
+      checkboxSubFlag: false,
+      judgeTitle: '',
+      judgeOptions: [],
+      judgeAnswer: '',
+      judgeKnowledge: '',
+      judgeSubFlag: false,
+      answerTitle: '',
+      answerOptions: [],
+      answerAnswer: '',
+      answerKnowledge: '',
+      answerSubFlag: false,
+      discussTitle: '',
+      discussOptions: [],
+      discussAnswer: '',
+      discussKnowledge: '',
+      discussSubFlag: false,
+      ranalysisTitle: '',
+      analysisOptions: [],
+      analysisAnswer: '',
+      analysisKnowledge: '',
+      analysisSubFlag: false,
+      questionTypeId: [],
+      typeList: [],
+      QusTypeList: [],
+      curriculumList: [],
+      nowTime: '',
+      tikuId: 1
     };
   },
-    computed: {
+  computed: {
     ...mapState({
-      typeList: state => state.question.typeList
-    }),
+      tikuList: state => state.tikuList,
+      chapterList: state => state.chapterList
+    })
   },
-  created() {
-    this.$store.dispatch('QUESTION_TYPE_SET'),
-    this.getPath()
+  created(){
+
+    let nowTime = new Date()
+    let nowYear = nowTime.getFullYear()
+    let nowMonth = nowTime.getMonth()+1
+    let nowDay = nowTime.getDate()
+    this.nowTime = `${nowYear}-${nowMonth}-${nowDay}`
+
+    this.$store.dispatch("TIKU_LIST_FETCH", {});
+
+    this.tikuId = this.$route.query.question
+
+    if(this.$route.query.questionTypeId){
+      this.questionTypeId = this.$route.query.questionTypeId.split(',')
+    }
+    this.fieldId = this.$route.query.fieldId;
+    this.$store.dispatch("QUESTION_TYPE_SET", {}).then(res => {
+      if(res.result == 'success' && res.object){
+        this.typeList = res.object
+        this.typeList.forEach((val, index) => {
+          this.questionTypeId.forEach((qusVal, qusIndex) => {
+            if(val.id == qusVal){
+              this.QusTypeList.push(val.name)
+            }
+          })
+        })
+      }
+    });
+
+    this.$store.dispatch("CURRICULUM_LIST_FETCH", {
+      questionsId: this.fieldId
+    }).then( res => {
+      this.curriculumList = res.object
+    })
+    this.$store.dispatch("CHAPTER_LIST_FETCH", {
+      fieldId: this.fieldId
+    });
+
+
   },
   methods: {
-    handleChange(val){
+    handleChange(val) {
       console.log(val);
     },
-    elEvent(v) {
-      console.log(v)
-    },
-    getPath() {
-      this.path = this.$route.path
-      let that = this;
+    nextBtn(item){
+      let topics = this[item+'Topics']
 
-      // 异步数据
-      setTimeout(function(){
-        var a = [{
-          name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-          sle:['正确', '错误', '对的', '不对'],
-        }]
-        
-        a.map((v, i, arr) => {
-          return v.aaa = []
-        })
-        return that.dataList2 = a
-      },2000)
+    if(this[item+'SubFlag']){
+      this[item+'Topics'].push({title: this[item+'Title']})
+    }else{
+      // console.log('----', topics.length )
+      if(!topics[topics.length]){
+        this.$message({
+          message: "当前题目提交之后，才能出下一题",
+          type: "warning"
+        });
+        return false;
+      }     
+    }
+      
+      this[item+'Title'] = ''
+      this[item+'Options'] = []
+      this[item+'Answer'] = ''
+      this[item+'Knowledge'] = ''
+      this[item+'SubFlag'] = false
     },
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
-    isNav(reg){
-      if(Object.prototype.toString.call(reg) === '[object RegExp]'){
-        return reg.test(this.$router.currentRoute.path)
-      }else if(Object.prototype.toString.call(reg) === '[object String]'){
-        return new RegExp(reg).test(this.$router.currentRoute.path)
-      }else{
-        return false
+    resetBtn(){
+      if(this.activeNames == ''){
+        this.$message({
+          message: "请展开你要取消的项目。",
+          type: "warning"
+        });
+        return false;
+
       }
+      let type = ['radio', 'checkbox', 'judge', 'answer', 'discuss', 'analysis']
+      let item = type[this.activeNames-1]
+      this[item+'Title'] = ''
+      this[item+'Options'] = []
+      this[item+'Answer'] = ''
+      this[item+'Knowledge'] = ''
     },
+    submitBtn(){
+      if(this.activeNames == ''){
+        this.$message({
+          message: "请展开你要提交的项目。",
+          type: "warning"
+        });
+        return false;
+
+      }
+      let type = ['radio', 'checkbox', 'judge', 'answer', 'discuss', 'analysis']
+      let item = type[this.activeNames-1]
+
+
+      let topics = item+'Topics'
+      let choiceList = []
+      let answer = this[item+'Answer']
+
+      if(this[item+'Title'] == ''){
+        this.$message({
+          message: "标题不能为空",
+          type: "warning"
+        });
+        return false;
+      }else if((!this[item+'Options'].length && item == 'radio') || (!this[item+'Options'].length && item == 'checkbox')){
+        this.$message({
+          message: "选项不能为空",
+          type: "warning"
+        });
+        return false;
+      }else if(this[item+'Answer'] == ''){
+        this.$message({
+          message: "答案不能为空",
+          type: "warning"
+        });
+        return false;
+      }else if(this[item+'Knowledge'] == ''){
+        this.$message({
+          message: "知识点不能为空",
+          type: "warning"
+        });
+        return false;
+      }
+      if(this[item+'Options'].length){
+        this[item+'Options'].forEach((val, index) => {
+          if(index == 0){
+            choiceList.push({A: val})
+          }else if(index == 1){
+            choiceList.push({B: val})
+          }else if(index == 2){
+            choiceList.push({C: val})
+          }else if(index == 3){
+            choiceList.push({D: val})
+          }else if(index == 4){
+            choiceList.push({E: val})
+          }else if(index == 5){
+            choiceList.push({F: val})
+          }
+        })
+      }
+
+      if(item == 'checkbox'){
+        answer = this[item+'Answer'].split(',').sort().join()
+      }
+      if(item == 'judge'){
+        if(judge == 'A'){
+          answer = 'T'
+        }else{
+          answer = 'F'
+        }
+      }
+      let choiceListObj = {}
+      choiceList.forEach((val, index, arr) => {
+        Object.assign(choiceListObj,val)
+      })
+      this.$store
+        .dispatch("QUESTION_ADD", {
+          "name": this[item+'Title'],      //题目标题
+          "question_type_id": this.activeNames+'',  //题型
+          "pointList":[this[item+'Knowledge']],  //章节【可以多个章节id】
+          "answer": answer,     //正确答案
+          "analysis":"",        //题目解析
+          "referenceName":"",   //题目来源
+          "examingPoint":"",    //考点
+          "keyword":"",       //关键字
+          "QuestionContent":{
+            "title": this[item+'Title'],      //题目
+            "titleImg":"",   //题目图片
+            "choiceList": choiceListObj, //题目答案  （例如题目下的  A  B   C  D）
+            "choiceImgList":""  //题目答案图片（如果答案是图片，A B C D 图片）
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.result == "success") {
+            this[item+'SubFlag'] = true
+            this.$message({
+              message: "题目提交成功，请等待审核。",
+              type: "success"
+            });
+
+          }
+        });
+      
+    }
   },
   components: {
     headerNav
@@ -427,7 +438,7 @@ export default {
       padding-left: 14px;
       border-left: 6px solid #6404ff;
       margin-top: 20px;
-      margin-bottom: 26px; 
+      margin-bottom: 26px;
       span{
         color: #b2b2b2;
         float: right;
@@ -438,7 +449,7 @@ export default {
       border: 1px solid #fafafa;
       box-shadow:0px 6px 6px #E9E7EA;
       margin-bottom: 30px;
-      overflow: hidden; 
+      overflow: hidden;
       background: linear-gradient(to top, #60a8fe, #357df2);
       position: relative;
       &::before{
@@ -479,6 +490,9 @@ export default {
                 width: 180px;
                 line-height: 1.3;
                 margin-left: 6px;
+                i{
+                  font-style: normal;
+                }
                 a{
                   margin-right: 10px;
                   font-size: 16px;
@@ -501,12 +515,12 @@ export default {
         background: #fff;
         float: left;
         .el-collapse{
-          padding: 0 24px; 
+          padding: 0 24px;
         }
         .line-title{
           line-height: 60px;
           // background: url(../assets/images/icon-list.png) 10px center no-repeat;
-          padding-left: 50px; 
+          padding-left: 50px;
           font-size: 15px;
           color: #999999;
           border-bottom: 1px solid #ccc;
@@ -532,7 +546,7 @@ export default {
               &.active{
                 transform: rotate(135deg);
                 top: 10px;
-                
+
               }
             }
           }
@@ -541,35 +555,46 @@ export default {
           border-bottom: 5px solid #f7f7f7;
         }
         .raido-list{
-          padding-left: 30px; 
-          
+          padding-left: 30px;
+
           .raido-title{
             padding: 20px 0 20px;
+            .judge-title{
+              border: 1px solid #ccc;
+              width: 90%;
+              font-size: 15px;
+              line-height: 25px;
+              padding: 5px 10px;
+              border-radius: 5px;
+            }
           }
           p{
             margin-bottom: 14px;
-            input[type=radio]{
-              vertical-align:middle;
-              cursor: pointer;
+            .judge-option{
+              border: 1px solid #cfcfcf;
+              font-size: 15px;
+              line-height: 25px;
+              padding: 5px 10px;
+              border-radius: 5px;
+              width: 70%;
             }
-            label{
-              padding-left: 16px;
-              vertical-align:middle;display:inline-block;
-              cursor: pointer;
-            }
-            input[type=text]{
+            .judge-answer{
               width: 50px;
               line-height: 28px;
               border: 1px solid #cfcfcf;
               font-size: 20px;
             }
+            .checkbox-answer{
+              width: 150px;
+            }
             .next-ti{
               display: block;
-              width: 80px;height: 30px;
+              width: 80px;
+              height: 35px;
               text-align: center;
-              line-height: 30px;
+              line-height: 35px;
               color: #fff;
-              font-size: 18px;
+              font-size: 15px;
               border-radius: 4px;
               background: #5a9cff;
               float: right;
@@ -577,6 +602,22 @@ export default {
               cursor: pointer;
             }
           }
+          .select-title{
+            padding: 15px 0 5px;
+          }
+        }
+        .answer-list{
+          .answer{
+            .judge-answer{
+              width: 89.5%;
+              font-size: 15px;
+              line-height: 20px;
+              height: 100px;
+              border-radius: 5px;
+              padding: 5px 10px;
+            }
+          }
+
         }
         .footer-button{
             padding: 50px 0;
@@ -585,11 +626,11 @@ export default {
             span{
               display: block;
               width: 80px;
-              height: 30px;
+              height: 35px;
               float: left;
               margin-left: 40px;
               text-align: center;
-              line-height: 30px;
+              line-height: 35px;
               color: #fff;
               font-size: 18px;
               border-radius: 4px;
@@ -601,10 +642,10 @@ export default {
 
       // .box-line{
       //   box-sizing: border-box;
-        
+
       //   float: left;
       // }
-      
+
 
     }
   }

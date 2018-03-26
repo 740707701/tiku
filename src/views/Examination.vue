@@ -344,13 +344,7 @@ export default {
       }
     },
     examSubmit() {
-
-      this.$notify.success({
-          title: 'Info',
-          message: '这是一条没有关闭按钮的消息',
-          showClose: false
-        });
-        
+   
       let examId = this.$route.params.examId;
       let examPaperId = this.$route.params.examPaperId;
       let duration = parseInt(
