@@ -20,7 +20,7 @@ class Api {
             // "Cache-Control": "no-cache"
           },
         }).then(res => {
-          console.log(`[${method}]${url}`, res)
+          // console.log(`[${method}]${url}`, res)
           if (res.status === 200) {
             resolve(res.data)
 
