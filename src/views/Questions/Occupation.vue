@@ -1,7 +1,7 @@
 <template>
   <div class="occupation-page">
     <div class="wrapper">
-      <p class="title">课程选择： {{ currData  }}<span>更多</span></p>
+      <p class="title">课程选择：<span>更多</span></p>
       <itemList :curriculum="curriculum" :selectedData="currData" @selectEvent="radioItem"></itemList>
       <p class="title">章节选择： {{ chaptData }}<span>更多</span></p>
       <itemList :curriculum="chapter" :selectedData="chaptData" @selectEvent="checkboxItem"></itemList>

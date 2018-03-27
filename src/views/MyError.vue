@@ -6,9 +6,13 @@
     </div>
     <div class="my-error-list">
       <div class="wrapper">
-        
+        <ul class="questions-tabs border-bottom-color" >
+          <li v-for="(val, index) in tikuList" :key="index">
+            <router-link :to="'/myerror/'+ val.questionsId" :class="{'active': isNav(/val.questionsId/) }"  @click.native="flushCom">{{ val.questionsName }}</router-link>
+          </li>
+        </ul>
         <p class="title">错题列表:</p>
-       
+
         <el-row :gutter="20">
           <el-col :span="6" v-for="item in myErrorList" :key="item.id" >
             <div class="grid-content bg-purple" @click="getDetails(item)">
@@ -22,7 +26,7 @@
         </el-row>
       </div>
     </div>
-    
+
   </div>
 </template>
 
@@ -36,27 +40,60 @@ export default {
   name: "myerror",
   data() {
     return {
-   
+      myErrorList: []
     };
   },
   computed: {
     ...mapState({
-      myErrorList: state => state.myErrorList,
-      
+      tikuList: state => state.tikuList,
+      // myErrorList: state => state.myErrorList,
     })
   },
   created() {
+    let questions = this.$route.params.id;
+    this.$store.dispatch("TIKU_LIST_FETCH", {});
     this.$store.dispatch("EXAM_ERROR_STATISTICAL", {
-      questionsId: 1
+      questionsId: questions
+    }).then(res => {
+      if(res.result == 'success'){
+        this.myErrorList = []
+        if(res.object){
+          this.myErrorList = res.object
+        }
+      }
     })
-    
+
   },
   methods: {
+    flushCom:function(){
+      let questions = this.$route.params.id;
+      console.log(questions)
+      this.$store.dispatch("EXAM_ERROR_STATISTICAL", {
+        questionsId: questions
+      }).then(res => {
+        if(res.result == 'success'){
+          this.myErrorList = []
+          if(res.object){
+            this.myErrorList = res.object
+          }
+        }
+      })
+　　},
     sortNumber() {
       return Math.floor(Math.random() * 7 + 1 )
     },
     getDetails(item) {
-      this.$router.push(`/errorlist/?fieldId=${encodeURIComponent(item.fieldId)}&questionTypeId=${encodeURIComponent(item.questionTypeId)}`) 
+      let question = this.$route.params.id;
+      this.$router.push(`/errorlist/?question=${question}&fieldId=${encodeURIComponent(item.fieldId)}`)
+    },
+    isNav(reg) {
+      if (Object.prototype.toString.call(reg) === "[object RegExp]") {
+        return reg.test(this.$router.currentRoute.path);
+      } else if (Object.prototype.toString.call(reg) === "[object String]") {
+        return new RegExp(reg).test(this.$router.currentRoute.path);
+      } else {
+        return false;
+      }
     }
   },
   components: {
@@ -71,6 +108,24 @@ export default {
     padding-top: 10px;
     nav{
       height: 150px;
+    }
+  }
+  .questions-tabs {
+    padding-top: 30px;
+    height: 64px;
+    li {
+      float: left;
+      a {
+        font-size: 24px;
+        color: #999;
+        line-height: 64px;
+        margin-right: 70px;
+        &.router-link-active {
+          color: #000;
+          border-bottom: 4px solid #5a9cff;
+          padding-bottom: 14px;
+        }
+      }
     }
   }
   .my-error-title{

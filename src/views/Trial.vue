@@ -1,5 +1,6 @@
+
 <template>
-  <div class="trial-page">
+  <div class="trial-page" v-if="randomItem.length">
     <header-nav></header-nav>
     <div class="big-banner">
       <div class="wrapper">
@@ -10,26 +11,59 @@
       <div class="wrapper">
         <!-- <p class="list-title">职业题库</p> -->
         <div class="menu-row">
-          <p class="info-list"><span>课程选择：</span> <span>简历</span></p>
-          <p class="info-list"><span>章节选择：</span> <span>宏观经济学慨述        职业规划      沟通</span></p>
-          <p class="info-list"><span>题库类型：</span> <span>单选题 多选题 案例题</span></p>
+          <p class="info-list">
+            <span>课程选择：</span><span v-for="(item, index) in curriculumList" :key="index" v-if="item.fieldId == fieldId">{{ item.fieldName}}</span>
+          </p>
+          <p class="info-list"><span>题库类型：</span><span v-for="(item, index) in QusTypeList" :key="index">{{ item }}&nbsp;&nbsp;</span></p>
         </div>
         <div class="more-button"></div>
         <div class="topic-item clearfix">
           <div class="f-l topic-left">
-            <p class="title bg-icon">选择题</p>
+            <p class="title bg-icon" v-if="typeList[randomItem[start]['questionTypeId']-1]">{{ typeList[randomItem[start]['questionTypeId']-1]['name'] }}</p>
             <div class="pd-left">
-              <div class="raido-list" v-for="(item, index) in dataList" :key="index">
-                <div class="raido-title">{{ index+1 }}/{{ dataList.length }}、{{ item.name }}</div>
-                <p v-for="(num, i) in item.sle" :key="i"><input type="radio" :id="'radio'+(index+1)+'-'+(i+1)"  :value="letter[i]" v-model="radioNames[index]">
-                <label :for="'radio'+(index+1)+'-'+(i+1)">{{ letter[i]}}、{{ num }}</label></p>
-                <!-- <span class="answer-number">参考答案：D</span> -->
+              <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == 1">
+                <div class="raido-list">
+                  <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                  <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index" v-if="randomItem[start].answer == index">
+                    {{index}}、{{ num }}
+                  </p>
+                </div>
               </div>
+
+              <div class="pd-left-item" v-else-if="randomItem[start]['questionTypeId'] == 2">
+                  <div class="raido-list">
+                    <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                    <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index" v-if="randomItem[start].answer.includes(index)">
+                      {{index}}、{{ num }}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == 3">
+                  <div class="raido-list">
+                    <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                    <p v-if="randomItem[start].answer == 'T'">
+                      <span>正确</span>
+                    </p>
+                    <p v-if="randomItem[start].answer == 'F'">
+                      <span>错误</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == (5 || 6 || 7)">
+                  <div class="raido-list">
+                    <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                    <p>
+                      {{randomItem[start].answer}}
+                    </p>
+                  </div>
+                </div>
+
             </div>
             <div class="msg-button">
-              <span>差题</span><span>好题</span>
+              <span @click="trialSubmit">差题</span><span @click="trialSubmit">好题</span>
             </div>
-            
+
           </div>
           <div class="f-l topic-right">
             <p class="title" @click="pingfen">评分</p>
@@ -37,12 +71,12 @@
               <div class="slider-list clearfix" v-for="(item, index) in sliderList" :key="index">
                 <div class="left">{{ item.name }}: </div><el-slider v-model="item.value" class="center"></el-slider><div class="right">{{ item.value }}分</div>
               </div>
-              <p class="analysis">其他人对比</p>
+              <!-- <p class="analysis">其他人对比</p>
               <div class="qita">
                 <p>重要性 <span>60</span> </p>
                 <p>专业性 <span>60</span></p>
                 <p>知识相关性 <span>60</span></p>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -53,136 +87,167 @@
 </template>
 
 <script>
-
-import headerNav from '../components/Header.vue'
+import headerNav from "../components/Header.vue";
 
 import { mapState } from "vuex";
 
 export default {
-  name: "trial-page",
+  name: "examiner-page",
   data: () => ({
     progressing: 60,
-    radioNames: [],
-    checkboxNames:[],
-    letter: ['A','B','C','D','E','F','G','H'],
-    dataList:[{
-      name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-      sle:['正确', '错误', '对的', '不对']
-    }],
-    dataList2: [],
-    content: '',
-    msgList:[{
-      userName: '吻别',
-      msg: '发生故障移动到应急车道内 斤启危险报警闪光灯 并且放置警告标志',
-      time: '2018-02-01  12:20'
-    },{
-      userName: '期待明天',
-      msg: '这一刻 尽在无言中...',
-      time: '2018-02-02  12:20'        
-    },{
-      userName: '伤离别',
-      msg: '每天多爱你一天，无求甚么。。',
-      time: '2018-02-02  12:20'
-    },{
-      userName: '风雨无助',
-      msg: '发生故障移动到应急车道内 斤启危险报警闪光灯 并且放置警告标志',
-      time: '2018-02-02  12:20'
-    }],
-    sliderList:[{
-      name: '难度',
-      value: 20,
-    },{
-      name: '专业性',
-      value: 80,
-    },{
-      name: '重要性',
-      value: 85,
-    },{
-      name: '知识相关性',
-      value: 65,
-    }],
+    sliderList: [
+      {
+        name: "难度",
+        value: 0
+      },
+      {
+        name: "专业性",
+        value: 0
+      },
+      {
+        name: "重要性",
+        value: 0
+      },
+      {
+        name: "知识相关性",
+        value: 0
+      }
+    ],
     sliderNumber: [],
-
-    questiontypeGrouping: '',
-    questionUnaudited: '',
-    questionTypeId: []
-
+    randomItem: [],
+    start: 0,
+    fieldId: 1,
+    questionTypeId: [],
+    curriculumList: [],
+    questionid: 1,
+    QusTypeList: [],
+    typeList: []
   }),
   computed: {
-    ...mapState({ 
-      typeList: state => state.question.typeList,
-      // unauditedList: state => state.question.unauditedList,
-      // acountList: state => state.question.acountList
-    }),
-  },
-  created() {
-
-    this.fieldId = this.$route.query.fieldId
-
-    this.$store.dispatch("QUESTION_TYPE_SET", {});
-
-    this.$store.dispatch('QUESTIONTYPE_GROUPING', {
-      fieldId: this.fieldId
-      
-    }).then(res => {
-      if(res.result == 'success'){
-        this.questiontypeGrouping = res.Object
-        res.Object.forEach((val,index) => {
-          this.questionTypeId.push(val.questionTypeId)
-        })
-      }
-      console.log(res)
+    ...mapState({
+      commentList: state => state.exam.commentList,
+      // typeList: state => state.question.typeList,
+      // curriculumList: state => state.curriculumList,
+      chapterList: state => state.chapterList
     })
-    this.$store.dispatch('QUESTION_UNAUDITED', {
-        fieldId: 1,
-        questionTypeId: 1
-      }),
-      
+  },
 
-    this.getPath()
+  created() {
+    this.fieldId = this.$route.query.fieldId;
+    this.questionTypeId = this.$route.query.questionTypeId.split(',');
+
+    this.$store.dispatch("QUESTION_TYPE_SET", {}).then(res => {
+      if (res.result == "success" && res.object) {
+        this.typeList = res.object;
+        this.typeList.forEach((val, index) => {
+          this.questionTypeId.forEach((qusVal, qusIndex) => {
+            if (val.id == qusVal) {
+              this.QusTypeList.push(val.name);
+            }
+          });
+        });
+      }
+    });
+
+    if (this.fieldId) {
+      let tikuId = this.$route.query.questions
+      this.$store
+        .dispatch("CURRICULUM_LIST_FETCH", {
+          questionsId: tikuId
+        })
+        .then(res => {
+          this.curriculumList = res.object;
+        });
+      this.$store.dispatch("CHAPTER_LIST_FETCH", {
+        fieldId: this.fieldId
+      });
+
+      this.$store.dispatch('QUESTION_UNAUDITED', {
+        fieldId: this.fieldId,
+        questionTypeId: this.questionTypeId.toString()
+      }).then(res => {
+        if (res.object) {
+          res.object.forEach((val, index, arr) => {
+            val.content = JSON.parse(val.content);
+            if(!!val.content){
+              if (val['questionTypeId'] == 2){
+                val.answer = val.answer.includes(',') ? val.answer.split(',') : (val.answer.includes('，') ? val.answer.split('，') : [val.answer])
+
+                val.answer.map((i, value) => {
+                  return i.toUpperCase()
+                })
+                val.answer = val.answer.join(',')
+              }
+
+              this.randomItem.push(val)
+            }
+          });
+          if(this.randomItem.length){
+            this.questionid = this.randomItem[this.start].questionId;
+          }
+        } else {
+        }
+      })
+    } else {
+      this.$router.push(`/`);
+    }
+
+    this.getPath();
   },
   methods: {
-    getPath() {
-      this.path = this.$route.path
-      let that = this;
-
-      // 异步数据
-      setTimeout(function(){
-        var a = [{
-          name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-          sle:['正确', '错误', '对的', '不对'],
-        },{
-          name: '机动车驾驶证遗失的，机动车驾驶人应当向哪里的车辆管理所申请补发？',
-          sle:['哈哈', '不对也', '很对', '错'],
-        }]
-        
-        a.map((v, i, arr) => {
-          return v.aaa = []
-        })
-        return that.dataList2 = a
-      },2000)
-    },
-    pingfen(){
-     
+    trialSubmit() {
       this.sliderNumber = this.sliderList.map((v, i) => {
-        return v.value
-      })
- console.log(this.sliderNumber);
+        return v.value;
+      });
 
-      
+      this.$store.dispatch("UPDATE_EXAMINE", {
+        id: this.questionid+'',
+        difficultynew: this.sliderNumber[0], // 题目难度
+        speciality: this.sliderNumber[1], // 题目专业度
+        importance: this.sliderNumber[2], // 知识重要性
+        knowledgeCorrelation: this.sliderNumber[3], // 知识相关性
+      }).then(res => {
+        if (res.result == "success") {
+          if (this.start < this.randomItem.length - 1) {
+            this.start++;
+            this.questionid = this.randomItem[this.start].questionId;
+            this.sliderList = this.sliderList.map((v, i) => {
+              v.value = 0;
+              return v;
+            });
+            this.$message({
+              message: "提交成功！查看下一题",
+              type: "success"
+            });
+            document.documentElement.scrollTo(0, 0);
+          } else {
+            this.$message({
+              message: "本课程审核已完成！请选择课程开始审核",
+              type: "success"
+            });
+          }
+        }
+      });
+
     },
+
+    getPath() {
+      this.path = this.$route.path;
+      let that = this;
+    },
+    pingfen() {},
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    isNav(reg){
-      if(Object.prototype.toString.call(reg) === '[object RegExp]'){
-        return reg.test(this.$router.currentRoute.path)
-      }else if(Object.prototype.toString.call(reg) === '[object String]'){
-        return new RegExp(reg).test(this.$router.currentRoute.path)
-      }else{
-        return false
+    isNav(reg) {
+      if (Object.prototype.toString.call(reg) === "[object RegExp]") {
+        return reg.test(this.$router.currentRoute.path);
+      } else if (Object.prototype.toString.call(reg) === "[object String]") {
+        return new RegExp(reg).test(this.$router.currentRoute.path);
+      } else {
+        return false;
       }
-    },
+    }
   },
   components: {
     headerNav
@@ -286,15 +351,7 @@ export default {
           }
           p{
             margin-bottom: 14px;
-            input{
-              vertical-align:middle;
-              cursor: pointer;
-            }
-            label{
-              padding-left: 16px;
-              vertical-align:middle;display:inline-block;
-              cursor: pointer;
-            }
+            word-break: break-all;
           }
           .answer-number{
             position: absolute;
@@ -359,7 +416,7 @@ export default {
           padding: 20px 0;
           line-height: 30px;
           font-size: 18px;
-          .msg-page-number{ 
+          .msg-page-number{
             float: left;
             padding-right: 30px;
           }
@@ -377,7 +434,7 @@ export default {
             padding: 10px 44px;
             color: #fff;
             font-size: 16px;
-            border-radius: 4px; 
+            border-radius: 4px;
             background: #5a9cff;
             cursor: pointer;
             margin-right: 36px;
@@ -438,7 +495,7 @@ export default {
         color: #fff;
         font-family: "宋体";
         font-size: 18px;
-        padding-left: 50px; 
+        padding-left: 50px;
         background: #5a9cff;
         &.bg-icon{
           background: #5a9cff url(../assets/images/icon-list.png) 18px center no-repeat;

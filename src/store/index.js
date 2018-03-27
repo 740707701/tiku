@@ -40,7 +40,7 @@ const EXAM_ERROR_LIST_FETCH = 'EXAM_ERROR_LIST_FETCH' // 我的错题列表
 
     // subject/chapter-list
     // 参数：fieldId  值1
-    
+
     /**
          * 查询所有课程
          * */
@@ -51,7 +51,7 @@ const EXAM_ERROR_LIST_FETCH = 'EXAM_ERROR_LIST_FETCH' // 我的错题列表
          * */
     // subject/question-type
     // 参数：  无
-    
+
      /**
          * 未审核题目清单
          *
@@ -78,7 +78,7 @@ export function createStore () {
     },
     mutations: {
       [INDEX_SET](state, data){
-        state[data['target']] = data.data 
+        state[data['target']] = data.data
       }
     },
     actions: {
@@ -154,7 +154,8 @@ export function createStore () {
             target: 'myErrorList',
             data: res.object
           })
-        }) 
+          return res
+        })
       },
       [EXAM_ERROR_LIST_FETCH]({commit}, params){
         return api.post('/subject/wrong-list', params).then(res => {
@@ -163,10 +164,10 @@ export function createStore () {
             data: res.object
           })
           return res
-        }) 
+        })
       },
-      
-      
+
+
     },
     modules: {
       home, account, question, exam

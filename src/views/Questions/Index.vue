@@ -16,9 +16,9 @@
         <!-- 就设置一个内页 router-view-->
         <div class="occupation-page">
           <div class="wrapper" v-if="curriculumList.length">
-            <p class="title">课程选择： {{ currData  }}<span v-if="curriculumList.length > 8" @click="showCurr" v-show="!isShowCurr">更多></span> <span v-show="isShowCurr" @click="showCurr">收起</span></p>
+            <p class="title">课程选择：<span v-if="curriculumList.length > 8" @click="showCurr" v-show="!isShowCurr">更多></span> <span v-show="isShowCurr" @click="showCurr">收起</span></p>
             <curriculum-box :curriculum="curriculumList" :selectedData="currData"  @selectEvent="radioItem"></curriculum-box>
-            <p class="title" v-if="isShowChapter">章节选择： {{ chaptData }}<span v-if="chapterList.length > 8">更多></span></p>
+            <p class="title" v-if="isShowChapter">章节选择：<span v-if="chapterList.length > 8">更多></span></p>
             <chapterBox :curriculum="chapterList" :selectedData="chaptData" @selectEvent="checkboxItem"></chapterBox>
             <p class="title">题型：</p>
             <!-- <topic :topicType="typeList" :selectedData="checkList" @topicEvent="checkoutTopic"></topic> -->
@@ -27,7 +27,7 @@
               <el-checkbox-group v-model="checkList">
                 <el-checkbox v-for="list in typeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
               </el-checkbox-group>
-            {{ checkList }}
+            <!-- {{ checkList }} -->
             </div>
 
             <div class="occupation-button">
@@ -93,10 +93,10 @@ export default {
       }
       this.curriculumList = res.object;
       if(this.curriculumList.length){
-        this.getChapter(this.curriculumList[0]['fieldId'])       
+        this.getChapter(this.curriculumList[0]['fieldId'])
       }
     });
-    
+
     this.$store.dispatch("QUESTION_TYPE_SET", {});
   },
   methods: {
@@ -125,7 +125,7 @@ export default {
         }
         this.curriculumList = res.object;
         if(this.curriculumList.length){
-          this.getChapter(this.curriculumList[0]['fieldId']) 
+          this.getChapter(this.curriculumList[0]['fieldId'])
         }
       });
 　　},
@@ -167,13 +167,15 @@ export default {
           pointId = this.chaptData,
       questionTypeId =     this.checkList;
 
+      let questions = this.$route.params.id;
+
    this.$store.dispatch("QUESTION_RANDOM_SET", {
       fieldId,
       pointId,
       questionTypeId
     }).then( res => {
       if(res.object){
-        this.$router.push(`/examiner/?fieldId=${encodeURIComponent(fieldId)}&pointId=${pointId}&questionTypeId=${questionTypeId}`)
+        this.$router.push(`/examiner/?questions=${questions}&fieldId=${encodeURIComponent(fieldId)}&pointId=${pointId}&questionTypeId=${questionTypeId}`)
       }else{
         this.$message({
           message: res.messageInfo,
@@ -209,13 +211,15 @@ export default {
       pointId = this.chaptData,
       questionTypeId =     this.checkList;
 
+      let questions = this.$route.params.id;
+
       this.$store.dispatch("QUESTION_INTELLIGENT_SET", {
         fieldId,
         pointId,
         questionTypeId
       }).then( res => {
         if(res.object){
-          this.$router.push(`/itemlist/?fieldId=${encodeURIComponent(fieldId)}&pointId=${pointId}&questionTypeId=${questionTypeId}`)
+          this.$router.push(`/itemlist/?questions=${questions}&fieldId=${encodeURIComponent(fieldId)}&pointId=${pointId}&questionTypeId=${questionTypeId}`)
         }else{
           this.$message({
             message: res.messageInfo,

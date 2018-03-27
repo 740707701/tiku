@@ -15,22 +15,22 @@
         </ul>
         <!-- 就设置一个内页 router-view-->
         <div class="occupation-page">
-          <div class="wrapper" v-if="curriculumList">
-            <p class="title">课程选择： {{ currData  }}<span v-if="curriculumList.length > 8" @click="showCurr" v-show="!isShowCurr">更多></span> <span v-show="isShowCurr" @click="showCurr">收起</span></p>
+          <div class="wrapper" v-if="curriculumList.length">
+            <p class="title">课程选择：<span v-if="curriculumList.length > 8" @click="showCurr" v-show="!isShowCurr">更多></span> <span v-show="isShowCurr" @click="showCurr">收起</span></p>
             <curriculum-box :curriculum="curriculumList" :selectedData="currData"  @selectEvent="radioItem"></curriculum-box>
-            <!-- <p class="title">题型：</p>
+            <p class="title">题型：</p>
             <div class="topic-type">
               <el-checkbox-group v-model="checkList">
-                <el-checkbox v-for="list in typeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
+                <el-checkbox v-for="list in thisTypeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
               </el-checkbox-group>
-            {{ checkList }}
-            </div> -->
+          
+            </div>
 
             <div class="occupation-button">
               <span @click="exitQuestion">点击审题</span>
             </div>
           </div>
-          <div class="wrapper" style="height: 200px;text-align:center;line-height: 100px;font-size:30px;" v-else-if="!curriculumList">
+          <div class="wrapper" style="height: 200px;text-align:center;line-height: 100px;font-size:30px;" v-else-if="!curriculumList.length">
             没有更多数据
           </div>
         </div>
@@ -55,7 +55,9 @@ export default {
       currData: [],
       isShowCurr: false,
       isShowChapter: false,
-      checkList: []
+      checkList: [],
+      thisTypeList: [],
+      curriculumList: []
     };
   },
   computed: {
@@ -64,30 +66,91 @@ export default {
       // fieldList: state => state.fieldList,
       // konwledList: state => state.konwledList,
       typeList: state => state.question.typeList,
-      curriculumList: state => state.curriculumList,
+      // curriculumList: state => state.curriculumList,
     })
   },
   created() {
     let questions = this.$route.params.id;
     // tabs
     this.$store.dispatch("TIKU_LIST_FETCH", {});
+    this.$store.dispatch("QUESTION_TYPE_SET", {});
     this.$store.dispatch("CURRICULUM_LIST_FETCH", {
       questionsId: questions
-    });
-    this.$store.dispatch("QUESTION_TYPE_SET", {});
+    }).then(res => {
+      if(res.result != 'success'){
+        return false;
+      }
+      if(!res.object){
+        this.curriculumList = []
+        return false;
+      }
+      this.curriculumList = res.object;
+      if(this.curriculumList.length){
+        this.getTypeList(this.curriculumList[0]['fieldId'])
+      }
+    })
+
   },
   methods: {
     exitQuestion() {
-      let fieldId = this.currData[0]
-      this.$router.push(`/trial/?fieldId=${fieldId}`)
+      if(!this.currData.length){
+        this.$message({
+          message: "请选择课程",
+          type: "warning"
+        });
+        return false;
+      }
+      if(!this.checkList.length){
+        this.$message({
+          message: "请选择题型",
+          type: "warning"
+        });
+        return false;
+      }
+      let fieldId = this.currData[0],
+          questionTypeId = this.checkList,
+          questions = this.$route.params.id
+      this.$router.push(`/trial/?questions=${questions}&fieldId=${fieldId}&questionTypeId=${questionTypeId}`)
     },
     flushCom:function(){
-// 　　　　this.$router.go(0);
       let questions = this.$route.params.id;
       this.$store.dispatch("CURRICULUM_LIST_FETCH", {
         questionsId: questions
-      });
+      }).then(res => {
+        if(res.result != 'success'){
+          return false;
+        }
+        if(!res.object){
+          this.curriculumList = []
+          return false;
+        }
+        this.curriculumList = res.object;
+        if(this.curriculumList.length){
+          this.getTypeList(this.curriculumList[0]['fieldId'])
+        }
+      })
 　　},
+    getTypeList(id){
+      this.$store.dispatch('QUESTIONTYPE_GROUPING', {
+        fieldId: id
+
+      }).then(res => {
+        if(res.result == 'success'){
+          this.thisTypeList = [];
+          res.object.forEach((val,index) => {
+            this.typeList.forEach((valType, indexType) => {
+              if(val.questionTypeId == valType.id){
+                this.thisTypeList.push(valType)
+              }
+            })
+          })
+
+        }else if(res.result == 'error'){
+          this.thisTypeList = [];
+        }
+        console.log(res)
+      })
+    },
     showCurr() {
       if (!this.isShowCurr) {
         this.hideCurriculum = this.curriculum;
@@ -99,13 +162,13 @@ export default {
     init(path) {
       console.log("init", path);
     },
-    
+
     radioItem(val) {
       if (this.currData.includes(val)) {
         this.currData.splice(this.currData.indexOf(val), 1);
       } else {
         this.currData = [val];
-
+        this.getTypeList(val)
       }
 
       // this.currData = [val]

@@ -49,7 +49,7 @@ export function createRouter () {
     fallback: false,
     scrollBehavior: () => ({ y: 0 }),
     routes: [
-      { path: '/', name: 'index', component: Home }, 
+      { path: '/', name: 'index', component: Home },
 
       { path: '/exam', component: Exam,
         children: [{
@@ -63,8 +63,8 @@ export function createRouter () {
       // 题库
       { path: '/questions/:id', name: 'questions', component: Questions },
       { path: '/question/:id', name: 'question', component: Question },
-      
-      // 考试题 
+
+      // 考试题
       { path: '/examination', component: Examination ,
         children: [{
           path: ':examId/:examPaperId', name: 'examination', component: Examination,
@@ -72,38 +72,38 @@ export function createRouter () {
       },
       // 审题
       { path: '/triallist/:id', name: 'triallist', component: TrialList },
-      
+
       { path: '/trial', component: Trial,
         children: [{
           path: ':fieldId', name: 'trial', component: Trial,
         }]
       },
 
+
+
+
       
-      
-      
-      
-      { path: '/myerror', name: 'myerror', component: MyError },
+      { path: '/myerror/:id', name: 'myerror', component: MyError },
       { path: '/errorlist', component: ErrorList,
         children: [{
           path: ':fieldId/:questionTypeId', name: 'errorlist', component: ErrorList
         }]
       },
-      
+
       { path: '/judge', name: 'judge', component: Judge },
       { path: '/examiner', component: Examiner,
         children: [{
           path: ':fieldId/:pointId/:questionTypeId', name: 'examiner', component: Examiner
-        }] 
+        }]
       },
       { path: '/itemlist', component: itemList,
         children: [{
           path: ':fieldId/:pointId/:questionTypeId', name: 'itemlist', component: itemList
-        }] 
+        }]
       },
-      
 
-      
+
+
 
       // { path: '/search', component: Search },
 

@@ -3,7 +3,7 @@
     <el-checkbox-group v-model="checkList" @click="topic(list.id)">
       <el-checkbox v-for="list in topicType" :key="list.id" :checked="list.subjective" :label="list.id" >{{list.name}}</el-checkbox>
     </el-checkbox-group>
-   {{ checkList }}
+ 
   </div>
 
 </template>

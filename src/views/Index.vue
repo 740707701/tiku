@@ -67,11 +67,11 @@
           <p>题库功能介绍</p>
           <p>本题库系统是一个可以内生发展，多用户共建的智能推送题库，本题库的功能包括：</p>
           <p>1、可以进行职业类、专业类、金融业务类和金融证书类的专题题库练习；</p>
-          <p>2、可以根据每道题目的标签，搜索自己需要的题目，同时可以对每道题目打标签，建立自己的专属题库；</p>  
-          <p>3、可以智能化推送错题以及错题所属知识点的题目，进行薄弱知识点的强化训练；</p> 
+          <p>2、可以根据每道题目的标签，搜索自己需要的题目，同时可以对每道题目打标签，建立自己的专属题库；</p>
+          <p>3、可以智能化推送错题以及错题所属知识点的题目，进行薄弱知识点的强化训练；</p>
           <p>4、可以参与题库共建，自行出题；</p>
           <p>5、可以参与审题，对每道题目进行多维度评分，以及点评；</p>
-          <p>6、可以参加老师组织的考试，也可以自行组卷，发布给自己或者朋友来考试；</p>  
+          <p>6、可以参加老师组织的考试，也可以自行组卷，发布给自己或者朋友来考试；</p>
         </div>
       </div>
   </div>
@@ -94,7 +94,7 @@ export default {
     };
   },
   computed: {
-    ...mapState({ 
+    ...mapState({
       tikuList: state => state.tikuList,
     }),
   },
@@ -126,17 +126,17 @@ export default {
         })
 
         if(id == 1){
-          this.$router.push(`/exam/latest`) 
+          this.$router.push(`/exam/latest`)
         }else if(id ==2){
-          this.$router.push(`/myerror`) 
+          this.$router.push(`/myerror/1`)
         }else if(id == 3){
-          this.showPanguan = true
+          this.$router.push(`/question/1`)
         }else if(id == 4){
-          this.showExaminer = true
+          this.$router.push(`/triallist/1`)
         }else{
-          this.showTiku = true
+          this.$router.push(`/questions/1`)
         }
-        
+
       }else{
         this.$store.commit('INDEX_SET', {
           target: 'isLogin',
@@ -192,7 +192,7 @@ export default {
         top: 20px;
         left: 40px;
       }
-      
+
     }
   }
   .item-list{
@@ -312,7 +312,7 @@ export default {
         position: relative;
         transition: all .4s;
         &:hover{
-          color: #010101; 
+          color: #010101;
           transform: translateY(-10px);
           box-shadow: 10px 10px 10px #ccc;
         }
@@ -328,7 +328,7 @@ export default {
             bottom: -1px;
             display: block;
           }
-        } 
+        }
         // &:hover{
         //   border-color: #f95c54;
         //   color: #010101;
@@ -400,7 +400,7 @@ export default {
         }
         p:nth-child(2){
           margin-bottom: 10px;
-        }        
+        }
       }
     }
     .dialog-banner{
@@ -409,7 +409,7 @@ export default {
       left: 50%;
       width: 1120px;
       transform: translate(-50%, -50%);
-      
+
       border-radius: 14px;
     }
     .dialog-sign{
@@ -460,7 +460,7 @@ export default {
           .el-checkbox__input.is-checked+.el-checkbox__label{
             color: #606266;
           }
-          
+
         }
         .reset-pwd{
           margin-top: 26px;
@@ -559,6 +559,6 @@ export default {
       }
     }
   }
-  
+
 }
 </style>

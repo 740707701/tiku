@@ -30,10 +30,10 @@
                       <input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" v-model="radioNames[start]" @click="disabledItem(index)" :disabled="disabled">
     <!--  -->
 
-                    <label :for="'radio'+(start+1)+'-'+index">{{ index }}、{{ num }}</label></p>
+                    <label :for="'radio'+(start+1)+'-'+index">{{ index }}、<span>{{ num }}</span></label></p>
                     <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
                   </div>
-                  <p class="answer-style other-answer" v-if="radioNames[start]">其他的答案: <input maxlength="1" type="text" v-model="otherAnswer"/></p>
+                  <!-- <p class="answer-style other-answer" v-if="radioNames[start]">其他的答案: <input maxlength="1" type="text" v-model="otherAnswer"/></p> -->
                   <p class="answer-style" v-if="contentMsgShow">我的参考答案: {{ contentMsg }}</p>
                   <p class="reference-msg">我的参考答案</p>
                   <div class="textarea-mn">
@@ -50,13 +50,13 @@
                     <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index">
                       <input type="checkbox" :id="'checkbox'+(start+1)+'-'+index"  :value="index" v-model="checkboxNames" :disabled="disabled">
 
-                    <label :for="'checkbox'+(start+1)+'-'+index">{{ index }}、{{ num }}</label></p>
+                    <label :for="'checkbox'+(start+1)+'-'+index">{{ index }}、<span>{{ num }}</span></label></p>
                     <span class="answer-number" v-if="checkboxNamesStr  && checkboxNamesStr != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
                     <div class="answer-confirm">
                       <span  @click="disabledItem('checkbox')">确认答案</span>
                     </div>
                   </div>
-                  <p class="answer-style other-answer" v-if="checkboxNamesStr">其他的答案: <input type="text" v-model="otherAnswer" placeholder="多个答案用,号隔开"/></p>
+                  <!-- <p class="answer-style other-answer" v-if="checkboxNamesStr">其他的答案: <input type="text" v-model="otherAnswer" placeholder="多个答案用,号隔开"/></p> -->
                   <p class="answer-style" v-if="contentMsgShow">我的参考答案: {{ contentMsg }}</p>
                   <p class="reference-msg">我的参考答案</p>
                   <div class="textarea-mn">
@@ -79,7 +79,7 @@
                       </p>
                     <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
                   </div>
-                  <p class="answer-style other-answer" v-if="radioNames[start]">其他的答案: <input maxlength="1" type="text" v-model="otherAnswer"/></p>
+                  <!-- <p class="answer-style other-answer" v-if="radioNames[start]">其他的答案: <input maxlength="1" type="text" v-model="otherAnswer"/></p> -->
                   <p class="answer-style" v-if="contentMsgShow">我的参考答案: {{ contentMsg }}</p>
                   <p class="reference-msg">我的参考答案</p>
                   <div class="textarea-mn">
@@ -137,7 +137,6 @@ export default {
     radioNames: [],
     checkboxNames: [],
     checkboxNamesStr: "",
-    letter: ["A", "B", "C", "D", "E", "F", "G", "H"],
     contentMsg: "",
     sliderList: [
       {
@@ -201,9 +200,10 @@ export default {
     });
 
     if (this.fieldId) {
+      let tikuId = this.$route.query.questions
       this.$store
         .dispatch("CURRICULUM_LIST_FETCH", {
-          questionsId: this.fieldId
+          questionsId: tikuId
         })
         .then(res => {
           this.curriculumList = res.object;
@@ -229,7 +229,7 @@ export default {
                   }else if(val.answer == 'F'){
                     val.answer = 'B'
                   }
-                  
+
                 }
                 return (val.content = JSON.parse(val.content));
               });
@@ -274,7 +274,7 @@ export default {
       let thisRandom = this.randomItem[this.start];
       if(thisRandom.questionTypeId == 3){
         if(answer == 'A'){
-          answer = 'T'        
+          answer = 'T'
         }else if(answer == 'B'){
           answer = 'F'
         }
@@ -342,9 +342,16 @@ export default {
     },
     submitComment() {
       // 提交留言
-      this.contentMsgShow = true;
-      this.contentMsg = this.contentMsgText;
-      this.contentMsgText = "";
+      if(this.contentMsgText){
+        this.contentMsgShow = true;
+        this.contentMsg = this.contentMsgText;
+        this.contentMsgText = "";
+      }else{
+        this.$message({
+          message: "请输入你的参考答案！",
+          type: "error"
+        });
+      }
     },
     getPath() {
       this.path = this.$route.path;
@@ -485,6 +492,12 @@ export default {
               vertical-align: middle;
               display: inline-block;
               cursor: pointer;
+              width: 90%;
+              span{
+                width: 70%;
+                display: inline-block;
+                vertical-align:middle;
+              }
             }
           }
           .answer-number {

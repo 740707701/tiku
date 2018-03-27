@@ -160,7 +160,6 @@ export default {
       answerNamesContent: [],
       discussNamesContent: [],
       analysisNamesContent: [],
-      examContent: [],
       contentLength: 0,
       time: "",
       flag: false,
@@ -270,9 +269,9 @@ export default {
           this.progressing = 100;
           return (this.format = "00:00:00");
         }
-        let hour = Math.floor((now / 3600000) % 24);
-        let min = Math.floor((now / 60000) % 60);
-        let sec = Math.floor((now / 1000) % 60);
+        let hour = Math.floor(now / (60 * 60 * 1000));
+        let min = Math.floor((now / 60000)) - hour * 60;
+        let sec = Math.floor((now / 1000)) - (hour * 60 * 60) - (min * 60)
         hour = hour < 10 ? "0" + hour : hour;
         min = min < 10 ? "0" + min : min;
         sec = sec < 10 ? "0" + sec : sec;
@@ -293,12 +292,9 @@ export default {
       }, 1000);
     },
     totalTime() {
-      let hours =
-          new Date(this.examContent.endTime).getHours() -
-          new Date(this.examContent.startTime).getHours(),
-        miuntes =
-          new Date(this.examContent.endTime).getMinutes() -
-          new Date(this.examContent.startTime).getMinutes();
+      let times = this.examContent.endTime - this.examContent.startTime
+      let hours = Math.floor(times / (60 * 60 * 1000));
+      let miuntes = Math.floor((times / 60000)) - hours * 60
       if (miuntes < 0) {
         hours--;
         miuntes = 60 + miuntes;
@@ -344,7 +340,7 @@ export default {
       }
     },
     examSubmit() {
-   
+
       let examId = this.$route.params.examId;
       let examPaperId = this.$route.params.examPaperId;
       let duration = parseInt(
@@ -376,7 +372,7 @@ export default {
         this.answerSheetItems[ansRusIndex]["answer"] = ansRusVal;
       });
       let answerSheetItems = this.answerSheetItems;
-      console.log(this.answerSheetItems);
+
 
       this.$store
         .dispatch("EXAM_SUBMIT", {
@@ -388,9 +384,14 @@ export default {
         .then(res => {
           console.log(res);
           if (res.result == "success") {
-            this.$message({
-              message: "试卷提交成功，请等待审核。",
-              type: "success"
+
+            this.$alert(this.examContent.name+'提交成功', '', {
+              confirmButtonText: '返回我的考试页面',
+              showClose: false,
+              type: 'success',
+              callback: action => {
+                this.$router.push('/exam/latest/')
+              }
             });
           }
         });

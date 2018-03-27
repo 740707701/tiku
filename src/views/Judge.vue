@@ -16,15 +16,15 @@
                 <p class="line-title clearfix">出题信息</p>
                 <div class="student-info">
                   <p class="info-list"><span>题库选择:</span> <span><i v-for="(item, index) in tikuList" :key="index" v-if="item.questionsId == tikuId">{{ item.questionsName }}</i></span></p>
-                  <p class="info-list"><span>课程选择:</span> <span><i v-for="(item, index) in curriculumList" :key="index" v-if="item.fieldId == fieldId">{{ item.fieldName}}</i></span></p>                 
+                  <p class="info-list"><span>课程选择:</span> <span><i v-for="(item, index) in curriculumList" :key="index" v-if="item.fieldId == fieldId">{{ item.fieldName}}</i></span></p>
                   <p class="info-list"><span>出题时间:</span> <span>{{nowTime}}</span></p>
-                  <!-- <p class="info-list"><span>出题者:</span> <span>在线题库</span></p> -->
+                  <p class="info-list"><span>出题者:</span> <span>{{username}}</span></p>
                 </div>
               </div>
               <div class="box-line examinee">
                 <p class="line-title clearfix">出题状态</p>
                 <div class="student-info">
-                  <p class="info-list" v-for="(item, index) in QusTypeList" :key="index"><span>{{item}}</span></p>
+                  <p class="info-list" v-for="(item, index) in QusTypeList" :key="index"><span>{{item.name}}</span></p>
                 </div>
               </div>
 
@@ -100,7 +100,7 @@
                   </template>
                 </div>
               </el-collapse-item>
-              <el-collapse-item title="解答题" v-if="item == 4" :name="(index+1)">
+              <el-collapse-item title="解答题" v-if="item == 5" :name="(index+1)">
                 <div class="raido-list answer-list">
                   <div class="raido-title">{{answerTopics.length+1}}、<input class="judge-title" v-model="answerTitle" type="text" placeholder="输入标题"></div>
                   <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="answerAnswer" class="judge-answer"></textarea><span class="next-ti" @click="nextBtn('answer')">下一题</span></p>
@@ -117,10 +117,10 @@
                   </template>
                 </div>
               </el-collapse-item>
-              <el-collapse-item title="论述题" v-if="item == 5" :name="(index+1)">
+              <el-collapse-item title="论述题" v-if="item == 6" :name="(index+1)">
                 <div class="raido-list answer-list">
                   <div class="raido-title">{{discussTopics.length+1}}、<input class="judge-title" v-model="discussTitle" type="text" placeholder="输入标题"></div>
-                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="discussAnswer" class="judge-answer"></textarea><span class="next-ti" @click="nextBtn('answer')">下一题</span></p>
+                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="discussAnswer" class="judge-answer"></textarea><span class="next-ti" @click="nextBtn('discuss')">下一题</span></p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
                     <el-select v-model="discussKnowledge" placeholder="请选择">
@@ -134,10 +134,10 @@
                   </template>
                 </div>
               </el-collapse-item>
-              <el-collapse-item title="分析题" v-if="item == 6" :name="(index+1)">
+              <el-collapse-item title="分析题" v-if="item == 7" :name="(index+1)">
                 <div class="raido-list answer-list">
                   <div class="raido-title">{{analysisTopics.length+1}}、<input class="judge-title" v-model="analysisTitle" type="text" placeholder="输入标题"></div>
-                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="analysisAnswer" class="judge-answer"></textarea><span class="next-ti" @click="nextBtn('answer')">下一题</span></p>
+                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="analysisAnswer" class="judge-answer"></textarea><span class="next-ti" @click="nextBtn('analysis')">下一题</span></p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
                     <el-select v-model="analysisKnowledge" placeholder="请选择">
@@ -154,7 +154,7 @@
             </el-collapse>
 
             <div class="footer-button">
-              <span @click="submitBtn">提交</span> <span @click="resetBtn">取消</span>
+              <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">取消</span>
             </div>
           </div>
         </div>
@@ -185,38 +185,33 @@ export default {
       radioOptions: [],
       radioAnswer: '',
       radioKnowledge: '',
-      radioSubFlag: false,
       checkboxTitle: '',
       checkboxOptions: [],
       checkboxAnswer: '',
       checkboxKnowledge: '',
-      checkboxSubFlag: false,
       judgeTitle: '',
       judgeOptions: [],
       judgeAnswer: '',
       judgeKnowledge: '',
-      judgeSubFlag: false,
       answerTitle: '',
       answerOptions: [],
       answerAnswer: '',
       answerKnowledge: '',
-      answerSubFlag: false,
       discussTitle: '',
       discussOptions: [],
       discussAnswer: '',
       discussKnowledge: '',
-      discussSubFlag: false,
-      ranalysisTitle: '',
+      analysisTitle: '',
       analysisOptions: [],
       analysisAnswer: '',
       analysisKnowledge: '',
-      analysisSubFlag: false,
       questionTypeId: [],
       typeList: [],
       QusTypeList: [],
       curriculumList: [],
       nowTime: '',
-      tikuId: 1
+      tikuId: 1,
+      username: ''
     };
   },
   computed: {
@@ -225,12 +220,17 @@ export default {
       chapterList: state => state.chapterList
     })
   },
+  mounted(){
+    this.username = sessionStorage.getItem('username')
+  },
   created(){
 
     let nowTime = new Date()
     let nowYear = nowTime.getFullYear()
     let nowMonth = nowTime.getMonth()+1
     let nowDay = nowTime.getDate()
+
+
     this.nowTime = `${nowYear}-${nowMonth}-${nowDay}`
 
     this.$store.dispatch("TIKU_LIST_FETCH", {});
@@ -247,7 +247,7 @@ export default {
         this.typeList.forEach((val, index) => {
           this.questionTypeId.forEach((qusVal, qusIndex) => {
             if(val.id == qusVal){
-              this.QusTypeList.push(val.name)
+              this.QusTypeList.push(val)
             }
           })
         })
@@ -255,7 +255,7 @@ export default {
     });
 
     this.$store.dispatch("CURRICULUM_LIST_FETCH", {
-      questionsId: this.fieldId
+      questionsId: this.tikuId
     }).then( res => {
       this.curriculumList = res.object
     })
@@ -266,59 +266,24 @@ export default {
 
   },
   methods: {
+    resetBtn() {
+      this.$confirm('确定要退出出题！', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$router.push('/')
+        }).catch(() => {
+          // this.$message({
+          //   type: 'info',
+          //   message: '已取消删除'
+          // });          
+        });
+    },
     handleChange(val) {
       console.log(val);
     },
     nextBtn(item){
-      let topics = this[item+'Topics']
-
-    if(this[item+'SubFlag']){
-      this[item+'Topics'].push({title: this[item+'Title']})
-    }else{
-      // console.log('----', topics.length )
-      if(!topics[topics.length]){
-        this.$message({
-          message: "当前题目提交之后，才能出下一题",
-          type: "warning"
-        });
-        return false;
-      }     
-    }
-      
-      this[item+'Title'] = ''
-      this[item+'Options'] = []
-      this[item+'Answer'] = ''
-      this[item+'Knowledge'] = ''
-      this[item+'SubFlag'] = false
-    },
-    resetBtn(){
-      if(this.activeNames == ''){
-        this.$message({
-          message: "请展开你要取消的项目。",
-          type: "warning"
-        });
-        return false;
-
-      }
-      let type = ['radio', 'checkbox', 'judge', 'answer', 'discuss', 'analysis']
-      let item = type[this.activeNames-1]
-      this[item+'Title'] = ''
-      this[item+'Options'] = []
-      this[item+'Answer'] = ''
-      this[item+'Knowledge'] = ''
-    },
-    submitBtn(){
-      if(this.activeNames == ''){
-        this.$message({
-          message: "请展开你要提交的项目。",
-          type: "warning"
-        });
-        return false;
-
-      }
-      let type = ['radio', 'checkbox', 'judge', 'answer', 'discuss', 'analysis']
-      let item = type[this.activeNames-1]
-
 
       let topics = item+'Topics'
       let choiceList = []
@@ -371,7 +336,7 @@ export default {
         answer = this[item+'Answer'].split(',').sort().join()
       }
       if(item == 'judge'){
-        if(judge == 'A'){
+        if(answer == 'A'){
           answer = 'T'
         }else{
           answer = 'F'
@@ -381,35 +346,54 @@ export default {
       choiceList.forEach((val, index, arr) => {
         Object.assign(choiceListObj,val)
       })
-      this.$store
-        .dispatch("QUESTION_ADD", {
-          "name": this[item+'Title'],      //题目标题
-          "question_type_id": this.activeNames+'',  //题型
-          "pointList":[this[item+'Knowledge']],  //章节【可以多个章节id】
-          "answer": answer,     //正确答案
-          "analysis":"",        //题目解析
-          "referenceName":"",   //题目来源
-          "examingPoint":"",    //考点
-          "keyword":"",       //关键字
-          "QuestionContent":{
-            "title": this[item+'Title'],      //题目
-            "titleImg":"",   //题目图片
-            "choiceList": choiceListObj, //题目答案  （例如题目下的  A  B   C  D）
-            "choiceImgList":""  //题目答案图片（如果答案是图片，A B C D 图片）
+
+        let questionTypeName = ''
+        this.typeList.forEach((val, index) => {
+          if(val.id == this.activeNames){
+            questionTypeName = val.name
           }
         })
-        .then(res => {
-          console.log(res);
-          if (res.result == "success") {
-            this[item+'SubFlag'] = true
-            this.$message({
-              message: "题目提交成功，请等待审核。",
-              type: "success"
-            });
 
-          }
-        });
-      
+        this.$store
+          .dispatch("QUESTION_ADD", {
+            "analysis": "", //题目解析
+            "answer":  answer,
+            "content": "", //试题内容
+            "create_time": new Date(),//添加时间
+            "creator": this.username,//添加人呢
+            "examingPoint": "", //考点
+            "is_visible": true,//是否可见
+            "keyword": "",//关键字
+            "name": this[item+'Title'],//题目名称
+            "pointList": [this[item+'Knowledge']],//章节知识点
+            "pointName": "",
+            "points": 0,//分数
+            "questionContent": {
+              "choiceImgList": {},//题目图片
+              "choiceList": choiceListObj,//题目选项
+              "title": this[item+'Title'],//题目名称
+              "titleImg": ""
+            },
+            "questionTypeName": this.QusTypeList[this.activeNames-1].name,//题目类型名称
+            "question_type_id": this.QusTypeList[this.activeNames-1].id,//题目类型ID
+            "referenceName": "",//来源
+            "status": 0
+          })
+          .then(res => {
+            if (res.result == "success") {
+              this[item+'Topics'].push({title: this[item+'Title']})
+              this.$message({
+                message: "题目提交成功，请等待审核。",
+                type: "success"
+              });
+              this[item+'Title'] = ''
+              this[item+'Options'] = []
+              this[item+'Answer'] = ''
+              this[item+'Knowledge'] = ''
+
+            }
+          });
+
     }
   },
   components: {

@@ -8,16 +8,16 @@
         <ul class="nav-list m-t-14">
           <li><router-link to="/" class="border-line" :class="{'active': url !== '/' }">首页</router-link></li>
           <li><router-link to="/questions/1" :class="{'active': isNav(/(questions|examiner|itemlist)/) }">我的题库</router-link></li>
-          <li><router-link to="/exam/latest" :class="{'active': isNav(/latest/) }">我的考试</router-link></li>
-          <li><router-link to="/myerror" :class="{'active': isNav(/(myerror)/) }">我的错题</router-link></li>
+          <li><router-link to="/exam/latest" :class="{'active': isNav(/latest|examination/) }">我的考试</router-link></li>
+          <li><router-link to="/myerror/1" :class="{'active': isNav(/(myerror|errorlist)/) }">我的错题</router-link></li>
           <li><router-link to="/judge" :class="{'active': isNav(/judge/) }">我要当考官</router-link></li>
-          <li><router-link to="/trial" :class="{'active': isNav(/trial/) }">我要当判官</router-link></li>          
+          <li><router-link to="/triallist/1" :class="{'active': isNav(/trial|triallist/) }">我要当判官</router-link></li>
         </ul>
         <div class="nav-right m-t-14">
-          
+
           <div class="user-info" v-if="isShowPop">
-            <input type="text" placeholder="请输入您要查找的内容">
-            <span class="search-button"></span>   
+            <!-- <input type="text" placeholder="请输入您要查找的内容"> -->
+            <!-- <span class="search-button"></span>    -->
             <span class="head-img">
               <ul class="head-select">
                 <li><router-link to="/exam/latest">我的考试</router-link></li>
@@ -41,11 +41,11 @@
       <div class="sign-right">
         <div class="user-reset-pwd" v-if="isResetPwd">
           <p>修改密码</p>
-          <div class="form-box"><i class="icon-user"></i><input type="text" placeholder="请输入学号" v-model="username"></div>          
+          <div class="form-box"><i class="icon-user"></i><input type="text" placeholder="请输入学号" v-model="username"></div>
           <div class="form-box"><i class="icon-lock"></i><input type="password" placeholder="请输入初始密码" v-model="username"></div>
           <div class="form-box"><i class="icon-lock"></i><input type="password" placeholder="请输入新密码" v-model="username"></div>
           <span class="reset-pwd" @click="resetPwd">返回登录</span>
-          
+
           <a href="#" class="sign-button">提交</a>
         </div>
         <div class="user-login" v-else>
@@ -55,7 +55,7 @@
           <el-checkbox v-model="checked" true>记住密码</el-checkbox><span class="reset-pwd" @click="resetPwd">修改密码</span>
           <a href="#" class="sign-button" @click="userLogin">登录</a>
         </div>
-        
+
       </div>
       <span class="back-button" @click="closeLogin"><i class="icon-back"></i>返回首页</span>
 
@@ -231,6 +231,7 @@ export default {
     }
     .nav-right {
       float: right;
+      margin-right: 20px;
     }
     .user-info {
       // display: none;
@@ -510,4 +511,3 @@ export default {
   }
 }
 </style>
-

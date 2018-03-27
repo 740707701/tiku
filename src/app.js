@@ -8,7 +8,7 @@ import * as filters from './util/filters'
 
 
 
-import { Tabs, TabPane, Select, Table, TableColumn, Button, Option, Checkbox, Row, Col, Dialog, CheckboxGroup,Dropdown, DropdownMenu, Progress, Slider, Cascader, Collapse, CollapseItem, Message } from 'element-ui'
+import { Tabs, TabPane, Select, Table, TableColumn, Button, Option, Checkbox, Row, Col, Dialog, CheckboxGroup,Dropdown, DropdownMenu, Progress, Slider, Cascader, Collapse, CollapseItem, Message, MessageBox} from 'element-ui'
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Select)
@@ -29,6 +29,8 @@ Vue.use(Cascader)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
 Vue.prototype.$message = Message
+Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
 
 import './assets/icomoon/style.css'
 import 'element-ui/lib/theme-chalk/index.css'

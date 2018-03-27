@@ -156,7 +156,7 @@ export default {
   },
   methods: {
     deleteRow(index, rows) {
-      this.$router.push(`/Examination/${encodeURIComponent(index.examId)}/${encodeURIComponent(index.examPaperId)}`) 
+      this.$router.push(`/examination/${encodeURIComponent(index.examId)}/${encodeURIComponent(index.examPaperId)}`) 
     },
     tableRowClassName({row, rowIndex}) {
       if (rowIndex % 2) {

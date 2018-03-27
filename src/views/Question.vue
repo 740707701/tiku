@@ -16,7 +16,7 @@
         <!-- 就设置一个内页 router-view-->
         <div class="occupation-page">
           <div class="wrapper" v-if="curriculumList">
-            <p class="title">课程选择： {{ currData  }}<span v-if="curriculumList.length > 8" @click="showCurr" v-show="!isShowCurr">更多></span> <span v-show="isShowCurr" @click="showCurr">收起</span></p>
+            <p class="title">课程选择：<span v-if="curriculumList.length > 8" @click="showCurr" v-show="!isShowCurr">更多></span> <span v-show="isShowCurr" @click="showCurr">收起</span></p>
             <curriculum-box :curriculum="curriculumList" :selectedData="currData"  @selectEvent="radioItem"></curriculum-box>
             <p class="title">题型：</p>
             <!-- <topic :topicType="typeList" :selectedData="checkList" @topicEvent="checkoutTopic"></topic> -->
@@ -25,7 +25,7 @@
               <el-checkbox-group v-model="checkList">
                 <el-checkbox v-for="list in typeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
               </el-checkbox-group>
-            {{ checkList }}
+          
             </div>
 
             <div class="occupation-button">
@@ -80,6 +80,22 @@ export default {
   },
   methods: {
     exitQuestion() {
+
+      if(!this.currData.length){
+        this.$message({
+          message: "请选择课程",
+          type: "warning"
+        });
+        return false;
+      }
+      if(!this.checkList.length){
+        this.$message({
+          message: "请选择题型",
+          type: "warning"
+        });
+        return false;
+      }
+
       let question = this.$route.params.id,
       fieldId = this.currData[0],
       questionTypeId =     this.checkList.join();
