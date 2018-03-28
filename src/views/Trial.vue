@@ -24,18 +24,20 @@
               <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == 1">
                 <div class="raido-list">
                   <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
-                  <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index" v-if="randomItem[start].answer == index">
+                  <p class="raido-options" v-for="(num, index) in randomItem[start].content.choiceList " :key="index">
                     {{index}}、{{ num }}
                   </p>
+                  <span class="answer-number">参考答案：{{ randomItem[start].answer }}</span>
                 </div>
               </div>
 
               <div class="pd-left-item" v-else-if="randomItem[start]['questionTypeId'] == 2">
                   <div class="raido-list">
                     <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
-                    <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index" v-if="randomItem[start].answer.includes(index)">
+                    <p class="raido-options" v-for="(num, index) in randomItem[start].content.choiceList " :key="index">
                       {{index}}、{{ num }}
                     </p>
+                    <span class="answer-number">参考答案：{{ randomItem[start].answer }}</span>
                   </div>
                 </div>
 
@@ -164,19 +166,21 @@ export default {
 
       this.$store.dispatch('QUESTION_UNAUDITED', {
         fieldId: this.fieldId,
-        questionTypeId: this.questionTypeId.toString()
+        questionTypeId: this.questionTypeId
       }).then(res => {
         if (res.object) {
           res.object.forEach((val, index, arr) => {
             val.content = JSON.parse(val.content);
             if(!!val.content){
-              if (val['questionTypeId'] == 2){
-                val.answer = val.answer.includes(',') ? val.answer.split(',') : (val.answer.includes('，') ? val.answer.split('，') : [val.answer])
+              if (val['questionTypeId'] == 1){
+                val.answer = val.answer.toUpperCase()
+              }else if (val['questionTypeId'] == 2){
+                val.answer = val.answer.indexOf(',') >= 0? val.answer.split(',') : (val.answer.indexOf('，') >= 0 ? val.answer.split('，') : val.answer.split(''))
 
                 val.answer.map((i, value) => {
                   return i.toUpperCase()
                 })
-                val.answer = val.answer.join(',')
+                val.answer = val.answer.join(' ')
               }
 
               this.randomItem.push(val)
@@ -299,7 +303,6 @@ export default {
           vertical-align: top;
         }
         span:last-child{
-          width: 1150px;
           line-height: 1.3;
         }
       }
@@ -352,6 +355,9 @@ export default {
           p{
             margin-bottom: 14px;
             word-break: break-all;
+            &.raido-options{
+              width: 70%;
+            }
           }
           .answer-number{
             position: absolute;

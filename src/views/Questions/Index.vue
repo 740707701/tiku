@@ -164,8 +164,8 @@ export default {
       }
 
       let fieldId = this.currData[0],
-          pointId = this.chaptData,
-      questionTypeId =     this.checkList;
+          pointId = this.chaptData.sort(),
+      questionTypeId =     this.checkList.sort();
 
       let questions = this.$route.params.id;
 
@@ -208,8 +208,8 @@ export default {
         return false;
       }
       let fieldId = this.currData[0],
-      pointId = this.chaptData,
-      questionTypeId =     this.checkList;
+      pointId = this.chaptData.sort().join(),
+      questionTypeId =     this.checkList.sort().join();
 
       let questions = this.$route.params.id;
 
@@ -232,7 +232,7 @@ export default {
       // this.$router.push(`/examiner`);
     },
     radioItem(val) {
-      if (this.currData.includes(val)) {
+      if (this.currData.indexOf(val) >= 0) {
         this.currData.splice(this.currData.indexOf(val), 1);
       } else {
         this.currData = [val];
@@ -254,7 +254,7 @@ export default {
       // this.currData = [val]
     },
     checkoutTopic(val) {
-      if (this.checkList.includes(val)) {
+      if (this.checkList.indexOf(val) >= 0) {
         this.checkList.splice(this.checkList.indexOf(val), 1);
       } else {
         // this.checkList = [val];
@@ -262,11 +262,11 @@ export default {
       }
     },
     checkboxItem(val) {
-      if (this.chaptData.includes(val)) {
+      if (this.chaptData.indexOf(val) >= 0) {
         this.chaptData.splice(this.chaptData.indexOf(val), 1);
       } else {
-        this.chaptData = [val];
-        // this.chaptData.push(val)
+        // this.chaptData = [val];
+        this.chaptData.push(val)
       }
     },
     getPath() {
@@ -320,6 +320,7 @@ export default {
         color: #999;
         line-height: 64px;
         margin-right: 70px;
+        height: 100%;
         &.router-link-active {
           color: #000;
           border-bottom: 4px solid #5a9cff;

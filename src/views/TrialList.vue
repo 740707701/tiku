@@ -23,7 +23,7 @@
               <el-checkbox-group v-model="checkList">
                 <el-checkbox v-for="list in thisTypeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
               </el-checkbox-group>
-          
+
             </div>
 
             <div class="occupation-button">
@@ -108,7 +108,7 @@ export default {
         return false;
       }
       let fieldId = this.currData[0],
-          questionTypeId = this.checkList,
+          questionTypeId = this.checkList.sort(),
           questions = this.$route.params.id
       this.$router.push(`/trial/?questions=${questions}&fieldId=${fieldId}&questionTypeId=${questionTypeId}`)
     },
@@ -164,7 +164,7 @@ export default {
     },
 
     radioItem(val) {
-      if (this.currData.includes(val)) {
+      if (this.currData.indexOf(val) >= 0) {
         this.currData.splice(this.currData.indexOf(val), 1);
       } else {
         this.currData = [val];
@@ -174,7 +174,7 @@ export default {
       // this.currData = [val]
     },
     checkoutTopic(val) {
-      if (this.checkList.includes(val)) {
+      if (this.checkList.indexOf(val) >= 0) {
         this.checkList.splice(this.checkList.indexOf(val), 1);
       } else {
         // this.checkList = [val];

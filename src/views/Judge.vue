@@ -277,7 +277,7 @@ export default {
           // this.$message({
           //   type: 'info',
           //   message: '已取消删除'
-          // });          
+          // });
         });
     },
     handleChange(val) {
@@ -314,26 +314,37 @@ export default {
         });
         return false;
       }
+
+      
       if(this[item+'Options'].length){
         this[item+'Options'].forEach((val, index) => {
-          if(index == 0){
+          if(index == 0 && val.trim != ''){
             choiceList.push({A: val})
-          }else if(index == 1){
+          }else if(index == 1 && val.trim() != ''){
             choiceList.push({B: val})
-          }else if(index == 2){
+          }else if(index == 2 && val.trim() != ''){
             choiceList.push({C: val})
-          }else if(index == 3){
+          }else if(index == 3 && val.trim() != ''){
             choiceList.push({D: val})
-          }else if(index == 4){
+          }else if(index == 4 && val.trim() != ''){
             choiceList.push({E: val})
-          }else if(index == 5){
+          }else if(index == 5 && val.trim() != ''){
             choiceList.push({F: val})
           }
         })
       }
 
-      if(item == 'checkbox'){
-        answer = this[item+'Answer'].split(',').sort().join()
+      if(item == 'radio'){
+        answer = this[item+'Answer'].toUpperCase()
+      }else if(item == 'checkbox'){
+        answer = []
+        let oldAnswer = this[item+'Answer'].indexOf(',') >= 0 ? this[item+'Answer'].split(',') : (this[item+'Answer'].indexOf('，') >= 0 ? this[item+'Answer'].split('，') : this[item+'Answer'].split(''))
+        oldAnswer.forEach((val,index) => {
+          if(answer.indexOf(val.toUpperCase()) < 0){
+            answer.push(val.toUpperCase())
+          }
+        })
+        answer = answer.sort().join()
       }
       if(item == 'judge'){
         if(answer == 'A'){
@@ -353,7 +364,6 @@ export default {
             questionTypeName = val.name
           }
         })
-
         this.$store
           .dispatch("QUESTION_ADD", {
             "analysis": "", //题目解析

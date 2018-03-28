@@ -180,13 +180,6 @@ export default {
     this.getPath();
   },
   methods: {
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
-    },
     init() {
       let examId = this.$route.params.examId;
       let examPaperId = this.$route.params.examPaperId;

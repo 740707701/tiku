@@ -13,7 +13,7 @@
           <p class="info-list">
             <span>课程选择：</span><span v-for="(item, index) in curriculumList" :key="index" v-if="item.fieldId == fieldId">{{ item.fieldName}}</span>
           </p>
-          <p class="info-list"><span>章节选择：</span><span v-for="(item, index) in chapterList" :key="index" v-if="item.pointId == pointId[0]">{{ item.pointName}}</span></p>
+          <p class="info-list"><span>章节选择：</span><span v-for="(item, index) in chapterList" :key="index" v-if="pointId.indexOf(item.pointId+'') >= 0">{{ item.pointName}}&nbsp;&nbsp;</span></p>
           <p class="info-list"><span>题库类型：</span><span v-for="(item, index) in QusTypeList" :key="index">{{ item }}&nbsp;&nbsp;</span></p>
         </div>
         <div class="more-button"></div>

@@ -28,7 +28,7 @@
         width="252">
       </el-table-column>
       <el-table-column
-        prop="date"
+        prop="totalPoint"
         label="时长"
         width="160">
       </el-table-column>
@@ -46,6 +46,11 @@
 import { mapState } from "vuex";
 
 export default {
+  props: {
+    value: {
+      type: Number
+    }
+  },
   data() {
     return {
       tableData: []
@@ -56,22 +61,29 @@ export default {
       noList: state => state.exam.noList
     })
   },
+  watch: {
+    value: function (val) {
+      this.getList(val)
+    }
+  },
   created(){
-      this.$store.dispatch('EXAM_NO_LIST', {
-        fieldId: 2
-      }).then( res => {
-        let mapData = res.object.map((v, i) => {
-          return v.expTime = new Date(v.expTime).toISOString().replace('T', ' ').slice(0, -8)
-        })
-        this.tableData = res.object.map((v, i) => {
-          return v.effTime = new Date(v.effTime).toISOString().replace('T', ' ').slice(0, -8)
-        })
-      })
-     
-
-      
+      this.getList(this.value)
   },
   methods: {
+    getList(val){
+      this.$store.dispatch('EXAM_NO_LIST', {
+        fieldId: val
+      }).then( res => {
+        if(res.object){
+          let mapData = res.object.map((v, i) => {
+            return v.expTime = new Date(v.expTime).toISOString().replace('T', ' ').slice(0, -8)
+          })
+          this.tableData = res.object.map((v, i) => {
+            return v.effTime = new Date(v.effTime).toISOString().replace('T', ' ').slice(0, -8)
+          })
+        }
+      })
+    },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex % 2) {
         return "warning-row";
@@ -116,4 +128,3 @@ export default {
   }
 }
 </style>
-  

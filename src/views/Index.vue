@@ -130,7 +130,7 @@ export default {
         }else if(id ==2){
           this.$router.push(`/myerror/1`)
         }else if(id == 3){
-          this.$router.push(`/question/1`)
+          this.$router.push(`/judgelist/1`)
         }else if(id == 4){
           this.$router.push(`/triallist/1`)
         }else{

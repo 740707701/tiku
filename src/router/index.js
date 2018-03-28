@@ -26,7 +26,7 @@ const TrialList = () => import('../views/TrialList.vue') // 审题列表
 
 
 
-const Question = () => import('../views/Question.vue') // 考官出题
+const JudgeList = () => import('../views/JudgeList.vue') // 考官出题
 
 
 const Questions = () => import('../views/Questions/Index.vue') // 所有题库
@@ -62,7 +62,7 @@ export function createRouter () {
       },
       // 题库
       { path: '/questions/:id', name: 'questions', component: Questions },
-      { path: '/question/:id', name: 'question', component: Question },
+      { path: '/judgelist/:id', name: 'judgelist', component: JudgeList },
 
       // 考试题
       { path: '/examination', component: Examination ,
