@@ -222,21 +222,28 @@ export default {
           })
           .then(res => {
             if (res.object) {
-              this.randomItem = res.object;
-              this.questionid = this.randomItem[this.start].questionId;
-              this.randomItem.map((val, index, arr) => {
-                if (val['questionTypeId'] == 3){
-                  if(val.answer == 'T'){
-                    val.answer = 'A'
-                  }else if(val.answer == 'F'){
-                    val.answer = 'B'
+              res.object.forEach((val, index, arr) => {
+                val.content = JSON.parse(val.content);
+                if(!!val.content){
+                  if (val['questionTypeId'] == 1){
+                    val.answer = val.answer.toUpperCase()
+                  }else if (val['questionTypeId'] == 2){
+                    let oldAnswer = val.answer.indexOf(',') >= 0? val.answer.split(',') : (val.answer.indexOf('，') >= 0 ? val.answer.split('，') : val.answer.split(''))
+                    val.answer = []
+                    oldAnswer.forEach((i, value) => {
+                      if(val.answer.indexOf(i.toUpperCase()) < 0){
+                        val.answer.push(i.toUpperCase())
+                      }
+                    })
+                    val.answer = val.answer.join(' ')
                   }
 
+                  this.randomItem.push(val)
                 }
-                return (val.content = JSON.parse(val.content));
               });
-
-              this.getCommentList(this.questionid);
+              if(this.randomItem.length){
+                this.questionid = this.randomItem[this.start].questionId;
+              }
             } else {
             }
           });
@@ -252,7 +259,7 @@ export default {
       if (id) {
         if (id == "checkbox") {
           if (this.checkboxNames.length) {
-            this.checkboxNamesStr = this.checkboxNames.sort().join();
+            this.checkboxNamesStr = this.checkboxNames.sort().join(' ');
             this.disabled = true;
           }
         } else {
@@ -276,7 +283,10 @@ export default {
 
       let answer = this.randomItem[this.start].answer;
       let thisRandom = this.randomItem[this.start];
-      if(thisRandom.questionTypeId == 3){
+      if(thisRandom.questionTypeId == 2){
+        answer = answer.split(' ').join()
+        this.checkboxNamesStr = this.checkboxNamesStr.split(' ').join()
+      }else if(thisRandom.questionTypeId == 3){
         if(answer == 'A'){
           answer = 'T'
         }else if(answer == 'B'){

@@ -175,10 +175,12 @@ export default {
               if (val['questionTypeId'] == 1){
                 val.answer = val.answer.toUpperCase()
               }else if (val['questionTypeId'] == 2){
-                val.answer = val.answer.indexOf(',') >= 0? val.answer.split(',') : (val.answer.indexOf('，') >= 0 ? val.answer.split('，') : val.answer.split(''))
-
-                val.answer.map((i, value) => {
-                  return i.toUpperCase()
+                let oldAnswer = val.answer.indexOf(',') >= 0? val.answer.split(',') : (val.answer.indexOf('，') >= 0 ? val.answer.split('，') : val.answer.split(''))
+                val.answer = []
+                oldAnswer.forEach((i, value) => {
+                  if(val.answer.indexOf(i.toUpperCase()) < 0){
+                    val.answer.push(i.toUpperCase())
+                  }
                 })
                 val.answer = val.answer.join(' ')
               }
