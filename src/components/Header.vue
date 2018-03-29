@@ -3,12 +3,12 @@
   <header class="header">
     <nav class="wrapper">
         <!-- <router-link to="/" exact class="logo">
-          <img src="../assets/images/logo.png" alt="logo" >
+          <img src="../assets/images/logo.png" alt="logo" >examiner
         </router-link> -->
         <ul class="nav-list m-t-14">
           <li><router-link to="/" class="border-line" :class="{'active': url !== '/' }">首页</router-link></li>
           <li><router-link to="/questions/1" :class="{'active': isNav(/(questions|examiner|itemlist)/) }">我的题库</router-link></li>
-          <li><router-link to="/exam/latest" :class="{'active': isNav(/latest|examination/) }">我的考试</router-link></li>
+          <li><router-link to="/exam/latest" :class="{'active': isNav(/exam\/latest|examination | mytest/) }">我的考试</router-link></li>
           <li><router-link to="/myerror/1" :class="{'active': isNav(/(myerror|errorlist)/) }">我的错题</router-link></li>
           <li><router-link to="/judge" :class="{'active': isNav(/judge|judgelist/) }">我要当考官</router-link></li>
           <li><router-link to="/triallist/1" :class="{'active': isNav(/trial|triallist/) }">我要当判官</router-link></li>
@@ -42,17 +42,16 @@
         <div class="user-reset-pwd" v-if="isResetPwd">
           <p>修改密码</p>
           <div class="form-box"><i class="icon-user"></i><input type="text" placeholder="请输入学号" v-model="username"></div>
-          <div class="form-box"><i class="icon-lock"></i><input type="password" placeholder="请输入初始密码" v-model="username"></div>
-          <div class="form-box"><i class="icon-lock"></i><input type="password" placeholder="请输入新密码" v-model="username"></div>
-          <span class="reset-pwd" @click="resetPwd">返回登录</span>
+          <div class="form-box"><i class="icon-lock"></i><input type="password" placeholder="请输入您的新密码" v-model="newPassword"></div>
+          <span class="reset-pwd" @click="backLogin">返回登录</span>
 
-          <a href="#" class="sign-button">提交</a>
+          <a href="javascript:" class="sign-button" @click="resetPwd">提交</a>
         </div>
         <div class="user-login" v-else>
           <p>欢迎登录</p>
           <div class="form-box"><i class="icon-user"></i><input type="text" placeholder="请输入学号" v-model="username"></div>
           <div class="form-box"><i class="icon-lock"></i><input type="password" placeholder="请输入密码" v-model="password"></div>
-          <el-checkbox v-model="checked" true>记住密码</el-checkbox><span class="reset-pwd" @click="resetPwd">修改密码</span>
+          <el-checkbox v-model="checked" true>记住密码</el-checkbox><span class="reset-pwd" @click="backLogin">修改密码</span>
           <a href="#" class="sign-button" @click="userLogin">登录</a>
         </div>
 
@@ -76,6 +75,7 @@ export default {
       checked: true,
       username: "",
       password: "",
+      newPassword: "",
       isResetPwd: false
     };
   },
@@ -89,8 +89,30 @@ export default {
   },
   created() {},
   methods: {
-    resetPwd() {
+    backLogin() {
       this.isResetPwd = !this.isResetPwd
+    },
+    resetPwd() {
+      this.$store
+        .dispatch("ACCOUNT_UPDATE", {
+          userName: this.username,
+          password: this.newPassword
+        })
+        .then(res => {
+          if (res.success) {
+            this.$message({
+              message: "恭喜你，修改成功！",
+              type: "success"
+            });
+            sessionStorage.setItem('username', this.username)
+            sessionStorage.setItem('password', this.newPassword)
+          } else {
+            this.$message({
+              message: res.message,
+              type: "error"
+            });
+          }
+        });
     },
     userLogin() {
       this.$store

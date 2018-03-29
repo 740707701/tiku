@@ -23,6 +23,8 @@ const CURRICULUM_LIST_FETCH = 'CURRICULUM_LIST_FETCH' // 查询所有课程
 const CHAPTER_LIST_FETCH = 'CHAPTER_LIST_FETCH' // 查询课程下的所有章节
 const EXAM_ERROR_STATISTICAL = 'EXAM_ERROR_STATISTICAL' // 我的错题
 const EXAM_ERROR_LIST_FETCH = 'EXAM_ERROR_LIST_FETCH' // 我的错题列表
+const EXAM_Field_LIST_FETCH = 'EXAM_Field_LIST_FETCH' // 获取所有课程
+
 
 // 题库课程章节
 
@@ -75,6 +77,7 @@ export function createStore () {
       curriculumList: [],
       myErrorList: [],
       wrongList: [],
+      getEtFieldList: []
     },
     mutations: {
       [INDEX_SET](state, data){
@@ -161,6 +164,15 @@ export function createStore () {
         return api.post('/subject/wrong-list', params).then(res => {
           commit('INDEX_SET', {
             target: 'wrongList',
+            data: res.object
+          })
+          return res
+        })
+      },
+      [EXAM_Field_LIST_FETCH]({commit}, params){
+        return api.post('/subject/getEtFieldList', params).then(res => {
+          commit('INDEX_SET', {
+            target: 'getEtFieldList',
             data: res.object
           })
           return res

@@ -393,12 +393,12 @@ export default {
   header {
     padding-top: 10px;
     nav {
-      height: 160px;
+      height: 130px;
     }
   }
   .big-banner {
-    height: 320px;
-    background: #7b27fb url("../assets/images/list-bg.jpg") center top no-repeat;
+    height: 280px;
+    background: #7b27fb url("../assets/images/home-bg1.jpg") center top no-repeat;
     margin-bottom: 30px;
   }
   .examiner-list {

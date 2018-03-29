@@ -299,7 +299,7 @@ export default {
   header {
     padding-top: 10px;
     nav {
-      height: 160px;
+      height: 130px;
     }
   }
   .big-banner {

@@ -4,6 +4,8 @@ const ACCOUNT_SET = 'ACCOUNT_SET'
 const ACCOUNT_LOGIN = 'ACCOUNT_LOGIN'
 const ACCOUNT_LOGOUT = 'ACCOUNT_LOGOUT'
 const ACCOUNT_FORGET = 'ACCOUNT_FORGET'
+const ACCOUNT_UPDATE = 'ACCOUNT_UPDATE'
+
 
 export default {
   state: {
@@ -33,6 +35,12 @@ export default {
         })
         return res
       })
-    }
+    },
+    [ACCOUNT_UPDATE]({commit}, params){
+      return api.post('/student/change-pwd', params).then(res => {
+        return res
+      })
+    },
+    
   }
 }

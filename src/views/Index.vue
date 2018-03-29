@@ -159,40 +159,25 @@ export default {
 </script>
 <style lang="less">
 @import "../assets/css/style.less";
-// @import '../assets/iconfont/iconfont.css';
 .index-page {
   header{
-    padding-top: 48px;
+    padding-top: 30px;
     nav{
-      height: 132px;
+      height: 110px;
     }
   }
   .big-banner{
-    height: 520px;
-    background: #7b27fb url("../assets/images/home-bg.jpg") center top no-repeat;
+    height: 280px;
+    background: #7b27fb url("../assets/images/home-bg1.jpg") center top no-repeat;
     .title{
-      margin-top: 30px;
-      margin-bottom: 100px;
+      width: 460px;
+      margin-bottom: 30px;
     }
     .system-button{
       display: block;
-      width: 318px;
-      height: 68px;
-      background: url("../assets/images/system.png") no-repeat;
-      background-position: 120px 20px;
-      border: 2px solid #ece9f2;
-      border-radius: 34px;
-      position: relative;
-      i{
-        display: inline-block;
-        width: 38px;
-        height: 32px;
-        background: url("../assets/images/triangle.png") no-repeat;
-        position: absolute;
-        top: 20px;
-        left: 40px;
-      }
-
+      width: 160px;
+      height: 45px;
+      background: url("../assets/images/system1.png") no-repeat;
     }
   }
   .item-list{
@@ -205,13 +190,12 @@ export default {
       font-size: 20px;
       letter-spacing: 0;
       display: inline-block;
-      height: 250px;
-      padding-top: 50px;
+      height: 200px;
+      padding-top: 28px;
       background-color: #fff;
-      box-shadow: 0 0 40px 20px rgba(102,0,255,.04);
+      box-shadow: 0 0 40px 20px rgba(98,0,255,.06);
       border-radius: 14px;
-      margin-bottom: 50px;
-      border: 1px solid #ccc;
+      margin-bottom: 40px;
       box-sizing: border-box;
       .icon-style {
         font-size: 100px;
@@ -238,7 +222,7 @@ export default {
           margin-top: 56px;
         }
         p{
-          margin-top: 6px;
+          margin-top: 16px;
           font-size: 20px;
           color: #2c285f;
         }

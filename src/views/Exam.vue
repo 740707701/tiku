@@ -8,27 +8,22 @@
     </div>
     <div class="exam-list">
       <div class="wrapper">
-        <ul class="questions-tabs border-bottom-color" >
-          <li v-for="(val, index) in tikuList" :key="index">
-            <span @click="tabsChange(val.questionsId, index)" :class="{'active': index ==  active}">{{ val.questionsName }}</span>
-          </li>
-        </ul>
-        <div class="test-select" v-if="curriculumList">考试选择：
+        <div class="test-select" v-if="getEtFieldList">考试选择：
           <el-select v-model="value" placeholder="请选择">
             <el-option
-              v-for="item in curriculumList"
+              v-for="item in getEtFieldList"
               :key="item.questionsId"
               :label="item.fieldName"
               :value="item.fieldId">
             </el-option>
           </el-select>
         </div>
-        <ul class="exam-tabs border-bottom-color" v-if="curriculumList && value">
+        <ul class="exam-tabs border-bottom-color" v-if="getEtFieldList && value">
           <li><router-link to="/exam/latest" :class="{'active': isNav(/latest/) || path == '/exam/' ||  path == '/exam' }" >我的考试</router-link></li>
           <li><router-link to="/exam/mytest" :class="{'active': isNav(/mytest/) }">考试记录</router-link></li>
         </ul>
-        <router-view v-if="curriculumList && value" :value="value"></router-view>
-        <div v-if="!curriculumList" style="height: 200px;text-align:center;line-height: 100px;font-size:30px;">没有考试数据</div>
+        <router-view v-if="getEtFieldList && value" :value="value"></router-view>
+        <div v-if="!getEtFieldList" style="height: 200px;text-align:center;line-height: 100px;font-size:30px;">没有考试数据</div>
       </div>
     </div>
 
@@ -51,21 +46,17 @@ export default {
   },
   computed: {
     ...mapState({
-      tikuList: state => state.tikuList,
-      curriculumList: state => state.curriculumList
+      getEtFieldList: state => state.getEtFieldList
       // myErrorList: state => state.myErrorList,
     })
   },
   created() {
-    this.$store.dispatch("TIKU_LIST_FETCH", {});
     // 下拉框
-    this.$store.dispatch('CURRICULUM_LIST_FETCH', {
-      questionsId: 1
-    }).then(res => {
-      if(this.curriculumList){
-        this.value = this.curriculumList[0]['fieldId']
+    this.$store.dispatch('EXAM_Field_LIST_FETCH', {}).then(res => {
+      if(this.getEtFieldList){
+        this.value = this.getEtFieldList[0]['fieldId']
       }
-      
+
     })
     this.getPath();
   },
@@ -78,8 +69,8 @@ export default {
       this.$store.dispatch('CURRICULUM_LIST_FETCH', {
         questionsId: id
       }).then(res => {
-        if(this.curriculumList){
-          this.value = this.curriculumList[0]['fieldId']
+        if(this.getEtFieldList){
+          this.value = this.getEtFieldList[0]['fieldId']
         }
       })
     },
@@ -111,8 +102,8 @@ export default {
     }
   }
   .big-banner{
-    height: 320px;
-    background: #7b27fb url("../assets/images/list-bg.jpg") center top no-repeat;
+        height: 280px;
+    background: #7b27fb url("../assets/images/home-bg1.jpg") center top no-repeat;
     margin-bottom: 30px;
     .title{
       margin-top: 20px;

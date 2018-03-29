@@ -32,10 +32,10 @@
         label="时长"
         width="160">
       </el-table-column>
-      <el-table-column label="操作" prop="number">
+      <el-table-column label="操作" prop="pointGet">
         <template slot-scope="scope">
-          <p v-if="scope.row.number">{{ scope.row.number }}</p>
-          <p class="operation" v-else>正在审核</p>
+          <p v-if="scope.row.pointGet" style="color:red">{{ scope.row.pointGet }}分</p>
+          <p class="operation" v-else>正在批卷</p>
         </template>
       </el-table-column>
     </el-table>
@@ -76,10 +76,30 @@ export default {
       }).then( res => {
         if(res.object){
           let mapData = res.object.map((v, i) => {
-            return v.expTime = new Date(v.expTime).toISOString().replace('T', ' ').slice(0, -8)
+            let expTime = new Date(v.expTime),
+              year = expTime.getFullYear(),
+              month = expTime.getMonth() + 1,
+              day = expTime.getDate(),
+              hour = expTime.getHours(),
+              min = expTime.getMinutes();
+            month = month < 10 ? '0'+ month : month;
+            day = day < 10 ? '0'+ day : day;
+            hour = hour < 10 ? '0'+ hour : hour;
+            min = min < 10 ? '0'+ min : min;
+            return v.expTime = `${year}-${month}-${day} ${hour}:${min}`
           })
           this.tableData = res.object.map((v, i) => {
-            return v.effTime = new Date(v.effTime).toISOString().replace('T', ' ').slice(0, -8)
+            let effTime = new Date(v.effTime),
+              year = effTime.getFullYear(),
+              month = effTime.getMonth() + 1,
+              day = effTime.getDate(),
+              hour = effTime.getHours(),
+              min = effTime.getMinutes();
+            month = month < 10 ? '0'+ month : month;
+            day = day < 10 ? '0'+ day : day;
+            hour = hour < 10 ? '0'+ hour : hour;
+            min = min < 10 ? '0'+ min : min;
+            return v.effTime = `${year}-${month}-${day} ${hour}:${min}`
           })
         }
       })

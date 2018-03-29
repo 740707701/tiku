@@ -6,7 +6,7 @@
         <img src="../assets/images/title.png" class="title">
       </div>
     </div>
-    <div class="examination-list">
+    <div class="examination-list" v-if="storeExamContent">
       <div class="wrapper">
         <p class="list-title">{{ examContent.name }}试卷测试题 <span>共计:{{ contentLength }}题</span></p>
         <div class="list-main">
@@ -166,7 +166,9 @@ export default {
       format: "",
       questionTypeId: [],
       answerSheetItems: [],
-      centerDialogVisible: false
+      centerDialogVisible: false,
+      enterTime: '',
+      examHistroyId: ''
     };
   },
   computed: {
@@ -174,7 +176,9 @@ export default {
       storeExamContent: state => state.exam.storeExamContent
     })
   },
-  mounted() {},
+  mounted() {
+    this.enterTime = new Date()
+  },
   created() {
     this.init();
     this.getPath();
@@ -191,13 +195,13 @@ export default {
         })
         .then(res => {
           // this.examContent = res.object
-
+          if(!res.object || !res.object.content) return;
           for (var val in res.object) {
             if (val == "answer_sheet" || val == "content") {
               res.object[val] = JSON.parse(res.object[val]);
             }
             if (val == "startTime" || val == "endTime") {
-              res.object[val] = res.object[val] - 8 * 60 * 60 * 1000;
+              res.object[val] = res.object[val];
             }
           }
           let answerArrStr = [
@@ -234,7 +238,6 @@ export default {
               }
 
               if (keyio == "questionPoint") {
-                obj["point"] = res.object.content[key][keyio];
                 obj["answer"] = "";
               }
               if (keyio == "questionId") {
@@ -243,6 +246,7 @@ export default {
             }
             this.answerSheetItems.push(obj);
           }
+          this.examHistroyId = res.object.examHistroyId
           this.questionTypeId = new Set(this.questionTypeId);
           this.questionTypeId = [...this.questionTypeId];
           this.examContent = res.object;
@@ -306,6 +310,9 @@ export default {
     setDate(time) {
       let hours = new Date(time).getHours(),
         miuntes = new Date(time).getMinutes();
+      if (hours < 10) {
+        hours = `0${hours}`;
+      }
       if (miuntes < 10) {
         miuntes = `0${miuntes}`;
       }
@@ -334,10 +341,10 @@ export default {
     },
     examSubmit() {
 
-      let examId = this.$route.params.examId;
-      let examPaperId = this.$route.params.examPaperId;
+      let examId = parseInt(this.$route.params.examId);
+      let examPaperId = parseInt(this.$route.params.examPaperId);
       let duration = parseInt(
-        (+new Date() - this.examContent.startTime) / 1000
+        (+new Date() - this.enterTime.getTime()) / 1000
       );
       let answers = [
         this.radioNames,
@@ -366,13 +373,14 @@ export default {
       });
       let answerSheetItems = this.answerSheetItems;
 
-
       this.$store
         .dispatch("EXAM_SUBMIT", {
           examId,
           examPaperId,
           duration,
-          answerSheetItems
+          answerSheetItems,
+          startTime: this.enterTime,
+          examHistroyId: this.examHistroyId
         })
         .then(res => {
           console.log(res);
@@ -401,12 +409,12 @@ export default {
   header {
     padding-top: 10px;
     nav {
-      height: 160px;
+      height: 130px;
     }
   }
   .big-banner {
-    height: 320px;
-    background: #7b27fb url("../assets/images/list-bg.jpg") center top no-repeat;
+    height: 280px;
+    background: #7b27fb url("../assets/images/home-bg1.jpg") center top no-repeat;
     margin-bottom: 30px;
   }
   .examination-list {

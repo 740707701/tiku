@@ -10,7 +10,7 @@
       <div class="wrapper">
         <ul class="questions-tabs border-bottom-color" >
           <li v-for="(val, index) in tikuList" :key="index">
-            <router-link :to="'/judgelist/'+ val.questionsId" :class="{'active': isNav(/val.questionsId/) }"  @click.native="flushCom">{{ val.questionsName }}</router-link>
+            <router-link :to="'/question/'+ val.questionsId" :class="{'active': isNav(/val.questionsId/) }"  @click.native="flushCom">{{ val.questionsName }}</router-link>
           </li>
         </ul>
         <!-- 就设置一个内页 router-view-->
@@ -180,7 +180,7 @@ export default {
   header {
     padding-top: 10px;
     nav {
-      height: 160px;
+      height: 130px;
     }
   }
   .big-banner {

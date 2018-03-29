@@ -71,8 +71,8 @@ export default {
   },
   data() {
     return {
-        
-    
+
+
     };
   },
   computed: {
@@ -88,7 +88,7 @@ export default {
   },
   created() {
     this.getList(this.value)
-    
+
   },
   methods: {
     deleteRow(index, rows) {
@@ -100,11 +100,31 @@ export default {
         fieldId: val
       }).then( res => {
         if(res.object){
-          let mapData = res.object.map((v, i) => {          
-            return v.expTime = new Date(v.expTime).toISOString().replace('T', ' ').slice(0, -8)
+          let mapData = res.object.map((v, i) => {
+            let expTime = new Date(v.expTime),
+              year = expTime.getFullYear(),
+              month = expTime.getMonth() + 1,
+              day = expTime.getDate(),
+              hour = expTime.getHours(),
+              min = expTime.getMinutes();
+            month = month < 10 ? '0'+ month : month;
+            day = day < 10 ? '0'+ day : day;
+            hour = hour < 10 ? '0'+ hour : hour;
+            min = min < 10 ? '0'+ min : min;
+            return v.expTime = `${year}-${month}-${day} ${hour}:${min}`
           })
           this.tableData = res.object.map((v, i) => {
-            return v.effTime = new Date(v.effTime).toISOString().replace('T', ' ').slice(0, -8)
+            let effTime = new Date(v.effTime),
+              year = effTime.getFullYear(),
+              month = effTime.getMonth() + 1,
+              day = effTime.getDate(),
+              hour = effTime.getHours(),
+              min = effTime.getMinutes();
+            month = month < 10 ? '0'+ month : month;
+            day = day < 10 ? '0'+ day : day;
+            hour = hour < 10 ? '0'+ hour : hour;
+            min = min < 10 ? '0'+ min : min;
+            return v.effTime = `${year}-${month}-${day} ${hour}:${min}`
           })
         }
       })
