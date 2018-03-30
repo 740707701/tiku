@@ -218,23 +218,7 @@ export default {
 };
 </script>
 <style lang="less">
-@import "../assets/css/style.less";
 .questions-page {
-  header {
-    padding-top: 10px;
-    nav {
-      height: 130px;
-    }
-  }
-  .big-banner {
-    height: 320px;
-    background: #7b27fb url("../assets/images/list-bg.jpg") center top
-      no-repeat;
-    margin-bottom: 30px;
-    .title {
-      margin-top: 20px;
-    }
-  }
   .questions-tabs {
     height: 64px;
     li {
@@ -246,8 +230,9 @@ export default {
         margin-right: 70px;
         &.router-link-active {
           color: #000;
-          border-bottom: 4px solid #5a9cff;
-          padding-bottom: 14px;
+          border-bottom: 2px solid #5a9cff;
+          padding-bottom: 13px;
+          font-size: 26px;
         }
       }
     }

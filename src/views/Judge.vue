@@ -41,7 +41,7 @@
                   <p class="chuti">B、<input class="judge-option" v-model="radioOptions[1]" type="text" placeholder="输入选项B的内容"></p>
                   <p class="chuti">C、<input class="judge-option" v-model="radioOptions[2]" type="text" placeholder="输入选项C的内容"></p>
                   <p class="chuti">D、<input class="judge-option" v-model="radioOptions[3]" type="text" placeholder="输入选项D的内容"></p>
-                  <p class="answer">输入正确答案: <input type="text" v-model="radioAnswer" class="judge-answer"> <span class="next-ti" @click="nextBtn('radio')">下一题</span></p>
+                  <p class="answer">输入正确答案: <input type="text" v-model="radioAnswer" class="judge-answer"> </p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
                     <el-select v-model="radioKnowledge" placeholder="请选择">
@@ -53,7 +53,10 @@
                       </el-option>
                     </el-select>
                   </template>
-
+                </div>
+                <div class="footer-button">
+                  <span class="next-ti" @click="nextBtn('radio')">下一题</span>
+                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
                 </div>
 
               </el-collapse-item>
@@ -66,7 +69,7 @@
                   <p class="chuti">D、<input class="judge-option" v-model="checkboxOptions[3]" type="text" placeholder="输入选项D的内容"></p>
                   <p class="chuti">E、<input class="judge-option" v-model="checkboxOptions[4]" type="text" placeholder="输入选项D的内容"></p>
                   <p class="chuti">F、<input class="judge-option" v-model="checkboxOptions[5]" type="text" placeholder="输入选项D的内容"></p>
-                  <p class="answer">输入正确答案: <input type="text" v-model="checkboxAnswer" class="judge-answer checkbox-answer"> <span class="next-ti" @click="nextBtn('checkbox')">下一题</span></p>
+                  <p class="answer">输入正确答案: <input type="text" v-model="checkboxAnswer" class="judge-answer checkbox-answer"></p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
                     <el-select v-model="checkboxKnowledge" placeholder="请选择">
@@ -78,7 +81,10 @@
                       </el-option>
                     </el-select>
                   </template>
-
+                </div>
+                <div class="footer-button">
+                  <span class="next-ti" @click="nextBtn('checkbox')">下一题</span>
+                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
                 </div>
               </el-collapse-item>
               <el-collapse-item title="判断题" v-if="item == 3" :name="(index+1)">
@@ -86,7 +92,7 @@
                   <div class="raido-title">{{judgeTopics.length+1}}、<input class="judge-title" v-model="judgeTitle" type="text" placeholder="输入标题"></div>
                   <p class="chuti">A、正确</p>
                   <p class="chuti">B、错误</p>
-                  <p class="answer">输入正确答案: <input type="text" v-model="judgeAnswer" class="judge-answer"> <span class="next-ti" @click="nextBtn('judge')">下一题</span></p>
+                  <p class="answer">输入正确答案: <input type="text" v-model="judgeAnswer" class="judge-answer"> </p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
                     <el-select v-model="judgeKnowledge" placeholder="请选择">
@@ -99,11 +105,15 @@
                     </el-select>
                   </template>
                 </div>
+                <div class="footer-button">
+                  <span class="next-ti" @click="nextBtn('judge')">下一题</span>
+                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
+                </div>
               </el-collapse-item>
               <el-collapse-item title="解答题" v-if="item == 5" :name="(index+1)">
                 <div class="raido-list answer-list">
                   <div class="raido-title">{{answerTopics.length+1}}、<input class="judge-title" v-model="answerTitle" type="text" placeholder="输入标题"></div>
-                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="answerAnswer" class="judge-answer"></textarea><span class="next-ti" @click="nextBtn('answer')">下一题</span></p>
+                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="answerAnswer" class="judge-answer"></textarea></p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
                     <el-select v-model="answerKnowledge" placeholder="请选择">
@@ -116,11 +126,15 @@
                     </el-select>
                   </template>
                 </div>
+                <div class="footer-button">
+                  <span class="next-ti" @click="nextBtn('answer')">下一题</span>
+                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
+                </div>
               </el-collapse-item>
               <el-collapse-item title="论述题" v-if="item == 6" :name="(index+1)">
                 <div class="raido-list answer-list">
                   <div class="raido-title">{{discussTopics.length+1}}、<input class="judge-title" v-model="discussTitle" type="text" placeholder="输入标题"></div>
-                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="discussAnswer" class="judge-answer"></textarea><span class="next-ti" @click="nextBtn('discuss')">下一题</span></p>
+                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="discussAnswer" class="judge-answer"></textarea></p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
                     <el-select v-model="discussKnowledge" placeholder="请选择">
@@ -133,11 +147,15 @@
                     </el-select>
                   </template>
                 </div>
+                <div class="footer-button">
+                  <span class="next-ti" @click="nextBtn('discuss')">下一题</span>
+                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
+                </div>
               </el-collapse-item>
               <el-collapse-item title="分析题" v-if="item == 7" :name="(index+1)">
                 <div class="raido-list answer-list">
                   <div class="raido-title">{{analysisTopics.length+1}}、<input class="judge-title" v-model="analysisTitle" type="text" placeholder="输入标题"></div>
-                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="analysisAnswer" class="judge-answer"></textarea><span class="next-ti" @click="nextBtn('analysis')">下一题</span></p>
+                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="analysisAnswer" class="judge-answer"></textarea></p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
                     <el-select v-model="analysisKnowledge" placeholder="请选择">
@@ -150,12 +168,14 @@
                     </el-select>
                   </template>
                 </div>
+                <div class="footer-button">
+                  <span class="next-ti" @click="nextBtn('analysis')">下一题</span>
+                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
+                </div>
               </el-collapse-item>
             </el-collapse>
 
-            <div class="footer-button">
-              <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">取消</span>
-            </div>
+            
           </div>
         </div>
       </div>
@@ -267,7 +287,7 @@ export default {
   },
   methods: {
     resetBtn() {
-      this.$confirm('确定要退出出题！', '提示', {
+      this.$confirm('确定退出当前出题状态！', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -412,19 +432,7 @@ export default {
 };
 </script>
 <style lang="less">
-@import "../assets/css/style.less";
 .set-topic-page {
-  header{
-    padding-top: 10px;
-    nav{
-      height: 160px;
-    }
-  }
-  .big-banner{
-    height: 320px;
-    background: #7b27fb url("../assets/images/list-bg.jpg") center top no-repeat;
-    margin-bottom: 30px;
-  }
   .set-topic-list{
     .list-title{
       font-size: 18px;
@@ -510,6 +518,9 @@ export default {
         float: left;
         .el-collapse{
           padding: 0 24px;
+        }
+        .el-collapse-item__content{
+          border-bottom: 1px #ccc solid;
         }
         .line-title{
           line-height: 60px;
@@ -633,14 +644,6 @@ export default {
             }
           }
       }
-
-      // .box-line{
-      //   box-sizing: border-box;
-
-      //   float: left;
-      // }
-
-
     }
   }
 

@@ -11,8 +11,8 @@
             <router-link :to="'/myerror/'+ val.questionsId" :class="{'active': isNav(/val.questionsId/) }"  @click.native="flushCom">{{ val.questionsName }}</router-link>
           </li>
         </ul>
-        <p class="title">错题列表:</p>
-
+        <p class="title" v-if="myErrorList.length">错题列表:</p>
+        <p class="title" v-else>暂无数据！</p>
         <el-row :gutter="20">
           <el-col :span="6" v-for="item in myErrorList" :key="item.id" >
             <div class="grid-content bg-purple" @click="getDetails(item)">
@@ -102,14 +102,7 @@ export default {
 };
 </script>
 <style lang="less">
-@import "../assets/css/style.less";
 .my-error-page {
-  header{
-    padding-top: 10px;
-    nav{
-      height: 150px;
-    }
-  }
   .questions-tabs {
     padding-top: 30px;
     height: 64px;
@@ -122,8 +115,9 @@ export default {
         margin-right: 70px;
         &.router-link-active {
           color: #000;
-          border-bottom: 4px solid #5a9cff;
-          padding-bottom: 14px;
+          border-bottom: 2px solid #5a9cff;
+          padding-bottom: 13px;;
+          font-size: 26px;
         }
       }
     }
@@ -169,8 +163,8 @@ export default {
       margin-bottom: 30px;
       transition: all .4s;
       &:hover{
-        transform: translateY(-10px);
-        box-shadow: 10px 10px 10px #ccc;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 10px #b2b2b2;
       }
     }
     .grid-content {

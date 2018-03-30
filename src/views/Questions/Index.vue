@@ -49,7 +49,6 @@
 import headerNav from "../../components/Header.vue";
 import curriculumBox from "../../components/curriculumItem.vue";
 import chapterBox from "../../components/chapterItem.vue";
-// import topic from "../../components/topicType.vue";
 import { mapState } from "vuex";
 
 export default {
@@ -70,11 +69,7 @@ export default {
   computed: {
     ...mapState({
       tikuList: state => state.tikuList,
-      // fieldList: state => state.fieldList,
-      // konwledList: state => state.konwledList,
       typeList: state => state.question.typeList,
-      // curriculumList: state => state.curriculumList,
-      // chapterList: state => state.chapterList,
     })
   },
   created() {
@@ -294,23 +289,7 @@ export default {
 };
 </script>
 <style lang="less">
-@import "../../assets/css/style.less";
 .questions-page {
-  header {
-    padding-top: 10px;
-    nav {
-      height: 130px;
-    }
-  }
-  .big-banner {
-    height: 320px;
-    background: #7b27fb url("../../assets/images/list-bg.jpg") center top
-      no-repeat;
-    margin-bottom: 30px;
-    .title {
-      margin-top: 20px;
-    }
-  }
   .questions-tabs {
     height: 64px;
     li {
@@ -323,8 +302,9 @@ export default {
         height: 100%;
         &.router-link-active {
           color: #000;
-          border-bottom: 4px solid #5a9cff;
-          padding-bottom: 14px;
+          border-bottom: 2px solid #5a9cff;
+          padding-bottom: 13px;;
+          font-size: 26px;
         }
       }
     }

@@ -34,8 +34,8 @@
                     <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
                   </div>
                   <!-- <p class="answer-style other-answer" v-if="radioNames[start]">其他的答案: <input maxlength="1" type="text" v-model="otherAnswer"/></p> -->
-                  <p class="answer-style" v-if="contentMsgShow">我的参考答案: {{ contentMsg }}</p>
-                  <p class="reference-msg">我的参考答案</p>
+                  <p class="answer-style" v-if="contentMsgShow">我的建议答案: {{ contentMsg }}</p>
+                  <p class="reference-msg">我的建议答案</p>
                   <div class="textarea-mn">
                     <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsgText"></textarea>
                     <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
@@ -57,8 +57,8 @@
                     </div>
                   </div>
                   <!-- <p class="answer-style other-answer" v-if="checkboxNamesStr">其他的答案: <input type="text" v-model="otherAnswer" placeholder="多个答案用,号隔开"/></p> -->
-                  <p class="answer-style" v-if="contentMsgShow">我的参考答案: {{ contentMsg }}</p>
-                  <p class="reference-msg">我的参考答案</p>
+                  <p class="answer-style" v-if="contentMsgShow">我的建议答案: {{ contentMsg }}</p>
+                  <p class="reference-msg">我的建议答案</p>
                   <div class="textarea-mn">
                     <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsgText"></textarea>
                     <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
@@ -81,8 +81,8 @@
                     <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
                   </div>
                   <!-- <p class="answer-style other-answer" v-if="radioNames[start]">其他的答案: <input maxlength="1" type="text" v-model="otherAnswer"/></p> -->
-                  <p class="answer-style" v-if="contentMsgShow">我的参考答案: {{ contentMsg }}</p>
-                  <p class="reference-msg">我的参考答案</p>
+                  <p class="answer-style" v-if="contentMsgShow">我的建议答案: {{ contentMsg }}</p>
+                  <p class="reference-msg">我的建议答案</p>
                   <div class="textarea-mn">
                     <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsgText"></textarea>
                     <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
@@ -92,7 +92,7 @@
 
               </div>
 
-              <p class="reference-msg">建议答案</p>
+              <p class="reference-msg">其它答案</p>
               <div class="msg-list" v-for="(item, index) in answersList.comments" :key="index">
                 <div class="msg-page-number">0{{ index+1 }}</div>
                 <div class="msg-page-content">
@@ -391,274 +391,3 @@ export default {
   }
 };
 </script>
-<style lang="less">
-@import "../assets/css/style.less";
-.examiner-page {
-  header {
-    padding-top: 10px;
-    nav {
-      height: 130px;
-    }
-  }
-  .big-banner {
-    height: 320px;
-    background: #7b27fb url("../assets/images/list-bg.jpg") center top no-repeat;
-    margin-bottom: 30px;
-  }
-  .examiner-list {
-    .list-title {
-      font-size: 28px;
-      color: #000;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 18px;
-      position: relative;
-      &::before {
-        content: "";
-        display: block;
-        clear: both;
-        width: 110px;
-        height: 4px;
-        background: #5a9cff;
-        position: absolute;
-        bottom: 0;
-      }
-    }
-    .menu-row {
-      .info-list {
-        margin-top: 20px;
-        span {
-          display: inline-block;
-          color: #808080;
-        }
-        span:first-child {
-          width: 110px;
-          vertical-align: top;
-        }
-        span:last-child {
-          line-height: 1.3;
-        }
-      }
-    }
-    .more-button {
-      text-align: center;
-      position: relative;
-      margin-bottom: 40px;
-      span {
-        height: 60px;
-        line-height: 60px;
-        cursor: pointer;
-      }
-      .triangle {
-        width: 0;
-        height: 0;
-        border-top: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-left: 10px solid transparent;
-        border-bottom: 10px solid #ccc;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-left: 40px;
-        margin-top: -4px;
-        transform: rotate(180deg);
-        &::before {
-          content: "";
-          border-top: 8px solid transparent;
-          border-right: 8px solid transparent;
-          border-bottom: 8px solid #fff;
-          border-left: 8px solid transparent;
-          position: absolute;
-          top: -6px;
-          left: -8px;
-        }
-      }
-    }
-    .topic-item {
-      margin-bottom: 160px;
-      .topic-left {
-        width: 875px;
-        margin-right: 30px;
-        .raido-list {
-          border-bottom: 1px solid #ccc;
-          position: relative;
-          .raido-title {
-            padding: 20px 0 20px;
-            font-size: 20px;
-          }
-          .answer-confirm {
-            margin: 10px 0;
-            span {
-              display: inline-block;
-              padding: 10px;
-              color: #fff;
-              border-radius: 4px;
-              background: #5a9cff;
-              cursor: pointer;
-            }
-          }
-          p {
-            margin-bottom: 14px;
-            input {
-              vertical-align: middle;
-              cursor: pointer;
-            }
-            label {
-              padding-left: 16px;
-              vertical-align: middle;
-              display: inline-block;
-              cursor: pointer;
-              width: 90%;
-              span{
-                width: 70%;
-                display: inline-block;
-                vertical-align:middle;
-              }
-            }
-          }
-          .answer-number {
-            position: absolute;
-            bottom: 22px;
-            right: 40px;
-            font-size: 20px;
-            color: #ff0000;
-          }
-        }
-        .answer-style {
-          font-size: 18px;
-          color: #000;
-          line-height: 30px;
-          padding-top: 15px;
-          &.other-answer {
-            margin-top: 10px;
-            input {
-              border: 1px solid #ccc;
-              font-size: 16px;
-              color: #333;
-              height: 35px;
-              padding: 0 10px;
-              border-radius: 4px;
-              vertical-align: middle;
-            }
-          }
-        }
-        .reference-msg {
-          font-size: 18px;
-          color: #808080;
-          background: url(../assets/images/msg.png) 0 center no-repeat;
-          line-height: 30px;
-          padding-left: 40px;
-          margin-top: 20px;
-        }
-        .textarea-mn {
-          position: relative;
-          padding: 5px;
-          border: 1px solid #ddd;
-          margin: 16px 0;
-          em {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            font-style: normal;
-            font-size: 14px;
-            color: #999;
-          }
-          textarea {
-            width: 100%;
-            height: 95px;
-            line-height: 16px;
-            resize: none;
-          }
-          .t-right {
-            position: absolute;
-            bottom: 18px;
-            right: 18px;
-            color: #999;
-            span {
-              background: #5a9cff;
-              padding: 8px 18px;
-              border-radius: 6px;
-              color: #fff;
-              margin-left: 20px;
-              cursor: pointer;
-            }
-          }
-        }
-        .msg-list {
-          margin-top: 10px;
-          border-bottom: 1px solid #ccc;
-          padding: 20px 0;
-          line-height: 30px;
-          font-size: 18px;
-          .msg-page-number {
-            float: left;
-            padding-right: 30px;
-          }
-          .msg-page-content {
-            overflow: hidden;
-            color: #000;
-            p:last-child {
-              color: #b3b3b3;
-            }
-          }
-        }
-        .msg-button {
-          margin: 80px auto;
-          text-align: center;
-          > span {
-            padding: 10px 44px;
-            color: #fff;
-            border-radius: 4px;
-            background: #5a9cff;
-            cursor: pointer;
-          }
-        }
-      }
-      .topic-right {
-        width: 372px;
-        font-size: 18px;
-        .slider-list {
-          margin-top: 4px;
-          line-height: 38px;
-          .left {
-            width: 106px;
-            float: left;
-            color: #979699;
-          }
-          .center {
-            width: 190px;
-            float: left;
-          }
-          .right {
-            float: right;
-            padding-right: 4px;
-          }
-        }
-        .analysis {
-          line-height: 30px;
-          color: #808080;
-          padding: 15px 0 6px;
-        }
-        .diff-level {
-          color: #f59631;
-          line-height: 1.4;
-        }
-      }
-      .pd-left {
-        padding-left: 15px;
-      }
-      .title {
-        line-height: 50px;
-        color: #fff;
-        font-family: "宋体";
-        font-size: 18px;
-        padding-left: 50px;
-        background: #5a9cff;
-        &.bg-icon {
-          background: #5a9cff url(../assets/images/icon-list.png) 18px center
-            no-repeat;
-        }
-      }
-    }
-  }
-}
-</style>

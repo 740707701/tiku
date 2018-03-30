@@ -2,28 +2,30 @@
 <div class="common-pop-header">
   <header class="header">
     <nav class="wrapper">
-        <!-- <router-link to="/" exact class="logo">
-          <img src="../assets/images/logo.png" alt="logo" >examiner
-        </router-link> -->
+        <router-link to="/" exact class="logo">
+          <img src="../assets/images/logo.png" alt="logo" >
+        </router-link>
         <ul class="nav-list m-t-14">
           <li><router-link to="/" class="border-line" :class="{'active': url !== '/' }">首页</router-link></li>
           <li><router-link to="/questions/1" :class="{'active': isNav(/(questions|examiner|itemlist)/) }">我的题库</router-link></li>
-          <li><router-link to="/exam/latest" :class="{'active': isNav(/exam\/latest|examination | mytest/) }">我的考试</router-link></li>
+          <li><router-link to="/exam/latest" :class="{'active': isNav(/(exam\/latest|examination|mytest)/) }">我的考试</router-link></li>
           <li><router-link to="/myerror/1" :class="{'active': isNav(/(myerror|errorlist)/) }">我的错题</router-link></li>
-          <li><router-link to="/judge" :class="{'active': isNav(/judge|judgelist/) }">我要当考官</router-link></li>
-          <li><router-link to="/triallist/1" :class="{'active': isNav(/trial|triallist/) }">我要当判官</router-link></li>
+          <li><router-link to="/judgelist/1" :class="{'active': isNav(/(judge|judgelist)/) }">我要当考官</router-link></li>
+          <li><router-link to="/triallist/1" :class="{'active': isNav(/(trial|triallist)/) }">我要当判官</router-link></li>
         </ul>
         <div class="nav-right m-t-14">
 
           <div class="user-info" v-if="isShowPop">
             <!-- <input type="text" placeholder="请输入您要查找的内容"> -->
             <!-- <span class="search-button"></span>    -->
-            <span class="head-img">
-              <ul class="head-select">
-                <li><router-link to="/exam/latest">我的考试</router-link></li>
-                <li><router-link to="/myerror/1">我的错题</router-link></li>
-                <li><router-link to="/judgelist/1">我要当考官</router-link></li>
-                <li style="border-bottom: 1px solid #878787;"><router-link to="/triallist/1">我要当判官</router-link></li>
+            <span class="uesr-name">您好：{{ user }}</span>
+            <span class="head-img" @click="isSelect =!isSelect">
+              <ul v-if="isSelect" class="head-select" :class="{'active': !isNav(/(questions|examiner|itemlist|exam\/latest|examination|mytest|myerror|errorlist|judge|judgelist|trial|triallist)/) }">
+                <li ><router-link to="/questions/1" :class="{'active': isNav(/(questions|examiner|itemlist)/) }">我的题库</router-link></li>
+                <li><router-link to="/exam/latest" :class="{'active': isNav(/(exam\/latest|examination|mytest)/) }">我的考试</router-link></li>
+                <li><router-link to="/myerror/1" :class="{'active': isNav(/(myerror|errorlist)/) }">我的错题</router-link></li>
+                <li><router-link to="/judgelist/1" :class="{'active': isNav(/(judge|judgelist)/) }">我要当考官</router-link></li>
+                <li style="border-bottom: 1px solid #878787;"><router-link to="/triallist/1"  :class="{'active': isNav(/(trial|triallist)/) }">我要当判官</router-link></li>
                 <li><a href="javascript:;" @click="loginOut" >退出帐号</a></li>
               </ul>
             </span>
@@ -76,7 +78,8 @@ export default {
       username: "",
       password: "",
       newPassword: "",
-      isResetPwd: false
+      isResetPwd: false,
+      user: ''
     };
   },
   computed: {
@@ -84,7 +87,6 @@ export default {
       isShowPop: state => state.account.isShowPop,
       isLogin: state => state.isLogin,
       userInfo: state => state.account.userInfo,
-      isShowPop: state => state.account.isShowPop
     })
   },
   created() {},
@@ -134,6 +136,7 @@ export default {
               target: "isShowPop",
               data: true
             });
+            this.user = this.username
             sessionStorage.setItem('username', this.username)
             sessionStorage.setItem('password', this.password)
           } else {
@@ -190,24 +193,22 @@ export default {
     }
   },
   mounted() {
-    // let a = sessionStorage.setItem('userinfo', 123123213)
-  },
-  ready() {
-    //  document.addEventListener('click', (e) => {
-    //      if (!this.$el.contains(e.target)) this.isSelect = false
-    //  })
+    this.user = sessionStorage.getItem('username')
   }
 };
 </script>
 <style lang="less">
-.common-pop-header {
   .header {
     width: 100%;
     background-color: #7b27fb;
     nav {
       .logo {
-        display: block;
+        display: none;
         float: left;
+        width: 220px;
+        img{
+          width: 220px;
+        }
       }
       .sign-button {
         display: inline-block;
@@ -261,6 +262,10 @@ export default {
         display: inline-block;
         vertical-align: middle;
       }
+      .uesr-name{
+        color: #fff;
+        margin-right: 10px;
+      }
       .search-button {
         width: 21px;
         height: 30px;
@@ -275,19 +280,16 @@ export default {
         cursor: pointer;
         position: relative;
       }
-      .head-img:hover .head-select {
-        display: block;
-      }
       .head-select {
         position: absolute;
         top: 100%;
         left: -60px;
         padding: 36px 34px;
         width: 94px;
-        margin-top: 14px;
+        margin-top: 12px;
         background: #fff;
         border-radius: 14px;
-        display: none;
+     
         li {
           float: left;
           a {
@@ -297,6 +299,9 @@ export default {
             line-height: 30px;
             &:hover {
               color: #7b27fb;
+            }
+            &.active{
+              // display: block;
             }
           }
         }
@@ -312,6 +317,9 @@ export default {
           top: -12px;
           border-bottom: 12px solid #fff;
           left: 70px;
+        }
+        &.active{
+          display: none;
         }
       }
       input {
@@ -531,5 +539,4 @@ export default {
       }
     }
   }
-}
 </style>

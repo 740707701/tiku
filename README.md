@@ -1,4 +1,4 @@
-# vue-tiku-1.0
+# vue-tiku-2.0
 
 Vue 2.0 + vue-router + vuex, with server-side rendering.
 

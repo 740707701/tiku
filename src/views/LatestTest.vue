@@ -35,23 +35,6 @@ examId  是考试id   efftime  是开始时间   exptime  是结束时间 examet
         label="时长"
         width="160">
       </el-table-column>
-
-      <!-- <el-table-column
-        prop="creatorId"
-        label="创建人"
-        width="237">
-      </el-table-column>
-      <el-table-column
-        prop="efftime"
-        label="开始时间"
-        width="252">
-      </el-table-column>
-      <el-table-column
-        prop="exptime"
-        label="结束时间"
-        width="252">
-      </el-table-column> -->
-
       <el-table-column label="操作">
         <template slot-scope="scope" prop=examId>
           <el-button type="primary" size="mini"  @click.native.prevent="deleteRow(scope.row)">参加考试</el-button>

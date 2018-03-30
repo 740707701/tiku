@@ -46,22 +46,14 @@ export default {
     margin-bottom: 35px;
     display: table;
     position: relative;
+    transition: all .4s;
     &:hover{
       color: #010101;
-      transform: translateY(-10px);
-      box-shadow: 10px 10px 10px #ccc;
-      // i{
-      //   width: 30px;
-      //   height: 30px;
-      //   background: url('../assets/images/icon-check.png') -32px 0 no-repeat;
-      //   position: absolute;
-      //   right: -1px;
-      //   bottom: -1px;
-      //   display: block;
-      // }
+      transform: translateY(-2px);
+      // box-shadow: 0 4px 4px #ccc;
+     box-shadow: 0 2px 10px #b2b2b2;
   }
   &.active{
-    font-size: 28px;
     border-color: #f95c54;
     i{
       width: 30px;
@@ -72,6 +64,9 @@ export default {
       bottom: -1px;
       display: block;
     }
+          a{
+        font-size: 20px;
+      }
   }
   a{
     display: table-cell;
@@ -79,7 +74,7 @@ export default {
     box-sizing: border-box;
     line-height: 40px;
     text-align: center;
-    font-size: 26px;
+    font-size: 18px;
     color: #b2b2b2;
     text-decoration: none;
 

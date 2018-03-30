@@ -93,22 +93,7 @@ export default {
 };
 </script>
 <style lang="less">
-@import "../assets/css/style.less";
 .exam-page {
-  header{
-    padding-top: 10px;
-    nav{
-      height: 160px;
-    }
-  }
-  .big-banner{
-        height: 280px;
-    background: #7b27fb url("../assets/images/home-bg1.jpg") center top no-repeat;
-    margin-bottom: 30px;
-    .title{
-      margin-top: 20px;
-    }
-  }
   .questions-tabs {
     height: 64px;
     li {
@@ -121,8 +106,9 @@ export default {
         height: 100%;
         &.active {
           color: #000;
-          border-bottom: 4px solid #5a9cff;
-          padding-bottom: 14px;
+          border-bottom: 2px solid #5a9cff;
+          padding-bottom: 13px;;
+          font-size: 26px;
         }
       }
     }
@@ -137,7 +123,7 @@ export default {
     li{
       float: left;
       a{
-        font-size: 24px;
+        font-size: 22px;
         color: #999;
         line-height: 64px;
         margin-right: 70px;
@@ -145,6 +131,7 @@ export default {
           color: #000;
           border-bottom: 4px solid #5a9cff;
           padding-bottom: 14px;
+          font-size: 24px
         }
       }
     }

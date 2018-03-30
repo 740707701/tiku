@@ -122,18 +122,6 @@
         </div>
       </div>
     </div>
-
-<!-- <el-dialog
-  title="提示"
-  :visible.sync="centerDialogVisible"
-  width="30%"
-  center>
-  <span>确定要提交试卷，提交后不能修改。</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-  </span>
-</el-dialog> -->
   </div>
 </template>
 
@@ -404,19 +392,7 @@ export default {
 };
 </script>
 <style lang="less">
-@import "../assets/css/style.less";
 .examination-page {
-  header {
-    padding-top: 10px;
-    nav {
-      height: 130px;
-    }
-  }
-  .big-banner {
-    height: 280px;
-    background: #7b27fb url("../assets/images/home-bg1.jpg") center top no-repeat;
-    margin-bottom: 30px;
-  }
   .examination-list {
     .list-title {
       font-size: 18px;

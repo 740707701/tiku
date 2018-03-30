@@ -116,7 +116,7 @@ export default {
   }
 };
 </script>
-  <style lang="less">
+<style lang="less">
 .my-test {
   margin-top: 20px;
   margin-bottom: 200px;

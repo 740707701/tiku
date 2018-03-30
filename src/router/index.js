@@ -23,21 +23,8 @@ const itemList = () => import('../views/ItemList.vue') // 智能题库
 const Examination = () => import('../views/Examination.vue') // 考试题目
 const Trial = () => import('../views/Trial.vue') // 审题
 const TrialList = () => import('../views/TrialList.vue') // 审题列表
-
-
-
 const JudgeList = () => import('../views/JudgeList.vue') // 考官出题
-
-
 const Questions = () => import('../views/Questions/Index.vue') // 所有题库
-// const Occupation = () => import('../views/Questions/Occupation.vue') // 职业
-// const Economics = () => import('../views/Questions/Economics.vue') // 经济
-// const Finance = () => import('../views/Questions/Finance.vue') // 金融
-// const Certificate = () => import('../views/Questions/Certificate.vue') // 证书
-
-
-
-
 
 // 404
 const NotFoundComponent = () => import('../views/NotFound.vue')
@@ -78,18 +65,12 @@ export function createRouter () {
           path: ':fieldId', name: 'trial', component: Trial,
         }]
       },
-
-
-
-
-      
       { path: '/myerror/:id', name: 'myerror', component: MyError },
       { path: '/errorlist', component: ErrorList,
         children: [{
           path: ':fieldId/:questionTypeId', name: 'errorlist', component: ErrorList
         }]
       },
-
       { path: '/judge', name: 'judge', component: Judge },
       { path: '/examiner', component: Examiner,
         children: [{
@@ -101,13 +82,6 @@ export function createRouter () {
           path: ':fieldId/:pointId/:questionTypeId', name: 'itemlist', component: itemList
         }]
       },
-
-
-
-
-      // { path: '/search', component: Search },
-
-
       // 404页面，确保在路由最后
       { path: '*', name:'404', component: NotFoundComponent }
     ]

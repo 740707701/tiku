@@ -8,14 +8,6 @@
 <script>
 export default {
   name: 'index',
-
-
-  created() {
-    // this.checkLogin();
-
-
-
-  },
   mounted() {
     let username = sessionStorage.getItem('username')
     let password = sessionStorage.getItem('password')
@@ -47,16 +39,10 @@ export default {
     }else{
       this.$router.push(`/`) 
     }
-
-
-
-
   }
 }
 </script>
 
 <style lang="less">
-  
-  //  display inline-block
-  // vertical-align middle
+  @import "./assets/css/style.less";
 </style>

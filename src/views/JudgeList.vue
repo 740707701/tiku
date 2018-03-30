@@ -10,7 +10,7 @@
       <div class="wrapper">
         <ul class="questions-tabs border-bottom-color" >
           <li v-for="(val, index) in tikuList" :key="index">
-            <router-link :to="'/question/'+ val.questionsId" :class="{'active': isNav(/val.questionsId/) }"  @click.native="flushCom">{{ val.questionsName }}</router-link>
+            <router-link :to="'/judgelist/'+ val.questionsId" :class="{'active': isNav(/val.questionsId/) }"  @click.native="flushCom">{{ val.questionsName }}</router-link>
           </li>
         </ul>
         <!-- 就设置一个内页 router-view-->
@@ -174,70 +174,3 @@ export default {
   }
 };
 </script>
-<style lang="less">
-@import "../assets/css/style.less";
-.questions-page {
-  header {
-    padding-top: 10px;
-    nav {
-      height: 130px;
-    }
-  }
-  .big-banner {
-    height: 320px;
-    background: #7b27fb url("../assets/images/list-bg.jpg") center top
-      no-repeat;
-    margin-bottom: 30px;
-    .title {
-      margin-top: 20px;
-    }
-  }
-  .questions-tabs {
-    height: 64px;
-    li {
-      float: left;
-      a {
-        font-size: 24px;
-        color: #999;
-        line-height: 64px;
-        margin-right: 70px;
-        &.router-link-active {
-          color: #000;
-          border-bottom: 4px solid #5a9cff;
-          padding-bottom: 14px;
-        }
-      }
-    }
-  }
-  .occupation-page {
-    .title {
-      padding: 27px 0;
-      font-size: 20px;
-      color: #808080;
-      span {
-        color: #333333;
-        float: right;
-        margin-right: 46px;
-        cursor: pointer;
-      }
-    }
-    .occupation-button {
-      margin: 100px auto;
-      text-align: center;
-      span {
-        display: inline-block;
-        width: 180px;
-        height: 80px;
-        text-align: center;
-        line-height: 80px;
-        color: #fff;
-        font-size: 28px;
-        border-radius: 6px;
-        background: #6200ff;
-        cursor: pointer;
-        margin: 0 35px;
-      }
-    }
-  }
-}
-</style>

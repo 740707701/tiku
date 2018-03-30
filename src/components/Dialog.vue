@@ -1,16 +1,6 @@
 <template>
   <div class="dialog" v-show="isLogin">
     <div class="dialog-bg" @click="closeLogin"></div>
-    <!-- <div class="dialog-body">
-      <div class="dialog-content">
-        <h3>选择课程</h3>
-        <a href="" class="active">职业题库<i></i></a>
-        <a href="" class="">经济金融基础题库<i></i></a>
-        <a href="">金融业务题库<i></i></a>
-        <a href="">工作方法<i></i></a>
-        <a href="">工作方法<i></i></a>
-      </div>
-    </div> -->
     <div class="dialog-banner dialog-sign">
       <div class="sign-right">
         <div class="user-login">

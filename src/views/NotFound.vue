@@ -1,37 +1,43 @@
 <template>
-  <div class="error-content">
-    <div class="text-wrapper">
-      <p class="text">哎呀！<br>你访问的页面不在啦！</p>
-      <p>
-        <router-link to="/">返回首页</router-link>
-      </p>
+  <div class="questions-page">
+    <header-nav></header-nav>
+    <div class="big-banner">
+      <div class="wrapper">
+        <img src="../assets/images/title.png" class="title">
+      </div>
+    </div>
+    <div class="error-content wrapper">
+      <div class="text-wrapper">
+        <p class="text">哎呀！<br>你访问的页面不在啦！</p>
+        <p>
+          <router-link to="/">返回首页</router-link>
+        </p>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import headerNav from "../components/Header.vue";
 export default {
   mounted(){
     document.getElementById('app').style.height = '100%'
+  },
+    components: {
+    headerNav
   }
 }
 </script>
 
 <style lang="less">
 .error-content {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+    margin: 100px auto;
+    text-align: center;
   .text-wrapper{
-    position: absolute; left: 50%; top: 50%;
-    margin-top: -50px; margin-left: 80px;
     .text{
       font-size: 36px; color: #999; letter-spacing: 3px; margin-bottom: 20px;
     } 
     a{
       color: #fb965f; font-size: 18px;
-      img{
-        vertical-align: middle; margin-right: 10px;
-      }
     }
   }
 }

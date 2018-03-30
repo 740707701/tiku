@@ -7,9 +7,6 @@
         <a href="javascript:;" class="system-button" @click="aboutTiku"><i></i></a>
       </div>
     </div>
-    <span class="icon-sousuo1"></span>
-    <span class="icon-bofang"></span>
-
     <div class="item-list">
       <div class="wrapper">
         <div class="list-box list-small">
@@ -58,8 +55,6 @@
           </div>
         </div>
     </div>
-    <!-- （学生端）
- -->
    <div class="dialog" v-show="isShowTiku">
     <div class="dialog-bg" @click="isShowTiku = !isShowTiku"></div>
       <div class="dialog-banner dialog-info">
@@ -158,31 +153,11 @@ export default {
 };
 </script>
 <style lang="less">
-@import "../assets/css/style.less";
 .index-page {
-  header{
-    padding-top: 30px;
-    nav{
-      height: 110px;
-    }
-  }
-  .big-banner{
-    height: 280px;
-    background: #7b27fb url("../assets/images/home-bg1.jpg") center top no-repeat;
-    .title{
-      width: 460px;
-      margin-bottom: 30px;
-    }
-    .system-button{
-      display: block;
-      width: 160px;
-      height: 45px;
-      background: url("../assets/images/system1.png") no-repeat;
-    }
-  }
+  
   .item-list{
     height: 540px;
-    margin-top: -42px;
+    margin-top: -72px;
     font-size: 0;
     letter-spacing: -4px;
     text-align: center;
@@ -313,28 +288,6 @@ export default {
             display: block;
           }
         }
-        // &:hover{
-        //   border-color: #f95c54;
-        //   color: #010101;
-        //   // font-size: 28px;
-        //   i{
-        //     width: 30px;
-        //     height: 30px;
-        //     background: url('../assets/images/icon-check.png') -32px 0 no-repeat;
-        //     position: absolute;
-        //     right: -1px;
-        //     bottom: -1px;
-        //     display: block;
-        //   }
-        // }
-        // &.active i{
-        //     width: 30px;
-        //     height: 30px;
-        //     position: absolute;
-        //     right: -1px;
-        //     bottom: -1px;
-        //     display: block;
-        //   }
       }
     }
   }
