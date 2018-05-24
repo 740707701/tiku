@@ -10,6 +10,7 @@ const EXAM_ANSWERS_PAGE = 'EXAM_ANSWERS_PAGE' // 其它答案
 const SBUMIT_ANSWERS_PAGE = 'SBUMIT_ANSWERS_PAGE' // 评论添加
 const EXAM_CONTENT = 'EXAM_CONTENT' // 我的测试题
 const EXAM_SUBMIT = 'EXAM_SUBMIT' //我的答案提交
+const EXAM_PAGE_DETAIL = 'EXAM_PAGE_DETAIL' //考试记录 --试卷详情
 
 // subject/exam-content 我的测试题
 
@@ -27,15 +28,16 @@ export default {
     answersList: [],
     commentList: [],
     storeExamContent: [],
+    examPageDetail: {}
 
   },
   mutations: {
-    [EXAM_SET](state, data){
+    [EXAM_SET](state, data) {
       state[data['target']] = data.data
     }
   },
   actions: {
-    [EXAM_YES_LIST]({commit}, params){
+    [EXAM_YES_LIST]({ commit }, params) {
       return api.post('/subject/exam-uncommitted-list', params).then(res => {
         commit('EXAM_SET', {
           target: 'yesList',
@@ -44,7 +46,7 @@ export default {
         return res;
       })
     },
-    [EXAM_NO_LIST]({commit}, params){
+    [EXAM_NO_LIST]({ commit }, params) {
       return api.post('/subject/exam-participate-list', params).then(res => {
         commit('EXAM_SET', {
           target: 'noList',
@@ -53,7 +55,7 @@ export default {
         return res;
       })
     },
-    [EXAM_PAGE]({commit}, params){
+    [EXAM_PAGE]({ commit }, params) {
       return api.post('/subject/exam-page/', params).then(res => {
         commit('EXAM_SET', {
           target: 'pageList',
@@ -61,7 +63,7 @@ export default {
         })
       })
     },
-    [EXAM_ANSWERS_PAGE]({commit}, params){
+    [EXAM_ANSWERS_PAGE]({ commit }, params) {
       return api.post('/subject/comment-list', params).then(res => {
         commit('EXAM_SET', {
           target: 'answersList',
@@ -69,7 +71,7 @@ export default {
         })
       })
     },
-    [SBUMIT_ANSWERS_PAGE]({commit}, params){
+    [SBUMIT_ANSWERS_PAGE]({ commit }, params) {
       return api.post('/subject/comment-submit', params).then(res => {
         commit('EXAM_SET', {
           target: 'commentList',
@@ -78,7 +80,7 @@ export default {
         return res;
       })
     },
-    [EXAM_CONTENT]({commit}, params){
+    [EXAM_CONTENT]({ commit }, params) {
       return api.post('/subject/exam-content', params).then(res => {
         commit('EXAM_SET', {
           target: 'storeExamContent',
@@ -87,7 +89,7 @@ export default {
         return res;
       })
     },
-    [EXAM_SUBMIT]({commit}, params){
+    [EXAM_SUBMIT]({ commit }, params) {
       return api.post('/student/exam-submit', params).then(res => {
         commit('EXAM_SET', {
           target: 'examSubmit',
@@ -96,6 +98,15 @@ export default {
         return res;
       })
     },
+    [EXAM_PAGE_DETAIL]({ commit }, params) { //id
+      return api.get('/subject/exam-answer/' + params, ).then(res => {
+        commit('EXAM_SET', {
+          target: 'examPageDetail',
+          data: res.object
+        })
+        return res
+      })
+    }
 
   }
 }
