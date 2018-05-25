@@ -346,7 +346,7 @@ export default {
 
       if (this.checkboxNames.length) {
         this.checkboxNames.forEach((checkVal, checkIndex, checkArr) => {
-          checkArr[checkIndex] = checkVal.sort().join();
+          checkArr[checkIndex] = checkVal.sort().join().replace(/\,/g,'');
         });
       }
 
