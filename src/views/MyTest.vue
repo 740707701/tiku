@@ -480,6 +480,7 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 2;
     .exam-content {
       width: 1200px;
       height: calc(100% - 80px);
