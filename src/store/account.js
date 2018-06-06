@@ -13,12 +13,12 @@ export default {
     isShowPop: false
   },
   mutations: {
-    [ACCOUNT_SET](state, data){
+    [ACCOUNT_SET](state, data) {
       state[data['target']] = data.data
     }
   },
   actions: {
-    [ACCOUNT_LOGIN]({commit}, params){
+    [ACCOUNT_LOGIN]({ commit }, params) {
       return api.post('/login', params).then(res => {
         commit('ACCOUNT_SET', {
           target: 'userInfo',
@@ -27,7 +27,7 @@ export default {
         return res
       })
     },
-    [ACCOUNT_LOGOUT]({commit}, params){
+    [ACCOUNT_LOGOUT]({ commit }, params) {
       return api.post('/logout', params).then(res => {
         commit('ACCOUNT_SET', {
           target: 'userInfo',
@@ -36,11 +36,11 @@ export default {
         return res
       })
     },
-    [ACCOUNT_UPDATE]({commit}, params){
+    [ACCOUNT_UPDATE]({ commit }, params) {
       return api.post('/student/change-pwd', params).then(res => {
         return res
       })
     },
-    
+
   }
 }

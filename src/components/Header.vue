@@ -119,11 +119,12 @@ export default {
     userLogin() {
       this.$store
         .dispatch("ACCOUNT_LOGIN", {
-          username: this.username,
-          password: this.password
+          "username": this.username,
+          "password": this.password
         })
         .then(res => {
           if (res.success) {
+            
             this.$message({
               message: "恭喜你，登录成功！",
               type: "success"

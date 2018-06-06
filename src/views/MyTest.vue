@@ -63,7 +63,7 @@
                             <input type="radio" disabled="disabled" class="radio">{{choice}}
                           </div>
                         </div>
-                        <p class="right">正确答案： {{exam.answer}}</p>
+                        <p class="right">参考答案： {{exam.answer}}</p>
                         <p class="answer">考生答案：{{exam.studentAnswer}}</p>
                         <div class="score">考生得分：<div class="score-value">{{exam.studentPoint}}</div></div>
                         <p class="teacher">教师批注：</p>
@@ -96,7 +96,7 @@
                             <input type="radio" disabled="disabled" class="radio">{{choice}}
                           </div>
                         </div>
-                        <p class="right">正确答案： {{exam.answer}}</p>
+                        <p class="right">参考答案： {{exam.answer}}</p>
                         <p class="answer">考生答案：{{exam.studentAnswer}}</p>
                         <div class="score">考生得分：<div class="score-value">{{exam.studentPoint}}</div></div>
                         <p class="teacher">教师批注：</p>
@@ -129,8 +129,8 @@
                             <input type="radio" disabled="disabled" class="radio">{{choice}}
                           </div>
                         </div>
-                        <p v-if="exam.answer=='T'">正确答案： 对</p>
-                        <p v-if="exam.answer=='F'">正确答案： 错</p>
+                        <p v-if="exam.answer=='T'">参考答案： 对</p>
+                        <p v-if="exam.answer=='F'">参考答案： 错</p>
                         <p class="answer" v-if="exam.studentAnswer=='T'">考生答案：对</p>
                         <p class="answer" v-if="exam.studentAnswer=='F'">考生答案：错</p>
                         <div class="score">考生得分：<div class="score-value">{{exam.studentPoint}}</div></div>
@@ -164,8 +164,8 @@
                             <input type="radio" disabled="disabled" class="radio">{{choice}}
                           </div>
                         </div>
-                        <p v-if="exam.answer=='T'">正确答案： 对</p>
-                        <p v-if="exam.answer=='F'">正确答案： 错</p>
+                        <p v-if="exam.answer=='T'">参考答案： 对</p>
+                        <p v-if="exam.answer=='F'">参考答案： 错</p>
                         <p class="answer">考生答案：{{exam.studentAnswer}}</p>
                         <div class="score">考生得分：<div class="score-value">{{exam.studentPoint}}</div></div>
                         <p class="teacher">教师批注：</p>
@@ -198,8 +198,8 @@
                             <input type="radio" disabled="disabled" class="radio">{{choice}}
                           </div>
                         </div>
-                        <p v-if="exam.answer=='T'">正确答案： 对</p>
-                        <p v-if="exam.answer=='F'">正确答案： 错</p>
+                        <p v-if="exam.answer=='T'">参考答案： 对</p>
+                        <p v-if="exam.answer=='F'">参考答案： 错</p>
                         <p class="answer">考生答案：{{exam.studentAnswer}}</p>
                         <div class="score">考生得分：<div class="score-value">{{exam.studentPoint}}</div></div>
                         <p class="teacher">教师批注：</p>
@@ -232,8 +232,8 @@
                             <input type="radio" disabled="disabled" class="radio">{{choice}}
                           </div>
                         </div>
-                        <p v-if="exam.answer=='T'">正确答案： 对</p>
-                        <p v-if="exam.answer=='F'">正确答案： 错</p>
+                        <p v-if="exam.answer=='T'">参考答案： 对</p>
+                        <p v-if="exam.answer=='F'">参考答案： 错</p>
                         <p class="answer">考生答案：{{exam.studentAnswer}}</p>
                         <div class="score">考生得分：<div class="score-value">{{exam.studentPoint}}</div></div>
                         <p class="teacher">教师批注：</p>
@@ -266,8 +266,8 @@
                             <input type="radio" disabled="disabled" class="radio">{{choice}}
                           </div>
                         </div>
-                        <p v-if="exam.answer=='T'">正确答案： 对</p>
-                        <p v-if="exam.answer=='F'">正确答案： 错</p>
+                        <p v-if="exam.answer=='T'">参考答案： 对</p>
+                        <p v-if="exam.answer=='F'">参考答案： 错</p>
                         <p class="answer">考生答案：{{exam.studentAnswer}}</p>
                         <div class="score">考生得分：<div class="score-value">{{exam.studentPoint}}</div></div>
                         <p class="teacher">教师批注：</p>

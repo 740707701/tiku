@@ -8,7 +8,7 @@ import * as filters from './util/filters'
 
 
 
-import { Tabs, TabPane, Select, Table, TableColumn, Button, Option, Checkbox, Row, Col, Dialog, CheckboxGroup,Dropdown, DropdownMenu, Progress, Slider, Cascader, Collapse, CollapseItem, Message, MessageBox} from 'element-ui'
+import { Tabs, TabPane, Select, Table, TableColumn, Button, Option, Checkbox, Row, Col, Dialog, CheckboxGroup, Dropdown, DropdownMenu, Progress, Slider, Cascader, Collapse, CollapseItem, Message, MessageBox } from 'element-ui'
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Select)
@@ -47,7 +47,7 @@ Object.keys(filters).forEach(key => {
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
-export function createApp () {
+export function createApp() {
   // create store and router instances
   const store = createStore()
   const router = createRouter()

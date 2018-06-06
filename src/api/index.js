@@ -1,13 +1,14 @@
 import axios from 'axios';
-const apiContext = '/Portal'
+const apiContext = 'http://tiku.xuedian98.com:8080/Portal'
 let methods = ['get', 'post']
-// let token = ''
+  // let token = ''
 
 class Api {
-  constructor (context = '') {
+  constructor(context = '') {
     methods.forEach(method => {
       this[method] = (path, data = {}) => new Promise((resolve, reject) => {
         let url = apiContext + context + path
+        axios.defaults.withCredentials = true; //让ajax携带cookie
         axios({
           method: method,
           url: url,
@@ -31,17 +32,17 @@ class Api {
             //   // Message({type: 'error', message: res.data.msg})
             //   reject(res.data)
             // }
-          }else{
+          } else {
             reject(res.data)
           }
         }).catch(error => {
           console.log('error.response', error.response)
           console.log('error.request', error.request)
-          // if (error.response) {
-          //   Message({type: 'error', message: error.response.msg})
-          // } else {
-          //   Message({type: 'error', message: error.message})
-          // }
+            // if (error.response) {
+            //   Message({type: 'error', message: error.response.msg})
+            // } else {
+            //   Message({type: 'error', message: error.message})
+            // }
         })
       })
     })

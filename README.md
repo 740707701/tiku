@@ -1,59 +1,30 @@
-# vue-tiku-2.0
+# vue-tiku
 
-Vue 2.0 + vue-router + vuex, with server-side rendering.
-
-<p align="center">
-  <a href="#" target="_blank">
-    Live Demo
-  </a>
-</p>
-
-## Features
-
-> Note: in practice, it is unnecessary to code-split for an app of this size (where each async chunk is only a few kilobytes), nor is it optimal to extract an extra CSS file (which is only 1kb) -- they are used simply because this is a demo app showcasing all the supported features. In real apps, you should always measure and optimize based on your actual app constraints.
-
-- Server Side Rendering
-  - Vue + vue-router + vuex working together
-  - Server-side data pre-fetching
-  - Client-side state & DOM hydration
-  - Automatically inlines CSS used by rendered components only
-  - Preload / prefetch resource hints
-  - Route-level code splitting
-- Progressive Web App
-  - App manifest
-  - Service worker
-  - 100/100 Lighthouse score
-- Single-file Vue Components
-  - Hot-reload in development
-  - CSS extraction for production
-- Animation
-  - Effects when switching route views
-  - Real-time list updates with FLIP Animation
-
-## Architecture Overview
-
-<img width="973" alt="screen shot 2016-08-11 at 6 06 57 pm" src="https://cloud.githubusercontent.com/assets/499550/17607895/786a415a-5fee-11e6-9c11-45a2cfdf085c.png">
-
-**A detailed Vue SSR guide can be found [here](https://ssr.vuejs.org).**
+> A Vue.js project
 
 ## Build Setup
 
-**Requires Node.js 7+**
-
 ``` bash
 # install dependencies
-npm install # or yarn
+npm install
 
-# serve in dev mode, with hot reload at localhost:8080
+# serve with hot reload at localhost:8080
 npm run dev
 
-# build for production
+# build for production with minification
 npm run build
 
-# serve in production mode
-npm start
+# build for production and view the bundle analyzer report
+npm run build --report
+
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
 ```
 
-## License
-
-MIT
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
