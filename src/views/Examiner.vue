@@ -27,9 +27,8 @@
                     <input type="hidden" v-model="questionid">
                     <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
                     <p v-for="(num, index) in randomItem[start].content.choiceList " :key="index">
-                      <input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" v-model="radioNames[start]" @click="disabledItem(index)" :disabled="disabled">
-    <!--  -->
-
+                      <input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" 
+                      v-model="radioNames[start]" @click="disabledItem(index)" :disabled="disabled">
                     <label :for="'radio'+(start+1)+'-'+index">{{ index }}、<span>{{ num }}</span></label></p>
                     <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
                   </div>

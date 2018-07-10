@@ -20,7 +20,7 @@
             <!-- <span class="search-button"></span>    -->
             <span class="uesr-name">您好：{{ user }}</span>
             <span class="head-img" @click="isSelect =!isSelect">
-              <ul v-if="isSelect" class="head-select" :class="{'active': !isNav(/(questions|examiner|itemlist|exam\/latest|examination|mytest|myerror|errorlist|judge|judgelist|trial|triallist)/) }">
+              <ul v-if="isSelect" class="head-select" :class="{'active': !isNav(/(questions|examiner|itemlist|exam\/latest|examination|mytest|myerror|errorlist|judge|judgelist|trial|triallist|\/)/) }">
                 <li ><router-link to="/questions/1" :class="{'active': isNav(/(questions|examiner|itemlist)/) }">我的题库</router-link></li>
                 <li><router-link to="/exam/latest" :class="{'active': isNav(/(exam\/latest|examination|mytest)/) }">我的考试</router-link></li>
                 <li><router-link to="/myerror/1" :class="{'active': isNav(/(myerror|errorlist)/) }">我的错题</router-link></li>
@@ -31,7 +31,7 @@
             </span>
           </div>
           <div class="sign-box" v-else>
-            <a class="sign-button sign-in" href="javascript:;" title="SIGN IN" @click="popLogin"></a>
+            <div class="sign-button sign-in" @click="popLogin">登录</div>
             <!-- <a class="sign-button sign-up" href="javascript:;" title="SIGN UP"></a> -->
           </div>
         </div>
@@ -214,15 +214,21 @@ export default {
       .sign-button {
         display: inline-block;
         width: 110px;
-        height: 46px;
-        background: url(../assets/images/sign-up-in.png) no-repeat;
-        &.sign-in {
-          background-position: 0 0;
-          margin-right: 36px;
-        }
-        &.sign-up {
-          background-position: -144px 0;
-        }
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+        border: 1px solid #fff;
+        color: #fff;
+        border-radius: 23px;
+        cursor: pointer;
+        // background: url(../assets/images/sign-up-in.png) no-repeat;
+        // &.sign-in {
+        //   background-position: 0 0;
+        //   margin-right: 36px;
+        // }
+        // &.sign-up {
+        //   background-position: -144px 0;
+        // }
       }
     }
     .nav-list {
@@ -237,13 +243,13 @@ export default {
           // width: 108px;
           padding: 0 10px;
           margin-right: 10px;
-          height: 38px;
-          line-height: 38px;
+          height: 30px;
+          line-height: 30px;
           color: #fff;
-          font-size: 20px;
+          font-size: 16px;
           text-align: center;
           border: 1px solid #fff;
-          border-radius: 32px;
+          border-radius: 15px;
           &.border-line {
             border: 1px solid #7b27fb;
           }
@@ -280,24 +286,27 @@ export default {
         background: url(../assets/images/head.png) center no-repeat;
         cursor: pointer;
         position: relative;
+        z-index: 2;
       }
       .head-select {
         position: absolute;
         top: 100%;
         left: -60px;
-        padding: 36px 34px;
+        padding: 10px 20px;
         width: 94px;
         margin-top: 12px;
         background: #fff;
         border-radius: 14px;
      
         li {
+          width: 100%;
           float: left;
           a {
+            width: 100%;
             display: block;
             color: #333;
-            font-size: 18px;
-            line-height: 30px;
+            font-size: 14px;
+            line-height: 24px;
             &:hover {
               color: #7b27fb;
             }

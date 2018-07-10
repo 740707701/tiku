@@ -60,7 +60,7 @@ a {
 }
 
 .wrapper {
-  max-width: 1282px;
+  max-width: 1200px;
   margin: 0 auto;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -141,40 +141,40 @@ input[type="text"]:disabled{
 
 
   header{
-    padding-top: 30px;
+    padding-top: 10px;
     nav{
-      height: 110px;
+      height: 60px;
     }
   }
   .big-banner{
-    height: 280px;
-    background: #7b27fb url("../images/home-bg1.jpg") center top no-repeat;
-    margin-bottom: 30px;
+    height: 170px;
+    background: #7b27fb url("../images/home-bg1.jpg") no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
     .title{
-      width: 460px;
-      margin-bottom: 30px;
+      width: 260px;
+      margin-top: 20px;
     }
     .system-button{
-      display: block;
       width: 160px;
       height: 45px;
+      margin-top: 10px;
       background: url("../images/system1.png") no-repeat;
     }
   }
   .questions-tabs {
-    height: 64px;
+    height: 54px;
     li {
       float: left;
       a {
-        font-size: 24px;
+        font-size: 16px;
         color: #999;
-        line-height: 64px;
+        line-height: 54px;
+        display: inline-block;
         margin-right: 70px;
         &.router-link-active {
           color: #000;
           border-bottom: 2px solid #5a9cff;
-          padding-bottom: 13px;;
-          font-size: 26px;
         }
       }
     }
@@ -196,18 +196,16 @@ input[type="text"]:disabled{
       text-align: center;
       span {
         display: inline-block;
-        width: 180px;
-        height: 80px;
+        padding: 15px;
         text-align: center;
-        line-height: 80px;
         color: #fff;
-        font-size: 28px;
+        font-size: 14px;
         border-radius: 6px;
         background: #6200ff;
         cursor: pointer;
         margin: 0 35px;
         &:hover{
-          box-shadow: 0 0 20px 6px #dcccf3;
+          box-shadow: 0 0 10px 6px #dcccf3;
         }
       }
     }
@@ -216,25 +214,28 @@ input[type="text"]:disabled{
 
   .examiner-list {
     .list-title {
-      font-size: 28px;
+      font-size: 16px;
       color: #000;
+      padding-top: 10px;
       border-bottom: 1px solid #ccc;
-      padding-bottom: 18px;
+      padding-bottom: 10px;
       position: relative;
       &::before {
         content: "";
         display: block;
         clear: both;
-        width: 110px;
-        height: 4px;
+        width: 70px;
+        height: 2px;
         background: #5a9cff;
         position: absolute;
         bottom: 0;
       }
     }
     .menu-row {
+      font-size: 16px;
+      margin-top: 10px;
       .info-list {
-        margin-top: 20px;
+        margin-top: 6px;
         span {
           display: inline-block;
           color: #808080;
@@ -251,7 +252,7 @@ input[type="text"]:disabled{
     .more-button {
       text-align: center;
       position: relative;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       span {
         height: 60px;
         line-height: 60px;
@@ -285,14 +286,14 @@ input[type="text"]:disabled{
     .topic-item {
       margin-bottom: 160px;
       .topic-left {
-        width: 875px;
-        margin-right: 30px;
+        width: 800px;
+        margin-right: 20px;
         .raido-list {
           border-bottom: 1px solid #ccc;
           position: relative;
           .raido-title {
-            padding: 20px 0 20px;
-            font-size: 20px;
+            padding: 10px 0 10px;
+            font-size: 16px;
           }
           .answer-confirm {
             margin: 10px 0;
@@ -306,7 +307,7 @@ input[type="text"]:disabled{
             }
           }
           p {
-            margin-bottom: 14px;
+            margin-bottom: 8px;
             input {
               vertical-align: middle;
               cursor: pointer;
@@ -317,6 +318,7 @@ input[type="text"]:disabled{
               display: inline-block;
               cursor: pointer;
               width: 90%;
+              font-size: 14px;
               span{
                 width: 70%;
                 display: inline-block;
@@ -351,18 +353,18 @@ input[type="text"]:disabled{
           }
         }
         .reference-msg {
-          font-size: 18px;
+          font-size: 14px;
           color: #808080;
           background: url(../images/msg.png) 0 center no-repeat;
           line-height: 30px;
           padding-left: 40px;
-          margin-top: 20px;
+          margin-top: 10px;
         }
         .textarea-mn {
           position: relative;
           padding: 5px;
           border: 1px solid #ddd;
-          margin: 16px 0;
+          margin: 5px 0;
           em {
             position: absolute;
             top: 5px;
@@ -411,10 +413,10 @@ input[type="text"]:disabled{
           }
         }
         .msg-button {
-          margin: 80px auto;
+          margin: 30px auto;
           text-align: center;
           > span {
-            padding: 10px 44px;
+            padding: 10px 20px;
             color: #fff;
             border-radius: 4px;
             background: #5a9cff;
@@ -429,8 +431,9 @@ input[type="text"]:disabled{
           margin-top: 4px;
           line-height: 38px;
           .left {
-            width: 106px;
             float: left;
+            width: 106px;
+            font-size: 14px;
             color: #979699;
           }
           .center {

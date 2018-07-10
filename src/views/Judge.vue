@@ -29,6 +29,9 @@
               </div>
 
             </div>
+            <div class="img-box">
+              <img src="../assets/images/kd-bg.png" alt="">
+            </div>
           </div>
           <div class="box-line main-right">
 
@@ -158,7 +161,7 @@
                   <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="analysisAnswer" class="judge-answer"></textarea></p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
-                    <el-select v-model="analysisKnowledge" placeholder="请选择">
+                    <el-select v-model="analysisKnowledge" placeholder="请选择" size="small">
                       <el-option
                         v-for="item in chapterList"
                         :key="item.pointId"
@@ -448,50 +451,61 @@ export default {
       }
     }
     .list-main{
+      height: 100%;
       border: 1px solid #fafafa;
       box-shadow:0px 6px 6px #E9E7EA;
       margin-bottom: 30px;
+      margin-top: 10px;
       overflow: hidden;
       background: linear-gradient(to top, #60a8fe, #357df2);
       position: relative;
-      &::before{
-        width: 358px;
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        background: url('../assets/images/kd-bg.png') left bottom no-repeat;
-      }
+      // &::before{
+      //   width: 298px;
+      //   content: "";
+      //   position: absolute;
+      //   left: 0;
+      //   top: 0;
+      //   height: 100%;
+      //   background: url('../assets/images/kd-bg.png') left bottom no-repeat;
+      // }
       .main-left {
-        width: 358px;
         float: left;
+        width: 298px;
+        height: 100%;
         color: #fff;
-        position: relative;
         .line-box{
           position: relative;
         }
+        .img-box {
+          width: 298px;
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          img {
+            width: 100%;
+          }
+        }
         .examinee{
-          width: 358px;
-          font-size: 15px;
+          width: 298px;
+          font-size: 14px;
           .student-info{
-            padding: 0 38px;
-            margin-bottom: 86px;
+            padding-left: 30px;
+            margin-bottom: 30px;
             font-size: 16px;
             color: #fff;
             .info-list{
-              margin-top: 20px;
+              line-height: 32px;
               span{
+                line-height: 32px;
                 display: inline-block;
               }
               span:first-child{
                 width: 80px;
-                vertical-align: top;
+                // vertical-align: top;
               }
               span:last-child{
-                width: 180px;
-                line-height: 1.3;
-                margin-left: 6px;
+                // width: 180px;
+                // line-height: 1.3;
                 i{
                   font-style: normal;
                 }
@@ -505,14 +519,14 @@ export default {
           }
         }
         .line-title{
-          margin-top: 28px;
+          margin: 15px 0;
           padding-left: 16px;
           font-size: 20px;
           border-left: 5px solid #ea8661;
         }
       }
       .main-right{
-        width: 922px;
+        width: 900px;
         min-height: 630px;
         background: #fff;
         float: left;
@@ -563,7 +577,7 @@ export default {
           padding-left: 30px;
 
           .raido-title{
-            padding: 20px 0 20px;
+            padding: 0px 0 20px 0;
             .judge-title{
               border: 1px solid #ccc;
               width: 90%;
@@ -584,7 +598,7 @@ export default {
               width: 70%;
             }
             .judge-answer{
-              width: 50px;
+              width: 100px;
               line-height: 28px;
               border: 1px solid #cfcfcf;
               font-size: 20px;

@@ -4,29 +4,64 @@
     <div class="big-banner">
       <div class="wrapper">
         <img src="../assets/images/title.png" class="title">
-        <a href="javascript:;" class="system-button" @click="aboutTiku"><i></i></a>
+        <div class="system-button" @click="aboutTiku"><i></i></div>
       </div>
     </div>
-    <div class="item-list">
-      <div class="wrapper">
-        <div class="list-box list-small">
-          <a @click="changLogin(0)" href="javascript:;">
-            <span class="icon-style icon-icon-tk"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span></span><p>我的题库</p></a>
-        </div>
-        <div class="list-box list-small list-margin">
-          <a @click="changLogin(1)" href="javascript:;"><span class="icon-style icon-icon-ks"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span><span class="path12"></span></span><p>我的考试</p></a>
-        </div>
-        <div class="list-box list-small">
-          <a @click="changLogin(2)" href="javascript:;"><span class="icon-style icon-icon-ct"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span><span class="path12"></span><span class="path13"></span><span class="path14"></span><span class="path15"></span><span class="path16"></span></span><p>我的错题</p></a>
-        </div>
-        <div class="list-box list-middle list-margin-right">
-          <a @click="changLogin(3)" href="javascript:;"><span class="icon-style icon-icon-dkg"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span><span class="path11"></span></span><p>我要当考官</p></a>
-        </div>
-        <div class="list-box list-middle">
-          <a @click="changLogin(4)" href="javascript:;"><span class="icon-style icon-icon-dpg"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span><span class="path6"></span><span class="path7"></span><span class="path8"></span><span class="path9"></span><span class="path10"></span></span><p>我要当判官</p></a>
-          <!-- judge -->
-        </div>
-      </div>
+    <div class="row-content">
+      <el-row :gutter="20">
+          <el-col :span="8">
+            <div class="item-box">
+              <div class="item" @click="changLogin(0)">
+                <svg class="iconfont" aria-hidden="true">
+                  <use xlink:href="#icon-tiku"></use>
+                </svg>
+                <div class="item-title">我的题库</div>
+            </div>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="item-box">
+              <div class="item" @click="changLogin(1)">
+                <svg class="iconfont" aria-hidden="true">
+                  <use xlink:href="#icon-kaoshi"></use>
+                </svg>
+                <div class="item-title">我的考试</div>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="item-box">
+              <div class="item" @click="changLogin(2)">
+                <svg class="iconfont" aria-hidden="true">
+                  <use xlink:href="#icon-cuoti"></use>
+                </svg>
+                <div class="item-title">我的错题</div>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <div class="item-box">
+              <div class="item" @click="changLogin(3)">
+                <svg class="iconfont" aria-hidden="true">
+                  <use xlink:href="#icon-kaoguan"></use>
+                </svg>
+                <div class="item-title">我要当考官</div>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="item-box">
+              <div class="item" @click="changLogin(4)">
+                <svg class="iconfont" aria-hidden="true">
+                  <use xlink:href="#icon-panguan"></use>
+                </svg>
+                <div class="item-title">我要当判官</div>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
     </div>
     <div class="tiku-dialog" v-if="showTiku">
       <div class="dialog-bg" @click="showTiku = !showTiku"></div>
@@ -55,22 +90,21 @@
           </div>
         </div>
     </div>
-   <div class="dialog" v-show="isShowTiku">
-    <div class="dialog-bg" @click="isShowTiku = !isShowTiku"></div>
-      <div class="dialog-banner dialog-info">
-        <div class="sign-right">
-          <p>题库功能介绍</p>
-          <p>本题库系统是一个可以内生发展，多用户共建的智能推送题库，本题库的功能包括：</p>
-          <p>1、可以进行职业类、专业类、金融业务类和金融证书类的专题题库练习；</p>
-          <p>2、可以根据每道题目的标签，搜索自己需要的题目，同时可以对每道题目打标签，建立自己的专属题库；</p>
-          <p>3、可以智能化推送错题以及错题所属知识点的题目，进行薄弱知识点的强化训练；</p>
-          <p>4、可以参与题库共建，自行出题；</p>
-          <p>5、可以参与审题，对每道题目进行多维度评分，以及点评；</p>
-          <p>6、可以参加老师组织的考试，也可以自行组卷，发布给自己或者朋友来考试；</p>
+    <div class="dialog" v-show="isShowTiku">
+      <div class="dialog-bg" @click="isShowTiku = !isShowTiku"></div>
+        <div class="dialog-banner dialog-info">
+          <div class="sign-right">
+            <p>题库功能介绍</p>
+            <p>本题库系统是一个可以内生发展，多用户共建的智能推送题库，本题库的功能包括：</p>
+            <p>1、可以进行职业类、专业类、金融业务类和金融证书类的专题题库练习；</p>
+            <p>2、可以根据每道题目的标签，搜索自己需要的题目，同时可以对每道题目打标签，建立自己的专属题库；</p>
+            <p>3、可以智能化推送错题以及错题所属知识点的题目，进行薄弱知识点的强化训练；</p>
+            <p>4、可以参与题库共建，自行出题；</p>
+            <p>5、可以参与审题，对每道题目进行多维度评分，以及点评；</p>
+            <p>6、可以参加老师组织的考试，也可以自行组卷，发布给自己或者朋友来考试；</p>
+          </div>
         </div>
-      </div>
-  </div>
-
+    </div>
   </div>
 </template>
 
@@ -154,56 +188,31 @@ export default {
 </script>
 <style lang="less">
 .index-page {
-  
-  .item-list{
-    height: 540px;
-    margin-top: -72px;
-    font-size: 0;
-    letter-spacing: -4px;
-    text-align: center;
-    .list-box{
-      font-size: 20px;
-      letter-spacing: 0;
-      display: inline-block;
-      height: 200px;
-      padding-top: 28px;
-      background-color: #fff;
-      box-shadow: 0 0 40px 20px rgba(98,0,255,.06);
-      border-radius: 14px;
-      margin-bottom: 40px;
-      box-sizing: border-box;
-      .icon-style {
-        font-size: 100px;
-      }
-
-      &.list-small{
-        width: 406px;
-      }
-      &.list-middle{
-        width: 620px;
-      }
-      &.list-margin{
-        margin: 0 30px;
-      }
-      &.list-margin-right{
-        margin-right: 36px;
-      }
-      a{
-        display: block;
+  .row-content {
+    width: 1200px;
+    margin: 0 auto;
+    .item-box {
+      padding: 20px;
+      height: 150px;
+      .item {
         width: 100%;
-        height: 100%;
-        text-decoration: none;
-        img{
-          margin-top: 56px;
+        padding: 25px 0;
+        background-color: #fff;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 20px;
+        box-shadow: 0 0 40px 20px rgba(98,0,255,.06);
+        svg {
+          width: 120px;
+          height: 80px;
         }
-        p{
-          margin-top: 16px;
-          font-size: 20px;
-          color: #2c285f;
+        .item-title {
+          margin-top: 20px;
         }
       }
     }
   }
+
   .tiku-dialog{
     position: fixed;
     width: 100%;

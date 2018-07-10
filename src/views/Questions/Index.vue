@@ -291,28 +291,28 @@ export default {
 <style lang="less">
 .questions-page {
   .questions-tabs {
-    height: 64px;
+    height: 54px;
     li {
       float: left;
+      line-height: 54px;
       a {
-        font-size: 24px;
+        font-size: 16px;
         color: #999;
-        line-height: 64px;
-        margin-right: 70px;
+        line-height: 54px;
+        display: inline-block;
+        margin-right: 30px;
         height: 100%;
         &.router-link-active {
           color: #000;
           border-bottom: 2px solid #5a9cff;
-          padding-bottom: 13px;;
-          font-size: 26px;
         }
       }
     }
   }
   .occupation-page {
     .title {
-      padding: 27px 0;
-      font-size: 20px;
+      padding: 10px 0;
+      font-size: 16px;
       color: #808080;
       span {
         color: #333333;
@@ -322,16 +322,14 @@ export default {
       }
     }
     .occupation-button {
-      margin: 100px auto;
+      margin: 30px auto;
       text-align: center;
       span {
         display: inline-block;
-        width: 180px;
-        height: 80px;
+        font-size: 14px;
+        padding: 15px;
         text-align: center;
-        line-height: 80px;
         color: #fff;
-        font-size: 28px;
         border-radius: 6px;
         background: #6200ff;
         cursor: pointer;

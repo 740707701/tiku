@@ -37,13 +37,13 @@ export default {
     content: "";
 
   }
-  margin-right: -80px;
+  // margin-right: -80px;
   li{
     float: left;
-    height: 120px;
+    // height: 80px;
     border: 2px #ccc solid;
-    margin-right: 80px;
-    margin-bottom: 35px;
+    margin-right: 10px;
+    margin-bottom: 10px;
     display: table;
     position: relative;
     transition: all .4s;
@@ -56,25 +56,27 @@ export default {
   &.active{
     border-color: #f95c54;
     i{
-      width: 30px;
-      height: 30px;
-      background: url('../assets/images/icon-check.png') -32px 0 no-repeat;
+      width: 20px;
+      height: 15px;
+      background: url('../assets/images/icon-check.png') -16px 0 no-repeat;
+      background-size: cover;
       position: absolute;
-      right: -1px;
+      right: -6px;
       bottom: -1px;
       display: block;
     }
-          a{
-        font-size: 20px;
+      a{
+        font-size: 14px;
       }
   }
   a{
     display: table-cell;
-    width: 256px;
+    min-width: 150px;
     box-sizing: border-box;
-    line-height: 40px;
+    padding: 10px;
+    line-height: 30px;
     text-align: center;
-    font-size: 18px;
+    font-size: 14px;
     color: #b2b2b2;
     text-decoration: none;
 

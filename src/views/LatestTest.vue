@@ -7,7 +7,7 @@
       <el-table-column
         prop="name"
         label="名称"
-        width="224">
+        width="254">
         <template slot-scope="scope">
           <span class="icon-list">{{ scope.row.examName }}</span>
           <!-- creatorId  是创建人  creator 是创建人id totalpoint 是总时长 examName 是考试名称
@@ -18,22 +18,22 @@ examId  是考试id   efftime  是开始时间   exptime  是结束时间 examet
       <el-table-column
         prop="creatorId"
         label="创建人"
-        width="237">
+        width="200">
       </el-table-column>
       <el-table-column
         prop="effTime"
         label="开始时间"
-        width="252">
+        width="225">
       </el-table-column>
       <el-table-column
         prop="expTime"
         label="结束时间"
-        width="252">
+        width="225">
       </el-table-column>
       <el-table-column
         prop="totalPoint"
         label="时长"
-        width="160">
+        width="120">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope" prop=examId>
@@ -126,7 +126,7 @@ export default {
 </script>
 <style lang="less">
 .latest-box{
-  margin-bottom: 200px;
+  margin-bottom: 30px;
   .el-table td{
     padding: 0;
   }
@@ -144,7 +144,7 @@ export default {
   table{
     .cell{
       color: #010101;
-      font-size: 18px;
+      font-size: 14px;
       > span{
         // width: 170px;
         display: inline-block;

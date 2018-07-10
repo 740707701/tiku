@@ -1,8 +1,11 @@
 <template>
   <div class="my-error-page">
     <header-nav></header-nav>
-    <div class="my-error-title">
-      <p class="wrapper">我的错题<span>未做错题: {{ myErrorList.length }}份</span></p>
+    <div class="big-banner">
+      <div class="wrapper banner-title">
+        <img src="../assets/images/title.png" class="title">
+        <div class="error-count">未做错题：{{ myErrorList.length }}份</div>
+      </div>
     </div>
     <div class="my-error-list">
       <div class="wrapper">
@@ -12,7 +15,7 @@
           </li>
         </ul>
         <p class="title" v-if="myErrorList.length">错题列表:</p>
-        <p class="title" v-else>暂无数据！</p>
+        <p class="title nodata" v-else>暂无数据！</p>
         <el-row :gutter="20">
           <el-col :span="6" v-for="item in myErrorList" :key="item.id" >
             <div class="grid-content bg-purple" @click="getDetails(item)">
@@ -104,21 +107,34 @@ export default {
 <style lang="less">
 .my-error-page {
   .questions-tabs {
-    padding-top: 30px;
-    height: 64px;
+    height: 54px;
     li {
       float: left;
       a {
-        font-size: 24px;
+        font-size: 16px;
         color: #999;
-        line-height: 64px;
+        line-height: 54px;
         margin-right: 70px;
         &.router-link-active {
           color: #000;
           border-bottom: 2px solid #5a9cff;
-          padding-bottom: 13px;;
-          font-size: 26px;
         }
+      }
+    }
+  }
+  .big-banner {
+    position: relative;
+    .banner-title {
+      .error-count {
+        width: 1200px;
+        font-size: 16px;
+        height: 30px;
+        line-height: 30px;
+        color: #fff;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        margin-left: -600px;
       }
     }
   }
@@ -127,22 +143,30 @@ export default {
     height: 86px;
     background-color: #7b27fb;
     color: #fff;
+    
     p{
-      font-size: 26px;
+      font-size: 20px;
+      padding-top: 20px;
       span{
         margin-left: 40px;
-        font-size: 18px;
+        font-size: 16px;
         vertical-align: bottom;
       }
     }
   }
   .my-error-list{
-    margin-bottom: 160px;
+    margin-bottom: 30px;
     .title{
-      height: 70px;
-      line-height: 70px;
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
       color: #808080;
-      font-size: 20px;
+      font-size: 16px;
+      text-align: left;
+      display: inline-block;
+    }
+    .nodata {
+      text-align: center!important;
     }
     .el-row {
       margin-bottom: 30px;
@@ -160,7 +184,7 @@ export default {
       background: #fff;
       border: 1px solid #f1eff4;
       box-shadow:0px 6px 6px #E9E7EA;
-      margin-bottom: 30px;
+      margin-bottom: 15px;
       transition: all .4s;
       &:hover{
         transform: translateY(-2px);
@@ -169,11 +193,11 @@ export default {
     }
     .grid-content {
       border-radius: 4px;
-      min-height: 90px;
-      padding-top: 35px;
-      padding-left: 30px;
+      min-height: 70px;
+      padding: 10px;
       cursor: pointer;
       .tag-style{
+        float: left;
         width: 40px;
         height: 52px;
         float: left;
@@ -204,15 +228,15 @@ export default {
       //   float: left;
       // }
       .grid-right{
-        width: 170px;
-        margin-left: 90px;
+        // width: 170px;
+        margin-left: 50px;
         p:first-child{
-          font-size: 20px;
+          font-size: 14px;
           color: #010101;
-          margin-bottom: 12px;
+          margin-bottom: 10px;
         }
         p:last-child{
-          font-size: 16px;
+          font-size: 14px;
           color: #999797;
         }
       }

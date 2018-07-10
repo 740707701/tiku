@@ -9,7 +9,7 @@
     <div class="exam-list">
       <div class="wrapper">
         <div class="test-select" v-if="getEtFieldList">考试选择：
-          <el-select v-model="value" placeholder="请选择">
+          <el-select size="small" v-model="value" placeholder="请选择">
             <el-option
               v-for="item in getEtFieldList"
               :key="item.questionsId"
@@ -95,13 +95,13 @@ export default {
 <style lang="less">
 .exam-page {
   .questions-tabs {
-    height: 64px;
+    height: 54px;
     li {
       float: left;
       span {
         font-size: 24px;
         color: #999;
-        line-height: 64px;
+        line-height: 54px;
         margin-right: 70px;
         height: 100%;
         &.active {
@@ -114,24 +114,24 @@ export default {
     }
   }
   .test-select{
-    margin: 30px 0;
-    font-size: 18px;
+    margin: 10px 0;
+    font-size: 16px;
     color: #808080;
   }
   .exam-tabs{
-    height: 64px;
+    height: 54px;
     li{
       float: left;
+      line-height: 54px;
       a{
-        font-size: 22px;
+        font-size: 16px;
         color: #999;
-        line-height: 64px;
+        line-height: 54px;
         margin-right: 70px;
+        display: inline-block;
         &.active {
           color: #000;
-          border-bottom: 4px solid #5a9cff;
-          padding-bottom: 14px;
-          font-size: 24px
+          border-bottom: 2px solid #5a9cff;
         }
       }
     }
