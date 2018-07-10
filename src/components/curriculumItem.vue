@@ -41,7 +41,7 @@ export default {
   li{
     float: left;
     // height: 80px;
-    border: 2px #ccc solid;
+    border: 1px #ccc solid;
     margin-right: 10px;
     margin-bottom: 10px;
     display: table;

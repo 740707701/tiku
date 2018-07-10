@@ -15,6 +15,12 @@
             <span>课程选择：</span><span v-for="(item, index) in curriculumList" :key="index" v-if="item.fieldId == fieldId">{{ item.fieldName}}</span>
           </p>
           <p class="info-list"><span>题库类型：</span><span v-for="(item, index) in QusTypeList" :key="index">{{ item }}&nbsp;&nbsp;</span></p>
+          <p class="info-list">
+            <span>出题人：</span><span> {{randomItem[start].trueName}}</span>
+          </p>
+          <p class="info-list">
+            <span>出题时间：</span><span>{{randomItem[start].createTime}}</span>
+          </p>
         </div>
         <div class="more-button"></div>
         <div class="topic-item clearfix">
@@ -63,7 +69,7 @@
 
             </div>
             <div class="msg-button">
-              <span @click="trialSubmit">差题</span><span @click="trialSubmit">好题</span>
+              <span @click="trialSubmit">下一题</span>
             </div>
 
           </div>
@@ -71,7 +77,14 @@
             <p class="title" @click="pingfen">评分</p>
             <div class="pd-left">
               <div class="slider-list clearfix" v-for="(item, index) in sliderList" :key="index">
-                <div class="left">{{ item.name }}: </div><el-slider v-model="item.value" class="center"></el-slider><div class="right">{{ item.value }}分</div>
+                <div class="left">{{ item.name }}: </div>
+                <el-slider v-model="item.value" class="center"></el-slider>
+                <div class="right">{{ item.value }}分</div>
+              </div>
+              <div class="slider-list clearfix">
+                <div class="left">差题: </div>
+                <el-slider v-model="level" class="center"></el-slider>
+                <div class="right">好题</div>
               </div>
               <!-- <p class="analysis">其他人对比</p>
               <div class="qita">
@@ -97,6 +110,7 @@ export default {
   name: "examiner-page",
   data: () => ({
     progressing: 60,
+    level: 0,
     sliderList: [
       {
         name: "难度",
@@ -212,11 +226,13 @@ export default {
         speciality: this.sliderNumber[1], // 题目专业度
         importance: this.sliderNumber[2], // 知识重要性
         knowledgeCorrelation: this.sliderNumber[3], // 知识相关性
+        level: this.level //好差程度
       }).then(res => {
         if (res.result == "success") {
           if (this.start < this.randomItem.length - 1) {
             this.start++;
             this.questionid = this.randomItem[this.start].questionId;
+            this.level = 0;
             this.sliderList = this.sliderList.map((v, i) => {
               v.value = 0;
               return v;

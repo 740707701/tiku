@@ -13,6 +13,12 @@
           <p class="info-list">
             <span>课程选择：</span><span v-for="(item, index) in curriculumList" :key="index" v-if="item.fieldId == fieldId">{{ item.fieldName}}</span>
           </p>
+          <p class="info-list">
+            <span>出题人：</span><span> {{randomItem[start].trueName}}</span>
+          </p>
+          <p class="info-list">
+            <span>出题时间：</span><span>{{randomItem[start].createTime}}</span>
+          </p>
           <!-- <p class="info-list"><span>章节选择：</span><span v-for="(item, index) in chapterList" :key="index" v-if="item.pointId == pointId[0]">{{ item.pointName}}</span></p> -->
           <!-- <p class="info-list"><span>题库类型：</span><span v-for="(item, index) in QusTypeList" :key="index">{{ item }}&nbsp;&nbsp;</span></p> -->
         </div>
@@ -112,6 +118,11 @@
               <div class="slider-list clearfix" v-for="(item, index) in sliderList" :key="index">
                 <div class="left">{{ item.name }}: </div><el-slider v-model="item.value" class="center"></el-slider><div class="right">{{ item.value }}分</div>
               </div>
+              <div class="slider-list clearfix">
+                <div class="left">差题: </div>
+                <el-slider v-model="level" class="center"></el-slider>
+                <div class="right">好题</div>
+              </div>
               <p class="analysis" v-if="radioNames[start] || checkboxNamesStr">题目解析</p>
               <!-- <p class="diff-level">难度等级:</p> -->
               <!-- <p class="diff-level" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">{{ randomItem[start].analysis}}</p> -->
@@ -138,6 +149,7 @@ export default {
     checkboxNames: [],
     checkboxNamesStr: "",
     contentMsg: "",
+    level: 0,
     sliderList: [
       {
         name: "难度",
@@ -311,6 +323,7 @@ export default {
             speciality: this.sliderNumber[1], // 题目专业度
             importance: this.sliderNumber[2], // 知识重要性
             knowledgeCorrelation: this.sliderNumber[3], // 知识相关性
+            level: this.level, //好差程度
             referenceAnswer: this.otherAnswer // 其他答案
           }
         })
@@ -321,6 +334,7 @@ export default {
               this.questionid = this.randomItem[this.start].questionId;
               this.contentMsg = "";
               this.radioNames[this.start] = "";
+              this.level = 0;
               this.sliderList = this.sliderList.map((v, i) => {
                 v.value = 0;
                 return v;

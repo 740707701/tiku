@@ -15,6 +15,12 @@
           </p>
           <p class="info-list"><span>章节选择：</span><span v-for="(item, index) in chapterList" :key="index" v-if="pointId.indexOf(item.pointId+'') >= 0">{{ item.pointName}}&nbsp;&nbsp;</span></p>
           <p class="info-list"><span>题库类型：</span><span v-for="(item, index) in QusTypeList" :key="index">{{ item }}&nbsp;&nbsp;</span></p>
+          <p class="info-list">
+            <span>出题人：</span><span> {{randomItem[start].trueName}}</span>
+          </p>
+          <p class="info-list">
+            <span>出题时间：</span><span>{{randomItem[start].createTime}}</span>
+          </p>
         </div>
         <div class="more-button"></div>
         <div class="topic-item">
@@ -22,6 +28,7 @@
             <p class="title bg-icon" v-if="typeList[randomItem[start]['questionTypeId']-1]">{{ typeList[randomItem[start]['questionTypeId']-1]['name'] }}</p>
             <div class="pd-left" v-if="randomItem[start]">
               <div class="pd-left-wrap">
+                <!--单选题 -->
                 <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == 1">
                   <div class="raido-list">
                     <input type="hidden" v-model="questionid">
@@ -40,9 +47,8 @@
                     <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
                   </div>
                 </div>
-
-
-              <div class="pd-left-item" v-else-if="randomItem[start]['questionTypeId'] == 2">
+                <!-- 多选题 -->
+                <div class="pd-left-item" v-else-if="randomItem[start]['questionTypeId'] == 2">
                   <div class="raido-list">
                     <input type="hidden" v-model="questionid">
                     <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
@@ -63,18 +69,18 @@
                     <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
                   </div>
                 </div>
-
+                <!-- 判断题 -->
                 <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == 3">
                   <div class="raido-list">
                     <input type="hidden" v-model="questionid">
                     <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
                     <p>
                       <input type="radio" :id="'radio'+(start+1)+'-A'" value="A" v-model="radioNames[start]" @click="disabledItem(1)" :disabled="disabled">
-                             <label :for="'radio'+(start+1)+'-'+'-A'">A、正确</label>
+                              <label :for="'radio'+(start+1)+'-'+'-A'">A、正确</label>
                     </p>
                     <p>
                       <input type="radio" :id="'radio'+(start+1)+'-B'" value="B" v-model="radioNames[start]" @click="disabledItem(2)" :disabled="disabled">
-                             <label :for="'radio'+(start+1)+'-B'">B、错误</label>
+                              <label :for="'radio'+(start+1)+'-B'">B、错误</label>
                       </p>
                     <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
                   </div>
@@ -86,7 +92,21 @@
                     <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
                   </div>
                 </div>
-
+                <!-- 简答题 -->
+                <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == 5">
+                  <div class="raido-list">
+                    <input type="hidden" v-model="questionid">
+                    <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                    <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
+                  </div>
+                  <!-- <p class="answer-style other-answer" v-if="radioNames[start]">其他的答案: <input maxlength="1" type="text" v-model="otherAnswer"/></p> -->
+                  <p class="answer-style" v-if="contentMsgShow">我的建议答案: {{ contentMsg }}</p>
+                  <p class="reference-msg">我的建议答案</p>
+                  <div class="textarea-mn">
+                    <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsgText"></textarea>
+                    <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
+                  </div>
+                </div>
 
               </div>
 
@@ -110,6 +130,11 @@
             <div class="pd-left">
               <div class="slider-list clearfix" v-for="(item, index) in sliderList" :key="index">
                 <div class="left">{{ item.name }}: </div><el-slider v-model="item.value" class="center"></el-slider><div class="right">{{ item.value }}分</div>
+              </div>
+              <div class="slider-list clearfix">
+                <div class="left">差题: </div>
+                <el-slider v-model="level" class="center"></el-slider>
+                <div class="right">好题</div>
               </div>
               <p class="analysis" v-if="radioNames[start] || checkboxNamesStr">题目解析</p>
               <!-- <p class="diff-level">难度等级:</p> -->
@@ -137,6 +162,7 @@ export default {
     checkboxNames: [],
     checkboxNamesStr: "",
     contentMsg: "",
+    level: 0,
     sliderList: [
       {
         name: "难度",
@@ -314,6 +340,7 @@ export default {
             speciality: this.sliderNumber[1], // 题目专业度
             importance: this.sliderNumber[2], // 知识重要性
             knowledgeCorrelation: this.sliderNumber[3], // 知识相关性
+            level: this.level, //好差程度
             referenceAnswer: this.otherAnswer // 其他答案
           }
         })
@@ -324,6 +351,7 @@ export default {
               this.questionid = this.randomItem[this.start].questionId;
               this.contentMsg = "";
               this.radioNames[this.start] = "";
+              this.level = 0;
               this.sliderList = this.sliderList.map((v, i) => {
                 v.value = 0;
                 return v;
