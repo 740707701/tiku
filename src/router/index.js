@@ -16,6 +16,7 @@ const LatestTest = () => import('../views/LatestTest.vue') // 最新考试
 const MyTest = () => import('../views/MyTest.vue')  // 我的考试
 const MyError = () => import('../views/MyError.vue') // 我的错题
 const ErrorList = () => import('../views/ErrorList.vue') // 我的错题列表
+const MyRecord = () => import('../views/MyRecord.vue') //我的记录
 
 const Judge = () => import('../views/Judge.vue') // 当判官
 const Examiner = () => import('../views/Examiner.vue') // 当考官
@@ -46,6 +47,12 @@ export function createRouter () {
         },{
           path: 'mytest',  name: 'mytest', component: MyTest
         }]
+      },
+      //我的记录
+      {
+        path: '/myRecord',
+        name: 'myRecord',
+        component: MyRecord
       },
       // 题库
       { path: '/questions/:id', name: 'questions', component: Questions },

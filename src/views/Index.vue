@@ -61,6 +61,16 @@
               </div>
             </div>
           </el-col>
+          <!-- <el-col :span="8">
+            <div class="item-box">
+              <div class="item" @click="changLogin(5)">
+                <svg class="iconfont" aria-hidden="true">
+                  <use xlink:href="#icon-panguan"></use>
+                </svg>
+                <div class="item-title">我的记录</div>
+              </div>
+            </div>
+          </el-col> -->
         </el-row>
     </div>
     <div class="tiku-dialog" v-if="showTiku">
@@ -162,6 +172,8 @@ export default {
           this.$router.push(`/judgelist/1`)
         }else if(id == 4){
           this.$router.push(`/triallist/1`)
+        }else if(id == 5){
+          this.$router.push(`/myRecord`)
         }else{
           this.$router.push(`/questions/1`)
         }

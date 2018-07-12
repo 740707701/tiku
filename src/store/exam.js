@@ -11,6 +11,8 @@ const SBUMIT_ANSWERS_PAGE = 'SBUMIT_ANSWERS_PAGE' // 评论添加
 const EXAM_CONTENT = 'EXAM_CONTENT' // 我的测试题
 const EXAM_SUBMIT = 'EXAM_SUBMIT' //我的答案提交
 const EXAM_PAGE_DETAIL = 'EXAM_PAGE_DETAIL' //考试记录 --试卷详情
+const OUTQUESTION = 'OUTQUESTION' //出题记录
+const REVIEWQUESTION = 'REVIEWQUESTION' //审题记录
 
 // subject/exam-content 我的测试题
 
@@ -28,7 +30,9 @@ export default {
     answersList: [],
     commentList: [],
     storeExamContent: [],
-    examPageDetail: {}
+    examPageDetail: {},
+    outQuestion: [],
+    reviewQuestion: []
 
   },
   mutations: {
@@ -37,6 +41,26 @@ export default {
     }
   },
   actions: {
+    //出题记录
+    [OUTQUESTION]({commit}, params){
+      return api.get('').then(res => {
+        commit('EXAM_SET', {
+          target: 'outQuestion',
+          data: res.object
+        })
+        return res
+      })
+    },
+    //审题记录
+    [REVIEWQUESTION]({commit}, params){
+      return api.get('').then(res => {
+        commit('EXAM_SET', {
+          target: 'reviewQuestion',
+          data: res.object
+        })
+        return res
+      })
+    },
     [EXAM_YES_LIST]({ commit }, params) {
       return api.post('/subject/exam-uncommitted-list', params).then(res => {
         commit('EXAM_SET', {

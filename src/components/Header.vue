@@ -12,6 +12,7 @@
           <li><router-link to="/myerror/1" :class="{'active': isNav(/(myerror|errorlist)/) }">我的错题</router-link></li>
           <li><router-link to="/judgelist/1" :class="{'active': isNav(/(judge|judgelist)/) }">我要当考官</router-link></li>
           <li><router-link to="/triallist/1" :class="{'active': isNav(/(trial|triallist)/) }">我要当判官</router-link></li>
+          <li><router-link to="/myRecord" :class="{'active': isNav(/(myRecord)/)}">我的记录</router-link></li>
         </ul>
         <div class="nav-right m-t-14">
 
@@ -25,7 +26,8 @@
                 <li><router-link to="/exam/latest" :class="{'active': isNav(/(exam\/latest|examination|mytest)/) }">我的考试</router-link></li>
                 <li><router-link to="/myerror/1" :class="{'active': isNav(/(myerror|errorlist)/) }">我的错题</router-link></li>
                 <li><router-link to="/judgelist/1" :class="{'active': isNav(/(judge|judgelist)/) }">我要当考官</router-link></li>
-                <li style="border-bottom: 1px solid #878787;"><router-link to="/triallist/1"  :class="{'active': isNav(/(trial|triallist)/) }">我要当判官</router-link></li>
+                <li><router-link to="/triallist/1"  :class="{'active': isNav(/(trial|triallist)/) }">我要当判官</router-link></li>
+                <!-- <li style="border-bottom: 1px solid #878787;"><router-link to="/myRecord">我的记录</router-link></li> -->
                 <li><a href="javascript:;" @click="loginOut" >退出帐号</a></li>
               </ul>
             </span>
@@ -297,7 +299,7 @@ export default {
         margin-top: 12px;
         background: #fff;
         border-radius: 14px;
-     
+        box-shadow: 1px 3px 10px #eaeaea;
         li {
           width: 100%;
           float: left;
