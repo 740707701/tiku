@@ -220,8 +220,16 @@ export default {
         return v.value;
       });
 
-      this.$store.dispatch("UPDATE_EXAMINE", {
-        id: this.questionid+'',
+      this.$store.dispatch("SBUMIT_ANSWERS_PAGE", {
+        referId: this.questionid, // 题目ID
+        commentType: "",
+        indexId: "",
+        userId: "",
+        contentMsg: this.contentMsg || "", // 内容
+        reId: "",
+        userId: "",
+        referenceAnswer: "", //其他答案
+        // id: this.questionid+'',
         difficultynew: this.sliderNumber[0], // 题目难度
         speciality: this.sliderNumber[1], // 题目专业度
         importance: this.sliderNumber[2], // 知识重要性

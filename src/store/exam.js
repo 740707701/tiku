@@ -95,6 +95,7 @@ export default {
         })
       })
     },
+    //我要当判官 审题 "下一题"按钮调用
     [SBUMIT_ANSWERS_PAGE]({ commit }, params) {
       return api.post('/subject/comment-submit', params).then(res => {
         commit('EXAM_SET', {
