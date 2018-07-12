@@ -83,12 +83,12 @@
                         </div>
                     </div>
                     <div v-else-if="id === 5">
-                      <p class="line-title border-bottom">解答题</p>
+                      <p class="line-title border-bottom">简答题</p>
                       <div class="raido-list" v-for="( item, index) in answerNamesContent" :key="idIndex+'-'+index">
                         <div class="raido-title">{{ index+1 }}、{{ item.content.title }}</div>
 
                         <div class="textarea-mn">
-                          <textarea cols="30" rows="10" placeholder="答：" v-model.trim="answerNames[index]"></textarea>
+                          <textarea cols="30" rows="10" placeholder="答：200字以内" v-model.trim="answerNames[index]"></textarea>
                         </div>
                       </div>
                   </div>
@@ -138,6 +138,7 @@ export default {
       radioNames: [],
       checkboxNames: [],
       judgeNames: [],
+      tiankongNames: [],
       answerNames: [],
       discussNames: [],
       analysisNames: [],
@@ -196,6 +197,7 @@ export default {
             "radioNames",
             "checkboxNames",
             "judgeNames",
+            "tiankongNames",
             "answerNames",
             "discussNames",
             "analysisNames"
@@ -338,6 +340,7 @@ export default {
         this.radioNames,
         this.checkboxNames,
         this.judgeNames,
+        this.tiankongNames,
         this.answerNames,
         this.discussNames,
         this.analysisNames
@@ -360,7 +363,8 @@ export default {
         this.answerSheetItems[ansRusIndex]["answer"] = ansRusVal;
       });
       let answerSheetItems = this.answerSheetItems;
-
+      console.log(answerSheetItems)
+      return
       this.$store
         .dispatch("EXAM_SUBMIT", {
           examId,
