@@ -93,9 +93,9 @@
               <el-collapse-item title="判断题" v-if="item == 3" :name="(index+1)">
                 <div class="raido-list">
                   <div class="raido-title">{{judgeTopics.length+1}}、<input class="judge-title" v-model="judgeTitle" type="text" placeholder="输入标题"></div>
-                  <p class="chuti">A、正确</p>
-                  <p class="chuti">B、错误</p>
-                  <p class="answer">输入正确答案: <input type="text" v-model="judgeAnswer" class="judge-answer"> </p>
+                  <p class="chuti">T、正确</p>
+                  <p class="chuti">F、错误</p>
+                  <p class="answer">输入正确答案: <input type="text" placeholder="T或F" v-model="judgeAnswer" class="judge-answer"> </p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
                     <el-select v-model="judgeKnowledge" placeholder="请选择">
@@ -113,10 +113,10 @@
                     <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
                 </div>
               </el-collapse-item>
-              <el-collapse-item title="解答题" v-if="item == 5" :name="(index+1)">
+              <el-collapse-item title="简答题" v-if="item == 5" :name="(index+1)">
                 <div class="raido-list answer-list">
-                  <div class="raido-title">{{answerTopics.length+1}}、<input class="judge-title" v-model="answerTitle" type="text" placeholder="输入标题"></div>
-                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="answerAnswer" class="judge-answer"></textarea></p>
+                  <div class="raido-title">{{answerTopics.length+1}}、<input class="judge-title" v-model="answerTitle" maxlength="100" type="text" placeholder="输入标题，100字以内"></div>
+                  <p class="answer">输入正确答案: <textarea cols="30" rows="10" maxlength="200" placeholder="请在此输入您的参考答案，200字以内" v-model.trim="answerAnswer" class="judge-answer"></textarea></p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
                     <el-select v-model="answerKnowledge" placeholder="请选择">
@@ -360,6 +360,8 @@ export default {
       if(item == 'radio'){
         answer = this[item+'Answer'].toUpperCase()
       }else if(item == 'checkbox'){
+        //删除之前的逗号分隔
+        /*
         answer = []
         let oldAnswer = this[item+'Answer'].indexOf(',') >= 0 ? this[item+'Answer'].split(',') : (this[item+'Answer'].indexOf('，') >= 0 ? this[item+'Answer'].split('，') : this[item+'Answer'].split(''))
         oldAnswer.forEach((val,index) => {
@@ -367,10 +369,13 @@ export default {
             answer.push(val.toUpperCase())
           }
         })
-        answer = answer.sort().join()
+        */
+       //转大写再排序
+        answer = answer.toLocaleUpperCase().split('').sort().join('')
       }
       if(item == 'judge'){
-        if(answer == 'A'){
+        answer = answer.toLocaleUpperCase()
+        if(answer == 'A' || answer == 'T' ){
           answer = 'T'
         }else{
           answer = 'F'
@@ -607,7 +612,7 @@ export default {
               width: 100px;
               line-height: 28px;
               border: 1px solid #cfcfcf;
-              font-size: 20px;
+              font-size: 14px;
             }
             .checkbox-answer{
               width: 150px;

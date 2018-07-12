@@ -76,11 +76,11 @@
                     <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
                     <p>
                       <input type="radio" :id="'radio'+(start+1)+'-A'" value="A" v-model="radioNames[start]" @click="disabledItem(1)" :disabled="disabled">
-                              <label :for="'radio'+(start+1)+'-'+'-A'">A、正确</label>
+                              <label :for="'radio'+(start+1)+'-'+'-A'">T、正确</label>
                     </p>
                     <p>
                       <input type="radio" :id="'radio'+(start+1)+'-B'" value="B" v-model="radioNames[start]" @click="disabledItem(2)" :disabled="disabled">
-                              <label :for="'radio'+(start+1)+'-B'">B、错误</label>
+                              <label :for="'radio'+(start+1)+'-B'">F、错误</label>
                       </p>
                     <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span>
                   </div>
@@ -103,8 +103,8 @@
                   <p class="answer-style" v-if="contentMsgShow">我的建议答案: {{ contentMsg }}</p>
                   <p class="reference-msg">我的建议答案</p>
                   <div class="textarea-mn">
-                    <textarea maxlength="20" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsgText"></textarea>
-                    <p class="t-right">限20字以内 <span @click="submitComment">发表</span> </p>
+                    <textarea maxlength="200" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsgText"></textarea>
+                    <p class="t-right">限200字以内 <span @click="submitComment">发表</span> </p>
                   </div>
                 </div>
 

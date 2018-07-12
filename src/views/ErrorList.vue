@@ -292,14 +292,15 @@ export default {
         answer = answer.split(' ').join()
         this.checkboxNamesStr = this.checkboxNamesStr.split(' ').join()
       }else if(thisRandom.questionTypeId == 3){
-        if(answer == 'A'){
+        answer = answer.toUpperCase()
+        if(answer == 'A' || answer == 'T'){
           answer = 'T'
-        }else if(answer == 'B'){
+        }else if(answer == 'B' || answer == 'F'){
           answer = 'F'
         }
-        if(this.radioNames[this.start] == 'A'){
+        if(this.radioNames[this.start] == 'A' || this.radioNames[this.start] == 'T'){
           this.radioNames[this.start] = 'T'
-        }else if(this.radioNames[this.start] == 'B'){
+        }else if(this.radioNames[this.start] == 'B' || this.radioNames[this.start] == 'F'){
           this.radioNames[this.start] = 'F'
         }
       }
