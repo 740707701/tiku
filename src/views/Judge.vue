@@ -70,8 +70,8 @@
                   <p class="chuti">B、<input class="judge-option" v-model="checkboxOptions[1]" type="text" placeholder="输入选项B的内容"></p>
                   <p class="chuti">C、<input class="judge-option" v-model="checkboxOptions[2]" type="text" placeholder="输入选项C的内容"></p>
                   <p class="chuti">D、<input class="judge-option" v-model="checkboxOptions[3]" type="text" placeholder="输入选项D的内容"></p>
-                  <p class="chuti">E、<input class="judge-option" v-model="checkboxOptions[4]" type="text" placeholder="输入选项D的内容"></p>
-                  <p class="chuti">F、<input class="judge-option" v-model="checkboxOptions[5]" type="text" placeholder="输入选项D的内容"></p>
+                  <p class="chuti">E、<input class="judge-option" v-model="checkboxOptions[4]" type="text" placeholder="输入选项E的内容"></p>
+                  <p class="chuti">F、<input class="judge-option" v-model="checkboxOptions[5]" type="text" placeholder="输入选项F的内容"></p>
                   <p class="answer">输入正确答案: <input type="text" v-model="checkboxAnswer" class="judge-answer checkbox-answer"></p>
                   <div class="select-title">请选择知识点：</div>
                   <template>
@@ -424,6 +424,12 @@ export default {
               this[item+'Answer'] = ''
               this[item+'Knowledge'] = ''
 
+            }
+            if(res.result == "error"){
+              this.$message({
+                type: "error",
+                message: res.messageInfo
+              })
             }
           });
 

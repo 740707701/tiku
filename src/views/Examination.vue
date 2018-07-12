@@ -14,7 +14,7 @@
             <div class="box-line timing">
               <p class="line-title title-icon">考试计时</p>
               <div class="line-times">
-                <el-progress class="test" type="circle" :percentage="progressing" :show-text="false" :width="156"></el-progress>
+                <el-progress class="test" type="circle" :percentage="progressing" :show-text="false" :width="120"></el-progress>
                 <span class="line-timing" v-html="format"></span>
               </div>
               <div class="timing-number">
@@ -410,23 +410,25 @@ export default {
     .list-main {
       border-top: 1px solid #ccc;
       padding-top: 30px;
+      display: inline-block;
       .main-left {
-        width: 228px;
-        margin-right: 26px;
         float: left;
+        width: 200px;
+        margin-right: 20px;
         .timing {
-          width: 228px;
+          width: 200px;
         }
         .examinee {
-          width: 228px;
+          width: 200px;
           font-size: 15px;
           .student-info {
             padding: 0 10px;
-            margin-bottom: 86px;
+            margin-bottom: 20px;
+            font-size: 14px;
             .info-list {
-              margin-top: 15px;
+              margin-top: 10px;
               span {
-                display: inline-block;
+                // display: inline-block;
               }
               span:first-child {
                 width: 80px;
@@ -434,7 +436,7 @@ export default {
                 vertical-align: top;
               }
               span:last-child {
-                width: 110px;
+                // width: 110px;
                 line-height: 1.3;
                 margin-left: 6px;
                 color: #000;
@@ -444,7 +446,7 @@ export default {
         }
 
         .line-title {
-          margin-top: 20px;
+          margin-top: 10px;
         }
         .title-icon {
           line-height: 28px;
@@ -464,7 +466,7 @@ export default {
           // height: 156px;
           // background: linear-gradient(to top, #eedeff, #6402ff);
           // border-radius: 50%;
-          margin: 36px auto;
+          margin: 15px auto;
           position: relative;
           text-align: center;
           // &::before{
@@ -490,26 +492,26 @@ export default {
         .timing-number {
           color: #333333;
           font-family: "PingFang SC";
-          font-size: 15px;
+          font-size: 14px;
           p {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
           }
           .test-time {
             padding-left: 36px;
           }
           .test-number {
-            padding-left: 46px;
+            padding-left: 38px;
           }
           .count-number {
             text-align: center;
             color: #b2b2b2;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
           }
         }
       }
       .main-right {
-        width: 1016px;
         float: left;
+        width: 980px;
         .main-right-btn {
           padding-bottom: 30px;
           span {

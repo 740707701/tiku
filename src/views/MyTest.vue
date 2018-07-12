@@ -59,8 +59,8 @@
                       <div class="question-content">
                         <p class="question">{{exam.questionContent.title}}</p>
                         <div class="choose-list">
-                          <div class="choose-tab" v-for="choice in exam.questionContent.choiceList" :key="choice">
-                            <input type="radio" disabled="disabled" class="radio">{{choice}}
+                          <div class="choose-tab" v-for="(choice, key) in exam.questionContent.choiceList" :key="choice">
+                            <input type="radio" disabled="disabled" class="radio">{{key}}：{{choice}}
                           </div>
                         </div>
                         <p class="right">参考答案： {{exam.answer}}</p>
@@ -92,8 +92,8 @@
                       <div class="question-content">
                         <p class="question">{{exam.questionContent.title}}</p>
                         <div class="choose-list">
-                          <div class="choose-tab" v-for="choice in exam.questionContent.choiceList" :key="choice">
-                            <input type="radio" disabled="disabled" class="radio">{{choice}}
+                          <div class="choose-tab" v-for="(choice,key) in exam.questionContent.choiceList" :key="choice">
+                            <input type="radio" disabled="disabled" class="radio">{{key}}：{{choice}}
                           </div>
                         </div>
                         <p class="right">参考答案： {{exam.answer}}</p>
@@ -125,8 +125,8 @@
                       <div class="question-content">
                         <p class="question">{{exam.questionContent.title}}</p>
                         <div class="choose-list">
-                          <div class="choose-tab" v-for="choice in exam.questionContent.choiceList" :key="choice">
-                            <input type="radio" disabled="disabled" class="radio">{{choice}}
+                          <div class="choose-tab" v-for="(choice,key) in exam.questionContent.choiceList" :key="choice">
+                            <input type="radio" disabled="disabled" class="radio">{{key}}：{{choice}}
                           </div>
                         </div>
                         <p v-if="exam.answer=='T'">参考答案： 对</p>
@@ -441,6 +441,8 @@ export default {
   }
   .operation {
     color: #6fe0a7;
+    line-height: 30px;
+    display: inline-block;
   }
   .td-score {
     color:red;

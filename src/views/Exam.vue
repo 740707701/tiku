@@ -12,7 +12,7 @@
           <el-select size="small" v-model="value" placeholder="请选择">
             <el-option
               v-for="item in getEtFieldList"
-              :key="item.questionsId"
+              :key="item.fieldId"
               :label="item.fieldName"
               :value="item.fieldId">
             </el-option>
