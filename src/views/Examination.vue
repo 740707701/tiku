@@ -363,8 +363,6 @@ export default {
         this.answerSheetItems[ansRusIndex]["answer"] = ansRusVal;
       });
       let answerSheetItems = this.answerSheetItems;
-      console.log(answerSheetItems)
-      return
       this.$store
         .dispatch("EXAM_SUBMIT", {
           examId,
