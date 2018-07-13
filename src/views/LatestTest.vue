@@ -32,12 +32,13 @@ examId  是考试id   efftime  是开始时间   exptime  是结束时间 examet
       </el-table-column>
       <el-table-column
         prop="totalPoint"
-        label="时长"
+        label="总分"
         width="120">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope" prop=examId>
-          <el-button type="primary" size="mini"  @click.native.prevent="deleteRow(scope.row)">参加考试</el-button>
+          <el-button v-if="!scope.row.begin" disabled type="primary" size="mini">未开始</el-button>
+          <el-button v-if="scope.row.begin"  type="primary" size="mini"  @click.native.prevent="deleteRow(scope.row)">参加考试</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -78,12 +79,19 @@ export default {
       this.$router.push(`/examination/${encodeURIComponent(index.examId)}/${encodeURIComponent(index.examPaperId)}`)
     },
     getList(val){
+      let timestamp = new Date().getTime()
       // 最新考试
       this.$store.dispatch('EXAM_YES_LIST', {
         fieldId: val
       }).then( res => {
         if(res.object){
           let mapData = res.object.map((v, i) => {
+            if(timestamp - v.effTime > 0 || timestamp - v.effTime == 0){
+              v.begin = true
+            }else {
+              v.begin = false
+            }
+            console.log(res.object)
             let expTime = new Date(v.expTime),
               year = expTime.getFullYear(),
               month = expTime.getMonth() + 1,
@@ -94,7 +102,8 @@ export default {
             day = day < 10 ? '0'+ day : day;
             hour = hour < 10 ? '0'+ hour : hour;
             min = min < 10 ? '0'+ min : min;
-            return v.expTime = `${year}-${month}-${day} ${hour}:${min}`
+            v.expTime = `${year}-${month}-${day} ${hour}:${min}`
+            
           })
           this.tableData = res.object.map((v, i) => {
             let effTime = new Date(v.effTime),
