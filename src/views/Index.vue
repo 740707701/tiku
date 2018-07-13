@@ -65,7 +65,7 @@
             <div class="item-box">
               <div class="item" @click="changLogin(5)">
                 <svg class="iconfont" aria-hidden="true">
-                  <use xlink:href="#icon-panguan"></use>
+                  <use xlink:href="#icon-jilu"></use>
                 </svg>
                 <div class="item-title">我的记录</div>
               </div>
@@ -173,7 +173,8 @@ export default {
         }else if(id == 4){
           this.$router.push(`/triallist/1`)
         }else if(id == 5){
-          this.$router.push(`/myRecord`)
+          alert("正在开发中")
+          // this.$router.push(`/myRecord`)
         }else{
           this.$router.push(`/questions/1`)
         }

@@ -29,7 +29,7 @@
       </el-table-column>
       <el-table-column
         prop="totalPoint"
-        label="时长"
+        label="总分"
         width="120">
       </el-table-column>
       <el-table-column label="操作" prop="pointGet">
