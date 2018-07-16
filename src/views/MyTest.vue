@@ -34,8 +34,8 @@
       </el-table-column>
       <el-table-column label="操作" prop="pointGet">
         <template slot-scope="scope">
-          <p v-if="scope.row.pointGet" class="td-score">{{ scope.row.pointGet }}分</p>
-          <p class="operation" v-else>正在批卷</p>
+          <p class="operation" v-if="scope.row.pointGet==0&&scope.row.approved!=3">正在批卷</p>
+          <p v-else class="td-score">{{ scope.row.pointGet }}分</p>
           <div class="view-btn" @click="getExamDetail(scope.row.examId)">查看答卷</div>
         </template>
       </el-table-column>
