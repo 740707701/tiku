@@ -43,7 +43,7 @@ export default {
   actions: {
     //出题记录
     [OUTQUESTION]({commit}, params){
-      return api.get('').then(res => {
+      return api.get('/subject/getMySetQuestion').then(res => {
         commit('EXAM_SET', {
           target: 'outQuestion',
           data: res.object
@@ -53,7 +53,7 @@ export default {
     },
     //审题记录
     [REVIEWQUESTION]({commit}, params){
-      return api.get('').then(res => {
+      return api.get('/subject/getMyExaminingTheTopic').then(res => {
         commit('EXAM_SET', {
           target: 'reviewQuestion',
           data: res.object

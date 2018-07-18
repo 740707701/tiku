@@ -27,7 +27,7 @@
                 <li><router-link to="/myerror/1" :class="{'active': isNav(/(myerror|errorlist)/) }">我的错题</router-link></li>
                 <li><router-link to="/judgelist/1" :class="{'active': isNav(/(judge|judgelist)/) }">我要当考官</router-link></li>
                 <li><router-link to="/triallist/1"  :class="{'active': isNav(/(trial|triallist)/) }">我要当判官</router-link></li>
-                <!-- <li style="border-bottom: 1px solid #878787;"><router-link to="/myRecord">我的记录</router-link></li> -->
+                <li style="border-bottom: 1px solid #878787;"><router-link to="/myRecord">我的记录</router-link></li>
                 <li><a href="javascript:;" @click="loginOut" >退出帐号</a></li>
               </ul>
             </span>

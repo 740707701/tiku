@@ -41,7 +41,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="12">
+          <el-col :span="8">
             <div class="item-box">
               <div class="item" @click="changLogin(3)">
                 <svg class="iconfont" aria-hidden="true">
@@ -51,7 +51,7 @@
               </div>
             </div>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <div class="item-box">
               <div class="item" @click="changLogin(4)">
                 <svg class="iconfont" aria-hidden="true">
@@ -61,7 +61,7 @@
               </div>
             </div>
           </el-col>
-          <!-- <el-col :span="8">
+          <el-col :span="8">
             <div class="item-box">
               <div class="item" @click="changLogin(5)">
                 <svg class="iconfont" aria-hidden="true">
@@ -70,7 +70,7 @@
                 <div class="item-title">我的记录</div>
               </div>
             </div>
-          </el-col> -->
+          </el-col>
         </el-row>
     </div>
     <div class="tiku-dialog" v-if="showTiku">
@@ -173,8 +173,7 @@ export default {
         }else if(id == 4){
           this.$router.push(`/triallist/1`)
         }else if(id == 5){
-          alert("正在开发中")
-          // this.$router.push(`/myRecord`)
+          this.$router.push(`/myRecord`)
         }else{
           this.$router.push(`/questions/1`)
         }
