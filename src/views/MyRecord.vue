@@ -23,11 +23,11 @@
 										</div>
 										<p class="answer">参考答案： {{item.answer}}</p>
 										<p class="answer">知识点：{{item.pointName}}</p>
-										<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-										<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-										<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-										<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-										<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+										<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
+										<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
+										<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+										<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+										<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 									</div>
 								</div>
 							</div>
@@ -45,11 +45,11 @@
 										</div>
 										<p class="answer">参考答案： {{item.answer}}</p>
 										<p class="answer">知识点：{{item.pointName}}</p>
-										<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-										<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-										<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-										<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-										<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+										<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
+										<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
+										<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+										<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+										<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 									</div>
 								</div>
 							</div>
@@ -63,11 +63,11 @@
 										<p class="answer" v-if="item.answer=='T'">参考答案： 正确</p>
 										<p class="answer" v-if="item.answer=='F'">参考答案： 错误</p>
 										<p class="answer">知识点：{{item.pointName}}</p>
-										<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-										<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-										<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-										<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-										<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+										<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
+										<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
+										<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+										<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+										<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 									</div>
 								</div>
 							</div>
@@ -80,11 +80,11 @@
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.answer}}</p>
 										<p class="answer">知识点：{{item.pointName}}</p>
-										<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-										<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-										<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-										<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-										<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+										<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
+										<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
+										<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+										<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+										<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 									</div>
 								</div>
 							</div>
@@ -97,11 +97,9 @@
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.answer}}</p>
 										<p class="answer">知识点：{{item.pointName}}</p>
-										<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-										<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-										<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-										<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-										<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+										<p class="score">难度平均评分： {{item.avgImportance||0}}分</p>
+										<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+										<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 									</div>
 								</div>
 							</div>
@@ -114,11 +112,11 @@
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.answer}}</p>
 										<p class="answer">知识点：{{item.pointName}}</p>
-										<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-										<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-										<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-										<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-										<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+										<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
+										<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
+										<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+										<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+										<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 									</div>
 								</div>
 							</div>
@@ -131,11 +129,11 @@
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.answer}}</p>
 										<p class="answer">知识点：{{item.pointName}}</p>
-										<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-										<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-										<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-										<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-										<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+										<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
+										<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
+										<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+										<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+										<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 									</div>
 								</div>
 							</div>
@@ -147,7 +145,10 @@
 						<el-tab-pane class="ques-tab" v-if="reviewDanxuan.length" :label="`单选题[共${reviewDanxuan.length}题]`" name="subFirst2">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in reviewDanxuan" :key="item.questionId">
-									<div class="type">{{index+1}}:单选题</div>
+									<div class="type">{{index+1}}:单选题 
+										<span>[出题人： {{item.questionPerson}}</span>
+										<span>出题时间： {{item.questionTime}}]</span>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<div class="choose-list">
@@ -163,11 +164,11 @@
 										<p class="score">知识相关性评分： {{item.knowledgeCorrelation}}分</p>
 										<p class="score">好差评分： {{item.level}}分</p>
 										<div>
-											<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-											<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-											<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-											<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-											<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+											<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
+											<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
+											<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+											<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+											<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 										</div>
 									</div>
 								</div>
@@ -176,7 +177,10 @@
 						<el-tab-pane class="ques-tab" v-if="reviewDuoxuan.length" :label="`多选题[共${reviewDuoxuan.length}题]`" name="subSecond2">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in reviewDuoxuan" :key="item.questionId">
-									<div class="type">{{index+1}}:多选题</div>
+									<div class="type">{{index+1}}:多选题
+										<span>[出题人： {{item.questionPerson}}</span>
+										<span>出题时间： {{item.questionTime}}]</span>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<div class="choose-list">
@@ -191,11 +195,10 @@
 										<p class="score">知识相关性评分： {{item.knowledgeCorrelation}}分</p>
 										<p class="score">好差评分： {{item.level}}分</p>
 										<div>
-											<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-											<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-											<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-											<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-											<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+											<p class="score">难度平均评分： {{item.avgSpeciality||0}}分</p>
+											<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+											<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+											<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 										</div>
 									</div>
 								</div>
@@ -204,7 +207,10 @@
 						<el-tab-pane class="ques-tab" v-if="reviewPanduan.length" :label="`判断题[共${reviewPanduan.length}题]`" name="subThird2">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in reviewPanduan" :key="item.questionId">
-									<div class="type">{{index+1}}:判断题</div>
+									<div class="type">{{index+1}}:判断题
+										<span>[出题人： {{item.questionPerson}}</span>
+										<span>出题时间： {{item.questionTime}}]</span>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer" v-if="item.questionAnswer=='T'">参考答案： 正确</p>
@@ -216,11 +222,11 @@
 										<p class="score">知识相关性评分： {{item.knowledgeCorrelation}}分</p>
 										<p class="score">好差评分： {{item.level}}分</p>
 										<div>
-											<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-											<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-											<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-											<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-											<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+											<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
+											<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
+											<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+											<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+											<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 										</div>
 									</div>
 								</div>
@@ -229,7 +235,10 @@
 						<el-tab-pane class="ques-tab" v-if="reviewTiankong.length" :label="`填空题[共${reviewTiankong.length}题]`" name="subFourth2">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in reviewTiankong" :key="item.questionId">
-									<div class="type">{{index+1}}:填空题</div>
+									<div class="type">{{index+1}}:填空题
+										<span>[出题人： {{item.questionPerson}}</span>
+										<span>出题时间： {{item.questionTime}}]</span>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.questionAnswer}}</p>
@@ -240,11 +249,10 @@
 										<p class="score">知识相关性评分： {{item.knowledgeCorrelation}}分</p>
 										<p class="score">好差评分： {{item.level}}分</p>
 										<div>
-											<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-											<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-											<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-											<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-											<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+											<p class="score">难度平均评分： {{item.avgSpeciality||0}}分</p>
+											<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+											<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+											<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 										</div>
 									</div>
 								</div>
@@ -253,7 +261,10 @@
 						<el-tab-pane class="ques-tab" v-if="reviewJianda.length" :label="`简答题[共${reviewJianda.length}题]`" name="subFifth2">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in reviewJianda" :key="item.questionId">
-									<div class="type">{{index+1}}:简答题</div>
+									<div class="type">{{index+1}}:简答题
+										<span>[出题人： {{item.questionPerson}}</span>
+										<span>出题时间： {{item.questionTime}}]</span>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.questionAnswer}}</p>
@@ -264,11 +275,11 @@
 										<p class="score">知识相关性评分： {{item.knowledgeCorrelation}}分</p>
 										<p class="score">好差评分： {{item.level}}分</p>
 										<div>
-											<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-											<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-											<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-											<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-											<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+											<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
+											<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
+											<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+											<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+											<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 										</div>
 									</div>
 								</div>
@@ -277,7 +288,10 @@
 						<el-tab-pane class="ques-tab" v-if="reviewLunshu.length" :label="`论述题[共${reviewLunshu.length}题]`" name="subSixth2">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in reviewLunshu" :key="item.questionId">
-									<div class="type">{{index+1}}:论述题</div>
+									<div class="type">{{index+1}}:论述题
+										<span>[出题人： {{item.questionPerson}}</span>
+										<span>出题时间： {{item.questionTime}}]</span>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.questionAnswer}}</p>
@@ -288,11 +302,11 @@
 										<p class="score">知识相关性评分： {{item.knowledgeCorrelation}}分</p>
 										<p class="score">好差评分： {{item.level}}分</p>
 										<div>
-											<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-											<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-											<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-											<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-											<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+											<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
+											<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
+											<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+											<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+											<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 										</div>
 									</div>
 								</div>
@@ -301,7 +315,10 @@
 						<el-tab-pane class="ques-tab"  v-if="reviewFenxi.length" :label="`分析题[共${reviewFenxi.length}题]`" name="subSeventh2">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in reviewFenxi" :key="item.id">
-									<div class="type">{{index+1}}:分析题</div>
+									<div class="type">{{index+1}}:分析题
+										<span>[出题人： {{item.questionPerson}}</span>
+										<span>出题时间： {{item.questionTime}}]</span>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.questionAnswer}}</p>
@@ -312,11 +329,11 @@
 										<p class="score">知识相关性评分： {{item.knowledgeCorrelation}}分</p>
 										<p class="score">好差评分： {{item.level}}分</p>
 										<div>
-											<p class="score">难度评分平均分： {{item.avgDifficulty||0}}分</p>
-											<p class="score">专业性评分平均分： {{item.avgSpeciality||0}}分</p>
-											<p class="score">重要性评分平均分： {{item.avgImportance||0}}分</p>
-											<p class="score">知识相关性评分平均分： {{item.avgKnowledgeCorrelation||0}}分</p>
-											<p class="score">好差评分平均分： {{item.avgLevel||0}}分</p>
+											<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
+											<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
+											<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
+											<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
+											<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 										</div>
 									</div>
 								</div>
@@ -493,6 +510,9 @@ export default {
 						line-height: 33px;
 						background-color: #e8eff1;
 						padding-left: 20px;
+						span {
+							margin-left: 20px;
+						}
 					}
 					.question {
 						line-height: 22px;
