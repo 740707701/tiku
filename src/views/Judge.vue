@@ -58,8 +58,9 @@
                   </template>
                 </div>
                 <div class="footer-button">
-                  <span class="next-ti" @click="nextBtn('radio')">下一题</span>
-                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
+                  <span v-if="!questionId" class="next-ti" @click="nextBtn('radio')">下一题</span>
+                  <span v-if="!questionId" @click="resetBtn">退出</span>
+                  <span v-if="questionId" @click="nextBtn('radio')">提交</span> 
                 </div>
 
               </el-collapse-item>
@@ -86,8 +87,9 @@
                   </template>
                 </div>
                 <div class="footer-button">
-                  <span class="next-ti" @click="nextBtn('checkbox')">下一题</span>
-                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
+                  <span v-if="!questionId" class="next-ti" @click="nextBtn('checkbox')">下一题</span>
+                  <span v-if="questionId" @click="nextBtn('checkbox')">提交</span> 
+                  <span v-if="!questionId" @click="resetBtn">退出</span>
                 </div>
               </el-collapse-item>
               <el-collapse-item title="判断题" v-if="item == 3" :name="(index+1)">
@@ -109,8 +111,9 @@
                   </template>
                 </div>
                 <div class="footer-button">
-                  <span class="next-ti" @click="nextBtn('judge')">下一题</span>
-                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
+                  <span v-if="!questionId" class="next-ti" @click="nextBtn('judge')">下一题</span>
+                  <span v-if="questionId" @click="nextBtn('judge')">提交</span>
+                  <span v-if="!questionId" @click="resetBtn">退出</span>
                 </div>
               </el-collapse-item>
               <el-collapse-item title="简答题" v-if="item == 5" :name="(index+1)">
@@ -130,8 +133,9 @@
                   </template>
                 </div>
                 <div class="footer-button">
-                  <span class="next-ti" @click="nextBtn('answer')">下一题</span>
-                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
+                  <span v-if="!questionId" class="next-ti" @click="nextBtn('answer')">下一题</span>
+                  <span v-if="questionId" @click="nextBtn('answer')">提交</span>
+                  <span v-if="!questionId" @click="resetBtn">退出</span>
                 </div>
               </el-collapse-item>
               <el-collapse-item title="论述题" v-if="item == 6" :name="(index+1)">
@@ -151,8 +155,9 @@
                   </template>
                 </div>
                 <div class="footer-button">
-                  <span class="next-ti" @click="nextBtn('discuss')">下一题</span>
-                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
+                  <span v-if="!questionId" class="next-ti" @click="nextBtn('discuss')">下一题</span>
+                  <span v-if="questionId" @click="nextBtn('discuss')">提交</span>
+                  <span v-if="!questionId" @click="resetBtn">退出</span>
                 </div>
               </el-collapse-item>
               <el-collapse-item title="分析题" v-if="item == 7" :name="(index+1)">
@@ -172,8 +177,9 @@
                   </template>
                 </div>
                 <div class="footer-button">
-                  <span class="next-ti" @click="nextBtn('analysis')">下一题</span>
-                    <!-- <span @click="submitBtn">提交</span> --> <span @click="resetBtn">退出</span>
+                  <span v-if="!questionId" class="next-ti" @click="nextBtn('analysis')">下一题</span>
+                  <span v-if="questionId" @click="nextBtn('analysis')">提交</span>
+                  <span v-if="!questionId" @click="resetBtn">退出</span>
                 </div>
               </el-collapse-item>
             </el-collapse>
@@ -234,7 +240,10 @@ export default {
       curriculumList: [],
       nowTime: '',
       tikuId: 1,
-      username: ''
+      username: '',
+      questionInfo: {},
+      questionId: '',
+      showSubmitBtn: false
     };
   },
   computed: {
@@ -247,6 +256,11 @@ export default {
     this.username = sessionStorage.getItem('username')
   },
   created(){
+    this.questionId = this.$route.query.questionId
+    if(this.questionId){
+      this.showSubmitBtn = true;
+      this.getQuestionDetail();
+    }
 
     let nowTime = new Date()
     let nowYear = nowTime.getFullYear()
@@ -394,6 +408,7 @@ export default {
         })
         this.$store
           .dispatch("QUESTION_ADD", {
+            "id": this.questionId || "",
             "analysis": "", //题目解析
             "answer":  answer,
             "content": "", //试题内容
@@ -419,6 +434,16 @@ export default {
           })
           .then(res => {
             if (res.result == "success") {
+              if(this.questionId){
+                this.$message({
+                  message: "题目修改成功，请等待审核。",
+                  type: "success"
+                });
+                this.$router.push({
+                  name: 'myRecord'
+                })
+                return
+              }
               this[item+'Topics'].push({title: this[item+'Title']})
               this.$message({
                 message: "题目提交成功，请等待审核。",
@@ -438,6 +463,37 @@ export default {
             }
           });
 
+    },
+    getQuestionDetail(){
+      this.$store.dispatch('QUESTION_DETAIL', this.questionId).then(res => {
+        let detail = res.object;
+        let content = JSON.parse(detail.content)
+        let questionTypeId = detail.question_type_id;
+        let item = ''
+        if(questionTypeId == 1){
+          item = 'radio'
+        }else if(questionTypeId == 2){
+          item = 'checkbox'
+        }else if(questionTypeId == 3){
+          item = 'judge'
+        }else if(questionTypeId == 4){
+          item = 'tiankong'
+        }else if(questionTypeId == 5){
+          item = 'answer'
+        }else if(questionTypeId == 6){
+          item = 'discuss'
+        }else if(questionTypeId == 7){
+          item = 'analysis'
+        }
+        let choiceList = []
+        for(var k in content.choiceList){
+          choiceList.push(content.choiceList[k])
+        }
+        this[item + 'Title'] = content.title;
+        this[item + 'Options'] = choiceList;
+        this[item + 'Answer'] = detail.answer;
+        this[item + 'Knowledge'] = detail.knowledgePoint[0].pointId;
+      })
     }
   },
   components: {

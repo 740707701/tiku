@@ -13,7 +13,12 @@
 						<el-tab-pane class="ques-tab" :label="`单选题[共${outDanxuan.length}题]`" name="subFirst">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in outDanxuan" :key="item.id">
-									<div class="type">{{index+1}}:单选题</div>
+									<div class="type">{{index+1}}:单选题
+										<div class="icon-box">
+											<i class="iconfont icon-edit" @click="editQuestion(item)"></i>
+											<i class="iconfont icon-delete" @click="deleteQuestion(item.id)"></i>
+										</div>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<div class="choose-list">
@@ -35,7 +40,12 @@
 						<el-tab-pane class="ques-tab" :label="`多选题[共${outDuoxuan.length}题]`" name="subSecond">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in outDuoxuan" :key="item.id">
-									<div class="type">{{index+1}}:多选题</div>
+									<div class="type">{{index+1}}:多选题
+										<div class="icon-box">
+											<i class="iconfont icon-edit" @click="editQuestion(item)"></i>
+											<i class="iconfont icon-delete" @click="deleteQuestion(item.id)"></i>
+										</div>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<div class="choose-list">
@@ -57,7 +67,12 @@
 						<el-tab-pane class="ques-tab" :label="`判断题[共${outPanduan.length}题]`" name="subThird">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in outPanduan" :key="item.id">
-									<div class="type">{{index+1}}:判断题</div>
+									<div class="type">{{index+1}}:判断题
+										<div class="icon-box">
+											<i class="iconfont icon-edit" @click="editQuestion(item)"></i>
+											<i class="iconfont icon-delete" @click="deleteQuestion(item.id)"></i>
+										</div>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer" v-if="item.answer=='T'">参考答案： 正确</p>
@@ -75,7 +90,12 @@
 						<el-tab-pane class="ques-tab" v-if="outTiankong.length" :label="`填空题[共${outTiankong.length}题]`" name="subFourth">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in outTiankong" :key="item.id">
-									<div class="type">{{index+1}}:填空题</div>
+									<div class="type">{{index+1}}:填空题
+										<div class="icon-box">
+											<i class="iconfont icon-edit" @click="editQuestion(item)"></i>
+											<i class="iconfont icon-delete" @click="deleteQuestion(item.id)"></i>
+										</div>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.answer}}</p>
@@ -92,12 +112,18 @@
 						<el-tab-pane class="ques-tab" v-if="outJianda.length" :label="`简答题[共${outJianda.length}题]`" name="subFifth">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in outJianda" :key="item.id">
-									<div class="type">{{index+1}}:简答题</div>
+									<div class="type">{{index+1}}:简答题
+										<div class="icon-box">
+											<i class="iconfont icon-edit" @click="editQuestion(item)"></i>
+											<i class="iconfont icon-delete" @click="deleteQuestion(item.id)"></i>
+										</div>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.answer}}</p>
 										<p class="answer">知识点：{{item.pointName}}</p>
-										<p class="score">难度平均评分： {{item.avgImportance||0}}分</p>
+										<p class="score">难度平均评分： {{item.avgSpeciality||0}}分</p>
+										<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
 										<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
 										<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
 									</div>
@@ -107,7 +133,12 @@
 						<el-tab-pane class="ques-tab" v-if="outLunshu.length" :label="`论述题[共${outLunshu.length}题]`" name="subSixth">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in outLunshu" :key="item.id">
-									<div class="type">{{index+1}}:论述题</div>
+									<div class="type">{{index+1}}:论述题
+										<div class="icon-box">
+											<i class="iconfont icon-edit" @click="editQuestion(item)"></i>
+											<i class="iconfont icon-delete" @click="deleteQuestion(item.id)"></i>
+										</div>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.answer}}</p>
@@ -124,7 +155,12 @@
 						<el-tab-pane class="ques-tab" v-if="outFenxi.length" :label="`分析题[共${outFenxi.length}题]`" name="subSeventh">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in outFenxi" :key="item.id">
-									<div class="type">{{index+1}}:分析题</div>
+									<div class="type">{{index+1}}:分析题
+										<div class="icon-box">
+											<i class="iconfont icon-edit" @click="editQuestion(item)"></i>
+											<i class="iconfont icon-delete" @click="deleteQuestion(item.id)"></i>
+										</div>
+									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
 										<p class="answer">参考答案： {{item.answer}}</p>
@@ -343,6 +379,17 @@
 				</el-tab-pane>
 			</el-tabs>
 		</div>
+		<el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span>是否确认删除？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="small" @click="dialogVisible = false">取 消</el-button>
+        <el-button size="small" type="primary" @click="confirmDeleteQuestion">确 定</el-button>
+      </span>
+    </el-dialog>
 	</div>
 </template>
 <script>
@@ -354,6 +401,8 @@ export default {
 			activeName: "first",
 			subActiveName: "subFirst",
 			subActiveName2: "subFirst2",
+			dialogVisible: false,
+			currentQuestionId: '',
 			outQuestionList: [],
 			reviewQuestionList: [],
 			//出题题型
@@ -477,7 +526,35 @@ export default {
 			}else if(index ==1){
 				this.getReviewQuestion()
 			}
-		}
+		},
+		editQuestion(question){
+			let questionsId = question.questionsId;
+			let fieldId = question.fieldId;
+			let questionTypeId = question.question_type_id;
+			let questionId = question.id
+			this.$router.push(`/judge?question=${questionsId}&fieldId=${fieldId}&questionTypeId=${questionTypeId}&questionId=${questionId}`)
+		},
+		deleteQuestion(id){
+			this.dialogVisible = true;
+			this.currentQuestionId = id;
+		},
+		confirmDeleteQuestion(id){
+			this.$store.dispatch('DELETE_OUTQUESTION', this.currentQuestionId).then(res => {
+				this.dialogVisible = false;
+				this.getOutQuestion();
+				this.$message({
+					type: "success",
+					message: "删除成功！"
+				})
+			})
+		},
+		handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    }
 	},
 	components: {
 		headerNav
@@ -512,6 +589,14 @@ export default {
 						padding-left: 20px;
 						span {
 							margin-left: 20px;
+						}
+						.icon-box {
+							float: right;
+							color: #409EFF;
+							i {
+								margin-right: 20px;
+								cursor: pointer;
+							}
 						}
 					}
 					.question {

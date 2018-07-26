@@ -1,6 +1,6 @@
 import axios from 'axios';
 const apiContext = 'http://tiku.xuedian98.com:8080/Portal'
-let methods = ['get', 'post']
+let methods = ['get', 'post', 'put', 'delete']
   // let token = ''
 
 class Api {

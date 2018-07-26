@@ -78,7 +78,7 @@ export function createRouter () {
           path: ':fieldId/:questionTypeId', name: 'errorlist', component: ErrorList
         }]
       },
-      { path: '/judge', name: 'judge', component: Judge },
+      { path: '/judge/:id?', name: 'judge', component: Judge },
       { path: '/examiner', component: Examiner,
         children: [{
           path: ':fieldId/:pointId/:questionTypeId', name: 'examiner', component: Examiner

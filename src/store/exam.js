@@ -13,6 +13,9 @@ const EXAM_SUBMIT = 'EXAM_SUBMIT' //我的答案提交
 const EXAM_PAGE_DETAIL = 'EXAM_PAGE_DETAIL' //考试记录 --试卷详情
 const OUTQUESTION = 'OUTQUESTION' //出题记录
 const REVIEWQUESTION = 'REVIEWQUESTION' //审题记录
+const EDIT_OUTQUESTION = 'EDIT_OUTQUESTION' //修改出题题目
+const DELETE_OUTQUESTION = 'DELETE_OUTQUESTION' //删除出题题目
+const QUESTION_DETAIL = 'QUESTION_DETAIL' //题目详情
 
 // subject/exam-content 我的测试题
 
@@ -32,8 +35,8 @@ export default {
     storeExamContent: [],
     examPageDetail: {},
     outQuestion: [],
-    reviewQuestion: []
-
+    reviewQuestion: [],
+    questionInfo: {}
   },
   mutations: {
     [EXAM_SET](state, data) {
@@ -44,6 +47,36 @@ export default {
     //出题记录
     [OUTQUESTION]({commit}, params){
       return api.get('/subject/getMySetQuestion').then(res => {
+        commit('EXAM_SET', {
+          target: 'outQuestion',
+          data: res.object
+        })
+        return res
+      })
+    },
+    //修改出题题目
+    [EDIT_OUTQUESTION]({commit}, params){
+      return api.post('/subject/question-add').then(res => {
+        commit('EXAM_SET', {
+          target: 'outQuestion',
+          data: res.object
+        })
+        return res
+      })
+    },
+    //获取题目详情
+    [QUESTION_DETAIL]({commit}, params){
+      return api.get('/secure/question/question-detail/' + params).then(res => {
+        commit('EXAM_SET', {
+          target: 'questionInfo',
+          data: res.object
+        })
+        return res
+      })
+    },
+    //删除出题题目
+    [DELETE_OUTQUESTION]({commit}, params){
+      return api.delete('/subject/delete-question/' + params).then(res => {
         commit('EXAM_SET', {
           target: 'outQuestion',
           data: res.object
