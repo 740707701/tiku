@@ -123,6 +123,7 @@
 										<p class="answer">参考答案： {{item.answer}}</p>
 										<p class="answer">知识点：{{item.pointName}}</p>
 										<p class="score">难度平均评分： {{item.avgSpeciality||0}}分</p>
+										<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
 										<p class="score">重要性平均评分： {{item.avgImportance||0}}分</p>
 										<p class="score">知识相关性平均评分： {{item.avgKnowledgeCorrelation||0}}分</p>
 										<p class="score">好差平均评分： {{item.avgLevel||0}}分</p>
