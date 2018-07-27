@@ -384,8 +384,10 @@ export default {
           }
         })
         */
-       //转大写再排序
-        answer = answer.toLocaleUpperCase().split('').sort().join('')
+       //字符串转大写转数组排序
+       let arr = answer.toLocaleUpperCase().split('').sort()
+       let dup = [...new Set(arr)] //去重
+        answer = dup.join('') //转字符串
       }
       if(item == 'judge'){
         answer = answer.toLocaleUpperCase()
@@ -487,7 +489,19 @@ export default {
         }
         let choiceList = []
         for(var k in content.choiceList){
-          choiceList.push(content.choiceList[k])
+          if(k == 'A'){
+            choiceList[0] = content.choiceList[k]
+          }else if(k == 'B'){
+            choiceList[1] = content.choiceList[k]
+          }else if(k == 'C'){
+            choiceList[2] = content.choiceList[k]
+          }else if(k == 'D'){
+            choiceList[3] = content.choiceList[k]
+          }else if(k == 'E'){
+            choiceList[4] = content.choiceList[k]
+          }else if(k == 'F'){
+            choiceList[5] = content.choiceList[k]
+          }
         }
         this[item + 'Title'] = content.title;
         this[item + 'Options'] = choiceList;
