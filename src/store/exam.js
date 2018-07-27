@@ -16,6 +16,7 @@ const REVIEWQUESTION = 'REVIEWQUESTION' //审题记录
 const EDIT_OUTQUESTION = 'EDIT_OUTQUESTION' //修改出题题目
 const DELETE_OUTQUESTION = 'DELETE_OUTQUESTION' //删除出题题目
 const QUESTION_DETAIL = 'QUESTION_DETAIL' //题目详情
+const UPLOAD = 'UPLOAD' //上传图片
 
 // subject/exam-content 我的测试题
 
@@ -36,7 +37,8 @@ export default {
     examPageDetail: {},
     outQuestion: [],
     reviewQuestion: [],
-    questionInfo: {}
+    questionInfo: {},
+    uploadInfo: {}
   },
   mutations: {
     [EXAM_SET](state, data) {
@@ -44,6 +46,16 @@ export default {
     }
   },
   actions: {
+    //上传图片
+    [UPLOAD]({commit}, data){
+      return api.post('/secure/upload-uploadify-img').then(res => {
+        commit('EXAM_SET', {
+          target: 'uploadInfo',
+          data: res.object
+        })
+        return res
+      })
+    },
     //出题记录
     [OUTQUESTION]({commit}, params){
       return api.get('/subject/getMySetQuestion').then(res => {
