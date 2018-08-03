@@ -21,7 +21,7 @@
             <p class="title">题型：</p>
             <div class="topic-type">
               <el-checkbox-group v-model="checkList">
-                <el-checkbox v-for="list in thisTypeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
+                <el-checkbox v-if="list.id!=7" v-for="list in thisTypeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
               </el-checkbox-group>
 
             </div>

@@ -107,7 +107,46 @@
                     <p class="t-right">限200字以内 <span @click="submitComment">发表</span> </p>
                   </div>
                 </div>
+                <!--分析题 -->
+                <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == 7">
+                  <div class="raido-list">
+                    <input type="hidden" v-model="questionid">
+                    <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                    <div class="ques-list">
+                      <div class="item" v-for="(q,index) in randomItem[start].content.subtitleList" :key="index">
+                        <p>{{index+1}})：{{q.title}}</p>
+                        <div class="options" v-for="(o, key) in q.choiceList" :key="key" v-if="q.questionTypeId==1">
+                          <input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" 
+                          v-model="fenxiRadioNames[index]" @click="checkAnswer(index)" :disabled="disabled">
+                        {{key}}:{{o}}
+                        </div>
+                        <div class="options" v-for="(o, key) in q.choiceList" :key="key" v-if="q.questionTypeId==2">
+                          <input type="checkbox" :id="'checkbox'+(start+1)+'-'+index"  :value="index" 
+                          v-model="fenxiCheckboxNames[index]" @click="checkAnswer(index)" :disabled="disabled">
+                        {{key}}:{{o}}
+                        </div>
+                        <div class="options"  v-if="q.questionTypeId==3">
+                          <p><input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" 
+                          v-model="fenxiJudgeNames[index]"  @click="checkAnswer(index)" :disabled="disabled">T、正确</p>
+                          <p><input type="radio" :id="'radio'+(start+1)+'-'+index"  :value="index" 
+                          v-model="fenxiJudgeNames[index]"  @click="checkAnswer(index)" :disabled="disabled">F、错误</p>
+                        </div>
+                        <div class="options" v-if="q.quesionTypeId==5"></div>
+                        <div class="options" v-if="q.quesionTypeId==6"></div>
+                        <span class="cankao-answer">参考答案：{{ q.answer }}</span>
+                      </div>
+                    </div>
 
+
+                    <!-- <span class="answer-number" v-if="radioNames[start]  && radioNames[start] != randomItem[start].answer">参考答案：{{ randomItem[start].answer }}</span> -->
+                  </div>
+                  <p class="answer-style" v-if="contentMsgShow">我的建议答案: {{ contentMsg }}</p>
+                  <p class="reference-msg">我的建议答案</p>
+                  <div class="textarea-mn">
+                    <textarea maxlength="200" cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="contentMsgText"></textarea>
+                    <p class="t-right">限200字以内 <span @click="submitComment">发表</span> </p>
+                  </div>
+                </div>
               </div>
 
               <p class="reference-msg">其它答案</p>
@@ -162,6 +201,9 @@ export default {
     checkboxNames: [],
     checkboxNamesStr: "",
     contentMsg: "",
+    fenxiRadioNames: [],
+    fenxiCheckboxNames: [],
+    fenxiJudgeNames: [],
     level: 0,
     sliderList: [
       {
@@ -414,3 +456,31 @@ export default {
   }
 };
 </script>
+<style lang="less" scoped>
+  .examiner-page {
+    .pd-left-item {
+      .ques-list {
+        .item {
+          position: relative;
+          input {
+            margin-right: 16px;
+          }
+          .options {
+            margin-bottom: 10px;
+          }
+          .cankao-answer {
+            width: 100%;
+            display: inline-block;
+            color: #ff0000;
+            text-align: right;
+            padding-right: 40px;
+            padding-bottom: 10px;
+            // position: absolute;
+            // bottom: 10px;
+            // right: 40px;
+          }
+        }
+      }
+    }
+  }
+</style>

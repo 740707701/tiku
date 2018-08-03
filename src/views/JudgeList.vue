@@ -23,7 +23,7 @@
             <div class="topic-type">
               <!-- :checked="list.subjective" -->
               <el-checkbox-group v-model="checkList">
-                <el-checkbox v-for="list in typeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
+                <el-checkbox v-for="list in typeList" :key="list.id" :label="list.id"  v-if="list.id!=7">{{list.name}}</el-checkbox>
               </el-checkbox-group>
 
             </div>

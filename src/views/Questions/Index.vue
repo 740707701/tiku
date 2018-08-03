@@ -25,7 +25,7 @@
             <div class="topic-type">
               <!-- :checked="list.subjective" -->
               <el-checkbox-group v-model="checkList">
-                <el-checkbox v-for="list in typeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
+                <el-checkbox v-if="list.id!=7" v-for="list in typeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
               </el-checkbox-group>
             <!-- {{ checkList }} -->
             </div>
@@ -266,10 +266,10 @@ export default {
     },
     getPath() {
       this.path = this.$route.path;
-      console.log("----", this.path);
+      // console.log("----", this.path);
     },
     handleClick(tab, event) {
-      console.log(tab, event);
+      // console.log(tab, event);
     },
     isNav(reg) {
       if (Object.prototype.toString.call(reg) === "[object RegExp]") {

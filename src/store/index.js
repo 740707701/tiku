@@ -91,6 +91,7 @@ export function createStore () {
             target: 'tikuList',
             data: res.object
           })
+          return res
         })
       },
       [FIELD_LIST_FETCH]({commit}, params){
@@ -99,6 +100,7 @@ export function createStore () {
             target: 'fieldList',
             data: res.object
           })
+          return res
         })
       },
       [KONWLED_LIST_FETCH]({commit}, params){
@@ -107,6 +109,7 @@ export function createStore () {
             target: 'konwledList',
             data: res.object
           })
+          return res
         })
       },
       [PRACTICE_LIST_FETCH]({commit}, params){
@@ -115,6 +118,7 @@ export function createStore () {
             target: 'practiceList',
             data: res.object
           })
+          return res
         })
       },
       [IGENCE_LIST_FETCH]({commit}, params){
@@ -123,6 +127,7 @@ export function createStore () {
             target: 'igenceList',
             data: res.object
           })
+          return res
         })
       },
       [ERROR_LIST_FETCH]({commit}, params){
@@ -131,6 +136,7 @@ export function createStore () {
             target: 'errorList',
             data: res.object
           })
+          return res
         })
       },
       [CURRICULUM_LIST_FETCH]({commit}, params){

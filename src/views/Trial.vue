@@ -58,12 +58,31 @@
                     </p>
                   </div>
                 </div>
-                <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == (5 || 6 || 7)">
+                <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == (5 || 6 )">
                   <div class="raido-list">
                     <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
                     <p>
                       {{randomItem[start].answer}}
                     </p>
+                  </div>
+                </div>
+                <div class="pd-left-item" v-if="randomItem[start]['questionTypeId'] == 7">
+                  <div class="raido-list">
+                    <div class="raido-title">{{ start+1 }}、{{ randomItem[start].content.title }}</div>
+                    <div class="img-list">
+                      <div class="item" v-for="(img,index) in randomItem[start].content.titleImgList" :key="index">
+                        <img :src="img.url" alt="">
+                        <div class="name">{{img.name}}</div>
+                      </div>
+                    </div>
+                    <div v-for="(q, index) in randomItem[start].content.subtitleList" :key="index">
+                      <p>({{index+1}})：{{q.title}}</p>
+                      <p v-if="JSON.stringify(q.choiceList)!='{}'" v-for="(value, key) in q.choiceList" :key="key">{{key}}:{{value}}</p>
+                      <div class="link-answer">参考答案：{{ q.answer }}</div>
+                    </div>
+                    <!-- <p>
+                      {{randomItem[start].answer}}
+                    </p> -->
                   </div>
                 </div>
 
@@ -227,10 +246,9 @@ export default {
         userId: "",
         contentMsg: this.contentMsg || "", // 内容
         reId: "",
-        userId: "",
         referenceAnswer: "", //其他答案
         // id: this.questionid+'',
-        difficultynew: this.sliderNumber[0], // 题目难度
+        difficulty: this.sliderNumber[0], // 题目难度
         speciality: this.sliderNumber[1], // 题目专业度
         importance: this.sliderNumber[2], // 知识重要性
         knowledgeCorrelation: this.sliderNumber[3], // 知识相关性
@@ -286,24 +304,44 @@ export default {
 </script>
 <style lang="less">
   .examiner-list{
-     .topic-item{
-       .topic-left{
-        .msg-button{
-          margin: 30px auto;
-          text-align: left;
-          >span{
-            padding: 10px 44px;
-            color: #fff;
-            font-size: 16px;
-            border-radius: 4px;
-            background: #5a9cff;
-            cursor: pointer;
-            margin-right: 36px;
-            margin-left: 14px;
-          }
+    .link-answer {
+      text-align: right;
+      padding-bottom: 5px;
+      color: red;
+    }
+    .topic-item{
+      .topic-left{
+      .msg-button{
+        margin: 30px auto;
+        text-align: left;
+        >span{
+          padding: 10px 44px;
+          color: #fff;
+          font-size: 16px;
+          border-radius: 4px;
+          background: #5a9cff;
+          cursor: pointer;
+          margin-right: 36px;
+          margin-left: 14px;
         }
-       }
-     } 
+      }
+      }
+    } 
+    .img-list {
+      width: 100%;
+      display: inline-block;
+      .item {
+        width:100px;
+        margin: 0 10px 10px 0;
+        display: inline-block;
+        img {
+          width: 100px;
+        }
+        .name {
+          text-align: center;
+        }
+      }
+    }
 
   }
 </style>

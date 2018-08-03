@@ -1,5 +1,7 @@
 import axios from 'axios';
-const apiContext = 'http://tiku.xuedian98.com:8080/Portal'
+const apiContext = 'http://tiku.xuedian98.com:8080/Portal' //线上api地址
+// const apiContext = 'http://192.168.0.192:8080/Portal' //本机
+// const apiContext = 'http://101.132.166.37:8080/Portal' //测试环境api地址
 let methods = ['get', 'post', 'put', 'delete']
   // let token = ''
 

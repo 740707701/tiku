@@ -133,7 +133,7 @@
 						</el-tab-pane>
 						<el-tab-pane class="ques-tab" v-if="outLunshu.length" :label="`论述题[共${outLunshu.length}题]`" name="subSixth">
 							<div class="item-list">
-								<div class="item" v-for="(item, index) in outLunshu" :key="item.id">
+								<div class="item" v-for="(item, index) in outLunshu" :key="index">
 									<div class="type">{{index+1}}:论述题
 										<div class="icon-box">
 											<i class="iconfont icon-edit" @click="editQuestion(item)"></i>
@@ -155,7 +155,7 @@
 						</el-tab-pane>
 						<el-tab-pane class="ques-tab" v-if="outFenxi.length" :label="`分析题[共${outFenxi.length}题]`" name="subSeventh">
 							<div class="item-list">
-								<div class="item" v-for="(item, index) in outFenxi" :key="item.id">
+								<div class="item" v-for="(item, index) in outFenxi" :key="index">
 									<div class="type">{{index+1}}:分析题
 										<div class="icon-box">
 											<i class="iconfont icon-edit" @click="editQuestion(item)"></i>
@@ -164,7 +164,21 @@
 									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
-										<p class="answer">参考答案： {{item.answer}}</p>
+										<div class="img-list">
+											<div class="item" v-for="(img,index) in item.questionContent.titleImgList" :key="index">
+												<img :src="rootPath+'/'+img.filePath" alt="">
+												<div class="name">{{img.name}}</div>
+											</div>
+										</div>
+										<div class="question" v-for="(qu, index) in item.questionContent.subtitleList" :key="index">
+											<div class="title">{{index+1}}:{{qu.title}}</div>
+											<div class="choose-list" v-if="JSON.stringify(qu.choiceList)!='{}'">
+												<div class="choose-tab" v-for="(choice,key) in qu.choiceList" :key="key">
+													<input type="radio" disabled="disabled" class="radio">{{key}}：{{choice}}
+												</div>
+											</div>
+											<div class="answer">参考答案：{{qu.answer}}</div>
+										</div>
 										<p class="answer">知识点：{{item.pointName}}</p>
 										<p class="score">难度平均评分： {{item.avgDifficulty||0}}分</p>
 										<p class="score">专业性平均评分： {{item.avgSpeciality||0}}分</p>
@@ -358,7 +372,21 @@
 									</div>
 									<div class="question-content">
 										<div class="question">{{item.questionContent.title}}</div>
-										<p class="answer">参考答案： {{item.questionAnswer}}</p>
+										<div class="img-list">
+											<div class="item" v-for="(img,index) in item.questionContent.titleImgList" :key="index">
+												<img :src="rootPath+'/'+img.filePath" alt="">
+												<div class="name">{{img.name}}</div>
+											</div>
+										</div>
+										<div class="question" v-for="(qu, index) in item.questionContent.linkedList" :key="index">
+											<div class="title">{{index+1}}:{{qu.title}}</div>
+											<div class="choose-list" v-if="JSON.stringify(qu.choiceList)!='{}'">
+												<div class="choose-tab" v-for="(choice,key) in qu.choiceList" :key="key">
+													<input type="radio" disabled="disabled" class="radio">{{key}}：{{choice}}
+												</div>
+											</div>
+											<div class="answer">参考答案：{{qu.answer}}</div>
+										</div>
 										<p class="answer">知识点：{{item.pointName}}</p>
 										<p class="score">难度评分： {{item.difficulty}}分</p>
 										<p class="score">专业性评分： {{item.speciality}}分</p>
@@ -406,6 +434,7 @@ export default {
 			currentQuestionId: '',
 			outQuestionList: [],
 			reviewQuestionList: [],
+			rootPath: "",
 			//出题题型
 			outDanxuan: [],
 			outDuoxuan: [],
@@ -431,7 +460,8 @@ export default {
 		//出题记录
 		getOutQuestion(){
 			this.$store.dispatch('OUTQUESTION').then(res => {
-				this.outQuestionList = res.object;
+				this.rootPath = res.object.rootPath;
+				this.outQuestionList = res.object.questions;
 				this.outDanxuan = this.outQuestionList.filter(item => {
 					item.questionContent = JSON.parse(item.content)
           return item.question_type_id == 1
@@ -471,7 +501,8 @@ export default {
 		//审题记录
 		getReviewQuestion(){
 			this.$store.dispatch('REVIEWQUESTION').then(res => {
-				this.reviewQuestionList = res.object;
+				this.rootPath = res.object.rootPath;
+				this.reviewQuestionList = res.object.comments;
 				this.reviewDanxuan = this.reviewQuestionList.filter(item => {
 					item.questionContent = JSON.parse(item.questionContent)
           return item.question_type_id == 1
@@ -533,7 +564,11 @@ export default {
 			let fieldId = question.fieldId;
 			let questionTypeId = question.question_type_id;
 			let questionId = question.id
-			this.$router.push(`/judge?question=${questionsId}&fieldId=${fieldId}&questionTypeId=${questionTypeId}&questionId=${questionId}`)
+			if(questionTypeId == 7){
+				this.$router.push(`/fenxi?question=${questionsId}&fieldId=${fieldId}&questionTypeId=${questionTypeId}&questionId=${questionId}`)
+			}else{
+				this.$router.push(`/judge?question=${questionsId}&fieldId=${fieldId}&questionTypeId=${questionTypeId}&questionId=${questionId}`)
+			}
 		},
 		deleteQuestion(id){
 			this.dialogVisible = true;
@@ -613,6 +648,21 @@ export default {
 								line-height: 26px;
 								.radio {
 									margin-right: 10px;
+								}
+							}
+						}
+						.img-list {
+							width: 100%;
+							display: inline-block;
+							.item {
+								width: 100px;
+								margin-right: 10px;
+								margin-bottom: 10px;
+								img {
+									width: 100px;
+								}
+								.name {
+									text-align: center;
 								}
 							}
 						}

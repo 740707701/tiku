@@ -167,12 +167,36 @@
                     <div class="fenxi-count">{{analysisTopics.length+1}}、</div>
                     <textarea class="textarea-title" v-model="analysisTitle" placeholder="输入标题"></textarea>
                   </div>
-                  <!-- <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="analysisAnswer" class="judge-answer"></textarea></p> -->
-                  <p>请针对该分析题出题</p>
+                  <div class="fenxi-select select-title">请选择知识点：</div>
+                  <template>
+                    <el-select v-model="analysisKnowledge" placeholder="请选择" size="small">
+                      <el-option
+                        v-for="item in chapterList"
+                        :key="item.pointId"
+                        :label="item.pointName"
+                        :value="item.pointId">
+                      </el-option>
+                    </el-select>
+                  </template>
+                  <div class="fenxi-tips">请针对该分析题的题目上传所需要的图片(可不传)</div>
+                  <div class="img-content">
+                    <div class="img-box">
+                      <i class="iconfont icon-camera"></i>
+                      <input type="file" class="input-file" @change="changeImage($event)" name="image" ref="imgInput" accept="image/gif,image/jpeg,image/jpg,image/png">
+                    </div>
+                    <div class="img-list">
+                      <div class="item" v-for="(item,index) in uploadImgList" :key="index">
+                        <div class="icon-del" @click="deleteUpload(item,index)">×</div>
+                        <img :src="rootPath+'/'+item.filePath" alt="">
+                        <div class="name">{{item.name}}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="fenxi-tips">请针对该分析题出题</div>
                   <div class="fenxi-options">
                     <div class="topic-type">
                       <el-checkbox-group v-model="checkQuesTypeFenxi">
-                        <el-checkbox v-for="list in typeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
+                        <el-checkbox v-if="list.id!=7" v-for="list in typeList" :key="list.id"  :label="list.id" >{{list.name}}</el-checkbox>
                       </el-checkbox-group>
                     </div>
                     <el-collapse accordion v-model="subActiveNames" v-for="(item, index) in checkQuesTypeFenxi" :key="index">
@@ -184,20 +208,9 @@
                           <p class="chuti">C、<input class="judge-option" v-model="radioOptionsFenxi[2]" type="text" placeholder="输入选项C的内容"></p>
                           <p class="chuti">D、<input class="judge-option" v-model="radioOptionsFenxi[3]" type="text" placeholder="输入选项D的内容"></p>
                           <p class="answer">输入正确答案: <input type="text" v-model="radioAnswerFenxi" class="judge-answer"> </p>
-                          <div class="select-title">请选择知识点：</div>
-                          <template>
-                            <el-select v-model="radioKnowledgeFenxi" placeholder="请选择">
-                              <el-option
-                                v-for="item in chapterList"
-                                :key="item.pointId"
-                                :label="item.pointName"
-                                :value="item.pointId">
-                              </el-option>
-                            </el-select>
-                          </template>
                         </div>
                         <div class="footer-button">
-                          <span class="next-ti" @click="fenxiSave('radio')">保存</span>
+                          <span class="next-ti" @click="fenxiSave('radio',1)">保存</span>
                         </div>
                       </el-collapse-item>
                       <el-collapse-item title="多选题" v-if="item == 2" :name="(index+1)">
@@ -210,20 +223,9 @@
                           <p class="chuti">E、<input class="judge-option" v-model="checkboxOptionsFenxi[4]" type="text" placeholder="输入选项E的内容"></p>
                           <p class="chuti">F、<input class="judge-option" v-model="checkboxOptionsFenxi[5]" type="text" placeholder="输入选项F的内容"></p>
                           <p class="answer">输入正确答案: <input type="text" v-model="checkboxAnswerFenxi" class="judge-answer checkbox-answer"></p>
-                          <div class="select-title">请选择知识点：</div>
-                          <template>
-                            <el-select v-model="checkboxKnowledgeFenxi" placeholder="请选择">
-                              <el-option
-                                v-for="item in chapterList"
-                                :key="item.pointId"
-                                :label="item.pointName"
-                                :value="item.pointId">
-                              </el-option>
-                            </el-select>
-                          </template>
                         </div>
                         <div class="footer-button">
-                          <span class="next-ti" @click="fenxiSave('checkbox')">保存</span>
+                          <span class="next-ti" @click="fenxiSave('checkbox',2)">保存</span>
                         </div>
                       </el-collapse-item>
                       <el-collapse-item title="判断题" v-if="item == 3" :name="(index+1)">
@@ -232,93 +234,36 @@
                           <p class="chuti">T、正确</p>
                           <p class="chuti">F、错误</p>
                           <p class="answer">输入正确答案: <input type="text" placeholder="T或F" v-model="judgeAnswerFenxi" class="judge-answer"> </p>
-                          <div class="select-title">请选择知识点：</div>
-                          <template>
-                            <el-select v-model="judgeKnowledgeFenxi" placeholder="请选择">
-                              <el-option
-                                v-for="item in chapterList"
-                                :key="item.pointId"
-                                :label="item.pointName"
-                                :value="item.pointId">
-                              </el-option>
-                            </el-select>
-                          </template>
                         </div>
                         <div class="footer-button">
-                          <span class="next-ti" @click="fenxiSave('judge')">保存</span>
+                          <span class="next-ti" @click="fenxiSave('judge',3)">保存</span>
                         </div>
                       </el-collapse-item>
                       <el-collapse-item title="简答题" v-if="item == 5" :name="(index+1)">
                         <div class="raido-list answer-list">
                           <div class="raido-title">{{answerTopicsFenxi.length+1}}、<input class="judge-title" v-model="answerTitleFenxi" maxlength="100" type="text" placeholder="输入标题，100字以内"></div>
                           <p class="answer">输入正确答案: <textarea cols="30" rows="10" maxlength="200" placeholder="请在此输入您的参考答案，200字以内" v-model.trim="answerAnswerFenxi" class="judge-answer"></textarea></p>
-                          <div class="select-title">请选择知识点：</div>
-                          <template>
-                            <el-select v-model="answerKnowledgeFenxi" placeholder="请选择">
-                              <el-option
-                                v-for="item in chapterList"
-                                :key="item.pointId"
-                                :label="item.pointName"
-                                :value="item.pointId">
-                              </el-option>
-                            </el-select>
-                          </template>
                         </div>
                         <div class="footer-button">
-                          <span class="next-ti" @click="fenxiSave('answer')">保存</span>
+                          <span class="next-ti" @click="fenxiSave('answer',5)">保存</span>
                         </div>
                       </el-collapse-item>
                       <el-collapse-item title="论述题" v-if="item == 6" :name="(index+1)">
                         <div class="raido-list answer-list">
                           <div class="raido-title">{{discussTopicsFenxi.length+1}}、<input class="judge-title" v-model="discussTitleFenxi" type="text" placeholder="输入标题"></div>
                           <p class="answer">输入正确答案: <textarea cols="30" rows="10" placeholder="请在此输入您的参考答案" v-model.trim="discussAnswerFenxi" class="judge-answer"></textarea></p>
-                          <div class="select-title">请选择知识点：</div>
-                          <template>
-                            <el-select v-model="discussKnowledgeFenxi" placeholder="请选择">
-                              <el-option
-                                v-for="item in chapterList"
-                                :key="item.pointId"
-                                :label="item.pointName"
-                                :value="item.pointId">
-                              </el-option>
-                            </el-select>
-                          </template>
                         </div>
                         <div class="footer-button">
-                          <span class="next-ti" @click="fenxiSave('discuss')">保存</span>
+                          <span class="next-ti" @click="fenxiSave('discuss', 6)">保存</span>
                         </div>
                       </el-collapse-item>
                     </el-collapse>
                   </div>
-                  <div class="img-content">
-                    <div class="img-box">
-                      <i class="iconfont icon-camera"></i>
-                      <input type="file" class="input-file" @change="changeImage($event)" name="image" ref="imgInput" accept="image/gif,image/jpeg,image/jpg,image/png">
-                      <!-- <img v-if="questionImage" :src="questionImage" class="input-img"> -->
-                    </div>
-                    <div class="img-list">
-                      <div class="item" v-for="(item,index) in uploadImgList" :key="index">
-                        <!-- <img :src="item.img" alt=""> -->
-                      </div>
-                        <img :src="questionImage" alt="">
-                    </div>
-                  </div>
                   
-                  <div class="select-title">请选择知识点：</div>
-                  <template>
-                    <el-select v-model="analysisKnowledge" placeholder="请选择" size="small">
-                      <el-option
-                        v-for="item in chapterList"
-                        :key="item.pointId"
-                        :label="item.pointName"
-                        :value="item.pointId">
-                      </el-option>
-                    </el-select>
-                  </template>
                 </div>
                 <div class="footer-button">
-                  <span v-if="!questionId" class="next-ti" @click="nextBtn('analysis')">下一题</span>
-                  <span v-if="questionId" @click="nextBtn('analysis')">提交</span>
+                  <span v-if="!questionId" class="next-ti" @click="fenxiNext('analysis')">下一题</span>
+                  <span v-if="questionId" @click="fenxiSubmit('')">提交</span>
                   <span v-if="!questionId" @click="resetBtn">退出</span>
                 </div>
               </el-collapse-item>
@@ -355,17 +300,17 @@ export default {
 
       questionTypeId: [],typeList: [],QusTypeList: [],curriculumList: [],nowTime: '',tikuId: 1,username: '',
       questionInfo: {},questionId: '',showSubmitBtn: false,
-
+      fenxiQuestionId: '',
       checkQuesTypeFenxi: [], //分析题下选择的出题类型
       titleImgFenxi: [], //分析题目的图片
       //分析题 二级选项数据
-      radioTopicsFenxi: [],checkboxTopicsFenxi: [],judgeTopicsFenxi: [],answerTopicsFenxi: [],discussTopicsFenxi: [],
-      radioTitleFenxi: '',radioOptionsFenxi: [],radioAnswerFenxi: '',radioKnowledgeFenxi: '',
-      checkboxTitleFenxi: '',checkboxOptionsFenxi: [],checkboxAnswerFenxi: '',checkboxKnowledgeFenxi: '',
-      judgeTitleFenxi: '',judgeOptionsFenxi: [],judgeAnswerFenxi: '',judgeKnowledgeFenxi: '',
-      answerTitleFenxi: '',answerOptionsFenxi: [],answerAnswerFenxi: '',answerKnowledgeFenxi: '',
-      discussTitleFenxi: '',discussOptionsFenxi: [],discussAnswerFenxi: '',discussKnowledgeFenxi: '',
-      uploadImgList: [], questionImage: '', file: ''
+      radioTopicsFenxi: [],radioTitleFenxi: '',radioOptionsFenxi: [],radioAnswerFenxi: '',radioKnowledgeFenxi: '',
+      checkboxTopicsFenxi: [],checkboxTitleFenxi: '',checkboxOptionsFenxi: [],checkboxAnswerFenxi: '',checkboxKnowledgeFenxi: '',
+      judgeTopicsFenxi: [],judgeTitleFenxi: '',judgeOptionsFenxi: [],judgeAnswerFenxi: '',judgeKnowledgeFenxi: '',
+      answerTopicsFenxi: [],answerTitleFenxi: '',answerOptionsFenxi: [],answerAnswerFenxi: '',answerKnowledgeFenxi: '',
+      discussTopicsFenxi: [],discussTitleFenxi: '',discussOptionsFenxi: [],discussAnswerFenxi: '',discussKnowledgeFenxi: '',
+      uploadImgList: [], questionImage: '', file: '',
+      fenxiQuestions: []
     };
   },
   computed: {
@@ -590,7 +535,7 @@ export default {
     },
     getQuestionDetail(){
       this.$store.dispatch('QUESTION_DETAIL', this.questionId).then(res => {
-        let detail = res.object;
+        let detail = res.object.question;
         let content = JSON.parse(detail.content)
         let questionTypeId = detail.question_type_id;
         let item = ''
@@ -608,6 +553,49 @@ export default {
           item = 'discuss'
         }else if(questionTypeId == 7){
           item = 'analysis'
+          this.uploadImgList = content.titleImgList;
+          let subtitleList = content.subtitleList
+          subtitleList.map(item => {
+            this.checkQuesTypeFenxi.push(item.questionTypeId)
+            if(this.checkQuesTypeFenxi.indexOf(item.questionTypeId) == -1){
+            }
+            let itemType = ''
+            if(item.questionTypeId == 1){
+              itemType = 'radio'
+            }else if(item.questionTypeId == 2){
+              itemType = 'checkbox'
+            }else if(item.questionTypeId == 3){
+              itemType = 'judge'
+            }else if(item.questionTypeId == 4){
+              itemType = ''
+            }else if(item.questionTypeId == 5){
+              itemType = 'answer'
+            }else if(item.questionTypeId == 6){
+              itemType = 'discuss'
+            }
+            let choiceList = []
+            for(var k in item.choiceList){
+              if(k == 'A'){
+                choiceList[0] = item.choiceList[k]
+              }else if(k == 'B'){
+                choiceList[1] = item.choiceList[k]
+              }else if(k == 'C'){
+                choiceList[2] = item.choiceList[k]
+              }else if(k == 'D'){
+                choiceList[3] = item.choiceList[k]
+              }else if(k == 'E'){
+                choiceList[4] = item.choiceList[k]
+              }else if(k == 'F'){
+                choiceList[5] = item.choiceList[k]
+              }
+            }
+            this[itemType+'TitleFenxi'] = item.title
+            this[itemType+'OptionsFenxi'] = choiceList
+            this[itemType+'AnswerFenxi'] = item.answer
+            //分析题下的小题目
+            this.fenxiQuestions.push(item)
+            // console.log(this.fenxiQuestions)
+          })
         }
         let choiceList = []
         for(var k in content.choiceList){
@@ -646,12 +634,14 @@ export default {
     upload: function(){
       if(this.$refs.imgInput[0].files.length !== 0){
         let data = new FormData()
-        data.append('multfile', this.$refs.imgInput[0].files)
+        data.append('multfile', this.$refs.imgInput[0].files[0])
         this.$store.dispatch('UPLOAD', data)
         .then(res => {
           console.log(res)
           if(res.result == "success"){
             this.file = '';
+            this.rootPath = res.object.rootPath
+            this.uploadImgList.push({name: res.object.fileName, filePath: res.object.filePath})
             this.$message({
               type: "success",
               message: "上传成功！"
@@ -666,6 +656,171 @@ export default {
         })
       }
     },
+    deleteUpload(item, index){
+      this.uploadImgList.splice(index,1)
+    },
+    fenxiSave(item, question_type_id){
+      let topics = item+'TopicsFenxi'
+      let choiceList = []
+      let answer = this[item+'AnswerFenxi']
+      if(this[item+'TitleFenxi'] == ''){
+        this.$message({
+          message: "标题不能为空",
+          type: "warning"
+        });
+        return false;
+      }else if((!this[item+'OptionsFenxi'].length && item == 'radio') || (!this[item+'OptionsFenxi'].length && item == 'checkbox')){
+        this.$message({
+          message: "选项不能为空",
+          type: "warning"
+        });
+        return false;
+      }else if(this[item+'AnswerFenxi'] == ''){
+        this.$message({
+          message: "答案不能为空",
+          type: "warning"
+        });
+        return false;
+      }
+      if(this[item+'OptionsFenxi'].length){
+        this[item+'OptionsFenxi'].forEach((val, index) => {
+          if(index == 0 && val.trim != ''){
+            choiceList.push({A: val})
+          }else if(index == 1 && val.trim() != ''){
+            choiceList.push({B: val})
+          }else if(index == 2 && val.trim() != ''){
+            choiceList.push({C: val})
+          }else if(index == 3 && val.trim() != ''){
+            choiceList.push({D: val})
+          }else if(index == 4 && val.trim() != ''){
+            choiceList.push({E: val})
+          }else if(index == 5 && val.trim() != ''){
+            choiceList.push({F: val})
+          }
+        })
+      }
+      if(item == 'radio'){
+        answer = this[item+'AnswerFenxi'].toUpperCase()
+      }else if(item == 'checkbox'){
+       //字符串转大写转数组排序
+       let arr = answer.toLocaleUpperCase().split('').sort()
+       let dup = [...new Set(arr)] //去重
+        answer = dup.join('') //转字符串
+      }
+      if(item == 'judge'){
+        answer = answer.toLocaleUpperCase()
+        if(answer == 'A' || answer == 'T' ){
+          answer = 'T'
+        }else{
+          answer = 'F'
+        }
+      }
+      if(this.analysisKnowledge == ''){
+        this.$message({
+          message: "分析题的知识点不能为空",
+          type: "warning"
+        });
+        return false;
+      }
+      let choiceListObj = {}
+      choiceList.forEach((val, index, arr) => {
+        Object.assign(choiceListObj,val)
+      })
+      let questionTypeName = ''
+      this.typeList.forEach((val, index) => {
+        if(val.id == this.activeNames){
+          questionTypeName = val.name
+        }
+      })
+      //组合题目
+      let questionList = [];
+      questionList.push({
+        title: this[item+'TitleFenxi'],
+        choiceList: choiceListObj,
+        answer: answer,
+        questionTypeId: question_type_id
+      })
+        this.$store
+          .dispatch("QUESTION_FENXI_ADD", {
+            "id": this.fenxiQuestionId || 0,
+            "analysis": "", //题目解析
+            "answer":  answer,
+            "content": "", //试题内容
+            "create_time": new Date(),//添加时间
+            "creator": this.username,//添加人呢
+            "examingPoint": "", //考点
+            "is_visible": true,//是否可见
+            "keyword": "",//关键字
+            "name": this.analysisTitle,//题目名称
+            "pointList": [this.analysisKnowledge],//章节知识点
+            "pointName": "",
+            "points": 0,//分数
+            "questionContent": {
+              "title": this.analysisTitle,//题目名称
+              "titleImgList": this.uploadImgList,//题目图片
+              "subtitleList": questionList, //分析题下的题目列表
+            },
+            "questionTypeName": this.QusTypeList[this.activeNames-1].name,//题目类型名称
+            "question_type_id": this.QusTypeList[this.activeNames-1].id,//题目类型ID
+            "referenceName": "",//来源
+            "status": 0,
+          })
+          .then(res => {
+            if (res.result == "success") {
+              this[item+'TopicsFenxi'].push({title: this[item+'TitleFenxi']})
+              this.$message({
+                message: "题目提交成功，请等待审核。",
+                type: "success"
+              });
+              this[item+'TitleFenxi'] = ''
+              this[item+'OptionsFenxi'] = []
+              this[item+'AnswerFenxi'] = ''
+              this[item+'Knowledge'] = ''
+              //第一次添加题目 返回一个question_id
+              if(res.generatedId){
+                this.fenxiQuestionId = res.generatedId;
+              }
+            }
+            if(res.result == "error"){
+              this.$message({
+                type: "error",
+                message: res.messageInfo
+              })
+            }
+          });
+
+    },
+    fenxiNext(item){
+      this[item+'Topics'].push({title: this[item+'Title']})
+      this[item+'Title'] = ''
+      this[item+'Knowledge'] = ''
+      this.checkQuesTypeFenxi = []
+      this.uploadImgList = []
+
+      this.radioTopicsFenxi = ''
+      this.checkboxTopicsFenxi = ''
+      this.judgeTopicsFenxi = ''
+      this.answerTopicsFenxi = ''
+      this.discussTopicsFenxi = ''
+      
+      this.radioTitleFenxi = ''
+      this.checkboxTitleFenxi = ''
+      this.judgeTitleFenxi = ''
+      this.answerTitleFenxi = ''
+      this.discussTitleFenxi = ''
+
+      this.radioOptionsFenxi = ''
+      this.checkboxOptionsFenxi = ''
+      this.judgeOptionsFenxi = ''
+      this.answerOptionsFenxi = ''
+      this.discussOptionsFenxi = ''
+
+      this.radioAnswerFenxi = ''
+      this.checkboxAnswerFenxi = ''
+      this.judgeAnswerFenxi = ''
+      this.answerAnswerFenxi = ''
+      this.discussAnswerFenxi = ''
+    }
   },
   components: {
     headerNav
@@ -769,7 +924,8 @@ export default {
         min-height: 630px;
         background: #fff;
         .img-content {
-          margin-top: 10px;
+          width: 100%;
+          display: inline-block;
           .img-box {
             float: left;
             width: 100px;
@@ -806,20 +962,47 @@ export default {
           }
           .img-list {
             padding-left: 110px;
-            img {
-              float: left;
-              width: 100px;
-              height: 50px;
+            .item {
               margin-right: 10px;
               margin-bottom: 10px;
+              display: inline-block;
+              position: relative;
+            }
+            img {
+              width: 100px;
+              height: 50px;
+            }
+            .name {
+              text-align: center;
+            }
+            .icon-del {
+              width: 20px;
+              height: 20px;
+              line-height: 22px;
+              border-radius: 11px;
+              text-align: center;
+              font-size: 16px;
+              font-weight: bold;
+              border: 1px solid #ccc;
+              background-color: #fff;
+              cursor: pointer;
+              position: absolute;
+              top: -10px;
+              right: -10px;
             }
           }
         }
+        .fenxi-tips {
+          line-height: 30px;
+        }
         .fenxi-options {
-          padding: 10px 20px 0 20px;
+          padding-top: 5px;
           .el-collapse {
             border: none;
           }
+        }
+        .fenxi-select {
+          padding-top: 0!important;
         }
         .el-collapse{
           padding: 0 24px;
@@ -870,7 +1053,7 @@ export default {
             height: 50px;
           }
           .raido-title{
-            padding: 0px 0 20px 0;
+            padding: 0px 0 10px 0;
             .judge-title{
               border: 1px solid #ccc;
               width: 90%;
@@ -942,24 +1125,24 @@ export default {
 
         }
         .footer-button{
-            padding: 50px 0;
-            float: right;
-            margin-right: 64px;
-            span{
-              display: block;
-              width: 80px;
-              height: 35px;
-              float: left;
-              margin-left: 40px;
-              text-align: center;
-              line-height: 35px;
-              color: #fff;
-              font-size: 18px;
-              border-radius: 4px;
-              background: #5a9cff;
-              cursor: pointer;
-            }
+          padding: 50px 0;
+          float: right;
+          margin-right: 64px;
+          span{
+            display: block;
+            width: 80px;
+            height: 35px;
+            float: left;
+            margin-left: 40px;
+            text-align: center;
+            line-height: 35px;
+            color: #fff;
+            font-size: 18px;
+            border-radius: 4px;
+            background: #5a9cff;
+            cursor: pointer;
           }
+        }
       }
     }
   }

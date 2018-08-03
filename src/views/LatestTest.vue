@@ -38,7 +38,8 @@ examId  是考试id   efftime  是开始时间   exptime  是结束时间 examet
       <el-table-column label="操作">
         <template slot-scope="scope" prop=examId>
           <el-button v-if="!scope.row.begin" disabled type="primary" size="mini">未开始</el-button>
-          <el-button v-if="scope.row.begin"  type="primary" size="mini"  @click.native.prevent="deleteRow(scope.row)">参加考试</el-button>
+          <el-button v-if="scope.row.end" disabled type="primary" size="mini">已结束</el-button>
+          <el-button v-if="scope.row.begin&&!scope.row.end"  type="primary" size="mini"  @click.native.prevent="deleteRow(scope.row)">参加考试</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -49,15 +50,10 @@ examId  是考试id   efftime  是开始时间   exptime  是结束时间 examet
  import { mapState } from "vuex";
 export default {
   props: {
-    value: {
-      type: Number
-    }
+    value: ""
   },
   data() {
-    return {
-
-
-    };
+    return {};
   },
   computed: {
     ...mapState({
@@ -81,17 +77,23 @@ export default {
     getList(val){
       let timestamp = new Date().getTime()
       // 最新考试
-      this.$store.dispatch('EXAM_YES_LIST', {
-        fieldId: val
-      }).then( res => {
+      let data = {}
+      if(val){
+        data.fieldId = val
+      }
+      this.$store.dispatch('EXAM_YES_LIST', data).then( res => {
         if(res.object){
+          //effTime: 开始时间 expTime:结束时间
           let mapData = res.object.map((v, i) => {
             if(timestamp - v.effTime > 0 || timestamp - v.effTime == 0){
               v.begin = true
             }else {
               v.begin = false
             }
-            console.log(res.object)
+            if(timestamp - v.expTime > 0 || timestamp - v.expTime == 0){
+              v.end = true
+            }
+            // console.log(res.object)
             let expTime = new Date(v.expTime),
               year = expTime.getFullYear(),
               month = expTime.getMonth() + 1,

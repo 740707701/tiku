@@ -9,7 +9,7 @@
     <div class="exam-list">
       <div class="wrapper">
         <div class="test-select" v-if="getEtFieldList">考试选择：
-          <el-select size="small" v-model="value" placeholder="请选择">
+          <el-select size="small" v-model="value" placeholder="请选择" @change="selectType">
             <el-option
               v-for="item in getEtFieldList"
               :key="item.fieldId"
@@ -18,11 +18,11 @@
             </el-option>
           </el-select>
         </div>
-        <ul class="exam-tabs border-bottom-color" v-if="getEtFieldList && value">
+        <ul class="exam-tabs border-bottom-color" v-if="getEtFieldList">
           <li><router-link to="/exam/latest" :class="{'active': isNav(/latest/) || path == '/exam/' ||  path == '/exam' }" >我的考试</router-link></li>
           <li><router-link to="/exam/mytest" :class="{'active': isNav(/mytest/) }">考试记录</router-link></li>
         </ul>
-        <router-view v-if="getEtFieldList && value" :value="value"></router-view>
+        <router-view v-if="getEtFieldList " :value="value||''"></router-view>
         <div v-if="!getEtFieldList" style="height: 200px;text-align:center;line-height: 100px;font-size:30px;">没有考试数据</div>
       </div>
     </div>
@@ -41,22 +41,26 @@ export default {
   data() {
     return {
       value: '',
-      active: 0
+      active: 0,getEtFieldList: []
     };
   },
   computed: {
     ...mapState({
-      getEtFieldList: state => state.getEtFieldList
+      // getEtFieldList: state => state.getEtFieldList
       // myErrorList: state => state.myErrorList,
     })
   },
   created() {
     // 下拉框
     this.$store.dispatch('EXAM_Field_LIST_FETCH', {}).then(res => {
+      this.getEtFieldList = res.object;
       if(this.getEtFieldList){
-        this.value = this.getEtFieldList[0]['fieldId']
+        this.getEtFieldList.unshift({
+          fieldName: "全部"
+        })
+        // this.value = this.getEtFieldList[0]['fieldId']
+        this.value = "" //默认获取全部列表
       }
-
     })
     this.getPath();
   },
@@ -86,6 +90,9 @@ export default {
         return false
       }
     },
+    selectType(val){
+      this.value = val;
+    }
   },
   components: {
     headerNav

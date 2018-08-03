@@ -301,9 +301,7 @@ import { mapState } from "vuex";
 
 export default {
   props: {
-    value: {
-      type: Number
-    }
+    value: ""
   },
   data() {
     return {
@@ -338,9 +336,11 @@ export default {
   },
   methods: {
     getList(val){
-      this.$store.dispatch('EXAM_NO_LIST', {
-        fieldId: val
-      }).then( res => {
+      let data = {};
+      if(val){
+        data.fieldId = val
+      }
+      this.$store.dispatch('EXAM_NO_LIST', data).then( res => {
         if(res.object){
           let mapData = res.object.map((v, i) => {
             let expTime = new Date(v.expTime),

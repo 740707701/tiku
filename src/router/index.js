@@ -9,7 +9,7 @@ const Home = () => import(
   /* webpackModel: "modelName" */
   '../views/Index.vue'
 )
-
+const Fenxi = () => import('../views/Fenxi.vue')
 // const createListView = id => () => import('../views/CreateListView').then(m => m.default(id))
 const Exam = () => import('../views/Exam.vue')     // 考试页面
 const LatestTest = () => import('../views/LatestTest.vue') // 最新考试
@@ -38,7 +38,7 @@ export function createRouter () {
     scrollBehavior: () => ({ y: 0 }),
     routes: [
       { path: '/', name: 'index', component: Home },
-
+      
       { path: '/exam', component: Exam,
         children: [{
           path: '/',  name: 'latest', component: LatestTest
@@ -79,6 +79,7 @@ export function createRouter () {
         }]
       },
       { path: '/judge/:id?', name: 'judge', component: Judge },
+      { path: '/fenxi/:id?', name: 'fenxi', component: Fenxi},
       { path: '/examiner', component: Examiner,
         children: [{
           path: ':fieldId/:pointId/:questionTypeId', name: 'examiner', component: Examiner

@@ -8,7 +8,7 @@
     </div>
     <div class="examination-list" v-if="storeExamContent">
       <div class="wrapper">
-        <p class="list-title">{{ examContent.name }}试卷测试题 <span>共计:{{ contentLength }}题</span></p>
+        <p class="list-title">{{ examContent.examName }} <span>共计:{{ contentLength }}题</span></p>
         <div class="list-main">
           <div class="main-left">
             <div class="box-line timing">
@@ -27,7 +27,7 @@
               <p class="line-title title-icon">考生信息</p>
               <div class="student-info">
                 <p class="info-list"><span>考生姓名:</span> <span>{{ examContent.userName }}</span></p>
-                <p class="info-list"><span>试卷名称:</span> <span>{{ examContent.examName }}</span></p>
+                <p class="info-list"><span>试卷名称:</span> <span>{{ examContent.name }}</span></p>
                 <!-- <p class="info-list"><span>试卷题库:</span> <span>单选题 多选题 案例题</span></p> -->
                 <p class="info-list"><span>数量:</span> <span>共{{ contentLength }}题</span></p>
                 <p class="info-list"><span>时长:</span> <span>{{ totalTime() }}</span></p>
@@ -105,10 +105,41 @@
                     <p class="line-title border-bottom">分析题</p>
                     <div class="raido-list" v-for="( item, index) in analysisNamesContent" :key="idIndex+'-'+index">
                       <div class="raido-title">{{ index+1 }}、{{ item.content.title }}</div>
-
-                      <div class="textarea-mn">
-                        <textarea cols="30" rows="10" placeholder="答：" v-model.trim="analysisNames[index]"></textarea>
+                      <div class="img-list">
+                        <div class="item" v-for="(img,index) in item.content.titleImgList" :key="index">
+                          <img :src="rootPath+'/'+img.filePath" alt="">
+                          <div class="name">{{item.name}}</div>
+                        </div>
                       </div>
+                      <div class="ques-list">
+                        <div class="item" v-for="(q,index) in item.content.subtitleList" :key="index">
+                          <div class="title">{{index+1}}：{{q.title}}</div>
+                          <div class="options" v-for="(o,key) in q.choiceList" :key="key" v-if="q.questionTypeId==1">
+                            <input type="radio" :value="key" v-model="fenxiRadioNames[index]"> {{key}}：{{o}}
+                          </div>
+                          <div class="options" v-for="(o,key) in q.choiceList" :key="key" v-if="q.questionTypeId==2">
+                            <input type="checkbox" v-model="fenxiCheckboxNames[index]"> {{key}}：{{o}}
+                          </div>
+                          <div class="options" v-if="q.questionTypeId==3">
+                            <p class="answer"> <input type="radio" v-model="fenxiJudgeNames[index]">T、正确</p>
+                            <p class="answer"> <input type="radio" v-model="fenxiJudgeNames[index]">F、错误</p>
+                          </div>
+                          <div class="options" v-if="q.questionTypeId==5">
+                            <div class="textarea-mn">
+                              <textarea cols="30" rows="10" placeholder="答：" v-model.trim="fenxiAnswerNames[index]"></textarea>
+                            </div>
+                          </div>
+                          <div class="options" v-if="q.questionTypeId==6">
+                            <div class="textarea-mn">
+                              <textarea cols="30" rows="10" placeholder="答：" v-model.trim="fenxiDiscussNames[index]"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- <div class="textarea-mn">
+                        <textarea cols="30" rows="10" placeholder="答：" v-model.trim="analysisNames[index]"></textarea>
+                      </div> -->
                     </div>
                 </div>
 
@@ -135,20 +166,9 @@ export default {
   data() {
     return {
       progressing: 0,
-      radioNames: [],
-      checkboxNames: [],
-      judgeNames: [],
-      tiankongNames: [],
-      answerNames: [],
-      discussNames: [],
-      analysisNames: [],
+      radioNames: [],checkboxNames: [],judgeNames: [],tiankongNames: [],answerNames: [],discussNames: [],analysisNames: [],
       examContent: [],
-      radioNamesContent: [],
-      checkboxNamesContent: [],
-      judgeNamesContent: [],
-      answerNamesContent: [],
-      discussNamesContent: [],
-      analysisNamesContent: [],
+      radioNamesContent: [],checkboxNamesContent: [],judgeNamesContent: [],answerNamesContent: [],discussNamesContent: [],analysisNamesContent: [],
       contentLength: 0,
       time: "",
       flag: false,
@@ -157,7 +177,10 @@ export default {
       answerSheetItems: [],
       centerDialogVisible: false,
       enterTime: '',
-      examHistroyId: ''
+      examHistroyId: '',
+      rootPath: 'http://tiku.xuedian98.com:8080',
+      //分析题 小题目答案
+      fenxiRadioNames: [],fenxiCheckboxNames: [],fenxiJudgeNames: [],fenxiTiankongNames: [],fenxiAnswerNames: [],fenxiDiscussNames: [],
     };
   },
   computed: {
@@ -184,10 +207,12 @@ export default {
         })
         .then(res => {
           // this.examContent = res.object
+          console.log(JSON.parse(res.object.content))
           if(!res.object || !res.object.content) return;
           for (var val in res.object) {
             if (val == "answer_sheet" || val == "content") {
               res.object[val] = JSON.parse(res.object[val]);
+              console.log('content',res.object[val])
             }
             if (val == "startTime" || val == "endTime") {
               res.object[val] = res.object[val];
@@ -561,6 +586,30 @@ export default {
                 vertical-align: middle;
                 display: inline-block;
                 cursor: pointer;
+              }
+            }
+            .img-list {
+              width: 100%;
+              display: inline-block;
+              .item {
+                width: 200px;
+                margin: 0 10px 10px 0;
+                display: inline-block;
+                img {
+                  width: 200px;
+                }
+              }
+            }
+            .ques-list {
+              .item {
+                margin-bottom: 10px;
+                .title,.options {
+                  line-height: 22px;
+                  margin-bottom: 10px;
+                  input[type="radio"],input[type="checkbox"] {
+                    margin-right: 16px;
+                  }
+                }
               }
             }
           }

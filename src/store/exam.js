@@ -17,6 +17,8 @@ const EDIT_OUTQUESTION = 'EDIT_OUTQUESTION' //修改出题题目
 const DELETE_OUTQUESTION = 'DELETE_OUTQUESTION' //删除出题题目
 const QUESTION_DETAIL = 'QUESTION_DETAIL' //题目详情
 const UPLOAD = 'UPLOAD' //上传图片
+const QUESTION_FENXI_ADD = 'QUESTION_FENXI_ADD' //添加分析题
+const FENXI_SUBMIT = 'FENXI_SUBMIT' //分析题提交
 
 // subject/exam-content 我的测试题
 
@@ -38,7 +40,8 @@ export default {
     outQuestion: [],
     reviewQuestion: [],
     questionInfo: {},
-    uploadInfo: {}
+    uploadInfo: {},
+    fenxiInfo: {}
   },
   mutations: {
     [EXAM_SET](state, data) {
@@ -46,9 +49,29 @@ export default {
     }
   },
   actions: {
+    //分析题 出题接口
+    [QUESTION_FENXI_ADD]({commit}, data){
+      return api.post('/subject/questionFx-add', data).then(res => {
+        commit('EXAM_SET', {
+          target: 'fenxiInfo',
+          data: res.object
+        })
+        return res
+      })
+    },
+    //分析题 编辑 提交接口
+    [FENXI_SUBMIT]({commit}, data){
+      return api.post('/subject/questionFx-update', data).then(res => {
+        commit('EXAM_SET', {
+          target: 'fenxiInfo',
+          data: res.object
+        })
+        return res
+      })
+    },
     //上传图片
     [UPLOAD]({commit}, data){
-      return api.post('/secure/upload-uploadify-img').then(res => {
+      return api.post('/subject/upload-uploadify-img', data).then(res => {
         commit('EXAM_SET', {
           target: 'uploadInfo',
           data: res.object
@@ -58,7 +81,7 @@ export default {
     },
     //出题记录
     [OUTQUESTION]({commit}, params){
-      return api.get('/subject/getMySetQuestion').then(res => {
+      return api.get('/subject/getMySetQuestion', params).then(res => {
         commit('EXAM_SET', {
           target: 'outQuestion',
           data: res.object
@@ -68,7 +91,7 @@ export default {
     },
     //修改出题题目
     [EDIT_OUTQUESTION]({commit}, params){
-      return api.post('/subject/question-add').then(res => {
+      return api.post('/subject/question-add', params).then(res => {
         commit('EXAM_SET', {
           target: 'outQuestion',
           data: res.object
