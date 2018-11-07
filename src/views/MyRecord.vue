@@ -37,7 +37,7 @@
 								</div>
 							</div>
 						</el-tab-pane>
-						<el-tab-pane class="ques-tab" :label="`多选题[共${outDuoxuan.length}题]`" name="subSecond">
+						<el-tab-pane class="ques-tab" v-if="outDuoxuan.length" :label="`多选题[共${outDuoxuan.length}题]`" name="subSecond">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in outDuoxuan" :key="item.id">
 									<div class="type">{{index+1}}:多选题
@@ -64,7 +64,7 @@
 								</div>
 							</div>
 						</el-tab-pane>
-						<el-tab-pane class="ques-tab" :label="`判断题[共${outPanduan.length}题]`" name="subThird">
+						<el-tab-pane class="ques-tab" v-if="outPanduan.length" :label="`判断题[共${outPanduan.length}题]`" name="subThird">
 							<div class="item-list">
 								<div class="item" v-for="(item, index) in outPanduan" :key="item.id">
 									<div class="type">{{index+1}}:判断题
