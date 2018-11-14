@@ -141,8 +141,20 @@ export default {
     // let data = "j_username=student&j_password=123456";
   },
   created() {
+    if(this.$route.query.token){
+      this.$store.dispatch('ACCOUNT_LOGIN', {username: '', password: ''})
+      .then(res => {
+        console.log(res)
+        if(res.data){
+          sessionStorage.setItem('username', res.data)
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
     // 我的题库
-    this.$store.dispatch('TIKU_LIST_FETCH', {}),
+    // this.$store.dispatch('TIKU_LIST_FETCH', {}),
 
     // 设置弹窗
     this.$store.commit('INDEX_SET', {

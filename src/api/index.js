@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios from 'axios'
+
 const apiContext = 'http://tiku.xuedian98.com:8080/Portal' //线上api地址
-// const apiContext = 'http://192.168.0.192:8080/Portal' //本机
+// const apiContext = 'http://192.168.0.177:8080/Portal' //本机
 // const apiContext = 'http://101.132.166.37:8080/Portal' //测试环境api地址
 let methods = ['get', 'post', 'put', 'delete']
-  // let token = ''
 
 class Api {
   constructor(context = '') {
@@ -11,6 +11,7 @@ class Api {
       this[method] = (path, data = {}) => new Promise((resolve, reject) => {
         let url = apiContext + context + path
         axios.defaults.withCredentials = true; //让ajax携带cookie
+        axios.defaults.headers.Authorization = location.search.split('=')[1]
         axios({
           method: method,
           url: url,

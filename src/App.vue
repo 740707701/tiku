@@ -37,7 +37,9 @@ export default {
           }
         });
     }else{
-      this.$router.push(`/`) 
+      if(this.$route.path != '/'){
+        this.$router.push(`/`) 
+      }
     }
   }
 }
